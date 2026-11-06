@@ -379,13 +379,15 @@ main,
 .brand-mark {
   display: inline-flex;
   align-items: center;
+  width: 148px;
+  max-width: 40vw;
   color: var(--white);
   text-decoration: none;
 }
 
 .logo {
-  width: auto;
-  height: 44px;
+  width: 100%;
+  height: auto;
   display: block;
   mix-blend-mode: screen;
 }
