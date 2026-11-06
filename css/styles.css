@@ -554,6 +554,70 @@ main,
   margin-top: 1.25rem;
 }
 
+.avatar-label {
+  margin: 0 0 0.75rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.15rem;
+}
+
+.avatar-card {
+  border: 2px solid var(--glass-border);
+  border-radius: 16px;
+  background: rgba(4, 24, 51, 0.45);
+  padding: 0.45rem;
+  cursor: pointer;
+  color: var(--white);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.avatar-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.avatar-card.is-selected {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(26, 107, 255, 0.55);
+}
+
+.avatar-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.avatar-card strong {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  text-align: center;
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.avatar-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
+
+.chip.has-avatar {
+  padding-left: 0.35rem;
+}
+
 .player-form label {
   display: block;
   margin-bottom: 0.5rem;
@@ -866,4 +930,8 @@ main,
   .cake-top { width: 22px; height: 10px; bottom: 22px; }
   .cake-candle { bottom: 30px; }
   .cake-flame { bottom: 40px; }
+
+  .avatar-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

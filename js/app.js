@@ -6,6 +6,15 @@
     { id: "lopo", name: "Lopo", color: "var(--team-lopo)" },
   ];
 
+  const AVATARS = [
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi.jpg" },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio.jpg" },
+    { id: "franz", name: "Franz", src: "assets/avatars/franz.jpg" },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin.jpg" },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego.jpg" },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus.jpg" },
+  ];
+
   const STORAGE_KEY = "sdz3_participant";
   const ANSWERS_KEY = "sdz3_answers";
 
@@ -22,6 +31,7 @@
       scoreboard: document.getElementById("view-scoreboard"),
     },
     teamGrid: document.getElementById("team-grid"),
+    avatarGrid: document.getElementById("avatar-grid"),
     playerForm: document.getElementById("player-form"),
     playerName: document.getElementById("player-name"),
     confirmTeam: document.getElementById("confirm-team"),
@@ -44,6 +54,7 @@
   };
 
   let selectedTeamId = null;
+  let selectedAvatarId = null;
   let currentQuestion = 0;
   let supabase = null;
   let liveScores = Object.fromEntries(TEAMS.map((t) => [t.id, 0]));
@@ -82,6 +93,17 @@
     return TEAMS.find((t) => t.id === id) || null;
   }
 
+  function avatarById(id) {
+    return AVATARS.find((a) => a.id === id) || null;
+  }
+
+  function syncTrailAvatar(participant) {
+    const avatar = participant ? avatarById(participant.avatarId) : null;
+    if (window.SDZ_TRAIL_GAME?.setAvatar) {
+      window.SDZ_TRAIL_GAME.setAvatar(avatar ? avatar.src : null);
+    }
+  }
+
   function setConnection(live) {
     els.connectionPill.textContent = live ? "ao vivo" : "local";
     els.connectionPill.classList.toggle("is-live", live);
@@ -107,6 +129,30 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function renderAvatars() {
+    if (!els.avatarGrid) return;
+    els.avatarGrid.innerHTML = "";
+
+    AVATARS.forEach((avatar) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "avatar-card";
+      btn.setAttribute("role", "option");
+      btn.setAttribute("aria-label", avatar.name);
+      if (selectedAvatarId === avatar.id) btn.classList.add("is-selected");
+      btn.innerHTML = `<img src="${avatar.src}" alt="${avatar.name}" loading="lazy" /><strong>${avatar.name}</strong>`;
+      btn.addEventListener("click", () => {
+        selectedAvatarId = avatar.id;
+        renderAvatars();
+        const team = selectedTeamId ? teamById(selectedTeamId) : null;
+        els.teamStatus.textContent = team
+          ? `Time ${team.name} · avatar ${avatar.name}. Confirme para continuar.`
+          : `Avatar ${avatar.name} selecionado.`;
+      });
+      els.avatarGrid.appendChild(btn);
+    });
+  }
+
   function renderTeams() {
     const participant = loadParticipant();
     els.teamGrid.innerHTML = "";
@@ -122,22 +168,35 @@
       btn.innerHTML = `<strong>${team.name}</strong>`;
       btn.addEventListener("click", () => {
         if (participant?.teamId) {
-          els.teamStatus.textContent = `Você já está no time ${teamById(participant.teamId).name}.`;
+          const av = avatarById(participant.avatarId);
+          els.teamStatus.textContent = `Você já está no time ${teamById(participant.teamId).name}${
+            av ? ` · ${av.name}` : ""
+          }.`;
           return;
         }
         selectedTeamId = team.id;
         renderTeams();
+        renderAvatars();
         els.playerForm.hidden = false;
-        els.teamStatus.textContent = `Time ${team.name} selecionado. Confirme para continuar.`;
+        els.teamStatus.textContent = `Time ${team.name} selecionado. Escolha o avatar e confirme.`;
       });
       els.teamGrid.appendChild(btn);
     });
 
-    if (participant?.teamId) {
+    if (participant?.teamId && participant.avatarId) {
       els.playerForm.hidden = true;
+      const av = avatarById(participant.avatarId);
       els.teamStatus.textContent = `Você está no time ${teamById(participant.teamId).name}${
-        participant.name ? ` · ${participant.name}` : ""
-      }.`;
+        av ? ` · ${av.name}` : ""
+      }${participant.name ? ` · ${participant.name}` : ""}.`;
+    } else if (participant?.teamId && !participant.avatarId) {
+      selectedTeamId = participant.teamId;
+      els.playerForm.hidden = false;
+      renderAvatars();
+      els.teamStatus.textContent = "Escolha o seu avatar para continuar.";
+    } else if (selectedTeamId) {
+      els.playerForm.hidden = false;
+      renderAvatars();
     }
   }
 
@@ -146,19 +205,29 @@
       els.teamStatus.textContent = "Informe o seu time primeiro.";
       return;
     }
+    if (!selectedAvatarId) {
+      els.teamStatus.textContent = "Escolha o seu avatar para continuar.";
+      return;
+    }
 
+    const existing = loadParticipant();
     const participant = {
-      id: uid(),
+      id: existing?.id || uid(),
       teamId: selectedTeamId,
-      name: (els.playerName.value || "").trim(),
-      joinedAt: new Date().toISOString(),
+      avatarId: selectedAvatarId,
+      name: (els.playerName.value || existing?.name || "").trim(),
+      joinedAt: existing?.joinedAt || new Date().toISOString(),
     };
 
     saveParticipant(participant);
     await ensureParticipantRemote(participant);
+    syncTrailAvatar(participant);
     renderTeams();
     updateQuizChrome();
-    els.teamStatus.textContent = `Pronto! Bem-vindo(a) ao time ${teamById(participant.teamId).name}.`;
+    const av = avatarById(participant.avatarId);
+    els.teamStatus.textContent = `Pronto! Bem-vindo(a) ao time ${teamById(participant.teamId).name}${
+      av ? ` como ${av.name}` : ""
+    }.`;
     showView("quiz");
   }
 
@@ -169,7 +238,14 @@
   function updateQuizChrome() {
     const participant = loadParticipant();
     const team = participant ? teamById(participant.teamId) : null;
-    els.quizTeamChip.textContent = team ? `Time ${team.name}` : "Sem time";
+    const avatar = participant ? avatarById(participant.avatarId) : null;
+    if (team && avatar) {
+      els.quizTeamChip.classList.add("has-avatar");
+      els.quizTeamChip.innerHTML = `<img class="avatar-badge" src="${avatar.src}" alt="" />Time ${team.name}`;
+    } else {
+      els.quizTeamChip.classList.remove("has-avatar");
+      els.quizTeamChip.textContent = team ? `Time ${team.name}` : "Sem time";
+    }
     els.quizProgress.textContent = `${answeredCount()} / ${questions.length}`;
   }
 
@@ -423,7 +499,9 @@
   bindQuizNav();
   els.confirmTeam.addEventListener("click", confirmTeam);
   renderTeams();
+  renderAvatars();
   updateQuizChrome();
+  syncTrailAvatar(loadParticipant());
   showView("home");
   initSupabase();
 })();

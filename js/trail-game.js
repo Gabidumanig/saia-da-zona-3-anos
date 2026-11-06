@@ -27,6 +27,8 @@
   let hills = [];
   let rainDrops = [];
   let walkPhase = 0;
+  let avatarImg = null;
+  let avatarReady = false;
 
   const player = {
     x: 110,
@@ -36,6 +38,22 @@
     h: 52,
     onGround: true,
   };
+
+  function setAvatar(src) {
+    avatarReady = false;
+    avatarImg = null;
+    if (!src) return;
+    const img = new Image();
+    img.onload = () => {
+      avatarImg = img;
+      avatarReady = true;
+      if (!running) {
+        drawBackground();
+        drawPlayer();
+      }
+    };
+    img.src = src;
+  }
 
   function resize() {
     const parent = canvas.parentElement;
@@ -312,18 +330,32 @@
     ctx.lineWidth = 2;
     ctx.strokeRect(x - 2, y - 44 + bob, 14, 28);
 
-    // head
-    ctx.fillStyle = "#F2C7A4";
-    ctx.beginPath();
-    ctx.arc(x + 17, y - 48 + bob, 10, 0, Math.PI * 2);
-    ctx.fill();
+    // head / avatar
+    if (avatarReady && avatarImg) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x + 17, y - 48 + bob, 14, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(avatarImg, x + 3, y - 62 + bob, 28, 28);
+      ctx.restore();
+      ctx.strokeStyle = "#FFFFFF";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(x + 17, y - 48 + bob, 14, 0, Math.PI * 2);
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = "#F2C7A4";
+      ctx.beginPath();
+      ctx.arc(x + 17, y - 48 + bob, 10, 0, Math.PI * 2);
+      ctx.fill();
 
-    // hair / cap
-    ctx.fillStyle = "#0B3D91";
-    ctx.beginPath();
-    ctx.arc(x + 17, y - 52 + bob, 9, Math.PI, 0);
-    ctx.fill();
-    ctx.fillRect(x + 8, y - 52 + bob, 18, 4);
+      ctx.fillStyle = "#0B3D91";
+      ctx.beginPath();
+      ctx.arc(x + 17, y - 52 + bob, 9, Math.PI, 0);
+      ctx.fill();
+      ctx.fillRect(x + 8, y - 52 + bob, 18, 4);
+    }
 
     // arms
     ctx.strokeStyle = "#F2C7A4";
@@ -533,5 +565,5 @@
   updateHud();
   showOverlay("Pronto para a trilha?", "Começar");
 
-  window.SDZ_TRAIL_GAME = { activate, deactivate, jump };
+  window.SDZ_TRAIL_GAME = { activate, deactivate, jump, setAvatar };
 })();
