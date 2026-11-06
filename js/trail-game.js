@@ -219,6 +219,9 @@
       localStorage.setItem(BEST_KEY, String(best));
     }
     updateHud();
+    if (window.SDZ_PLAYER?.submitScore) {
+      window.SDZ_PLAYER.submitScore("trail", meters);
+    }
     showOverlay(`Queda na trilha · ${meters} m`, "Tentar de novo");
   }
 

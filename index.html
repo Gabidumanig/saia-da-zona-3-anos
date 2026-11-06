@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=55" />
+  <link rel="stylesheet" href="css/styles.css?v=56" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -66,6 +66,7 @@
     <nav class="nav">
       <button type="button" data-nav="home">Início</button>
       <button type="button" data-nav="infos">Infos</button>
+      <button type="button" data-nav="ranking">Ranking</button>
       <button type="button" data-nav="quiz">Quiz SDZ</button>
       <button type="button" data-nav="trail">Game: Trilha com o Líder</button>
       <button type="button" data-nav="pack">Game: Cargueira</button>
@@ -141,10 +142,32 @@
         </div>
         <div class="hero-actions">
           <button type="button" class="btn btn-primary" data-nav="infos">Infos importantes</button>
+          <button type="button" class="btn btn-ghost" data-nav="ranking">Ver ranking</button>
           <button type="button" class="btn btn-ghost" data-nav="quiz">Jogar Quiz SDZ</button>
           <button type="button" class="btn btn-ghost" data-nav="trail">Game: Trilha com o Líder</button>
           <button type="button" class="btn btn-ghost" data-nav="pack">Game: Cargueira</button>
         </div>
+      </div>
+    </section>
+
+    <!-- RANKING -->
+    <section id="view-ranking" class="view" hidden aria-label="Ranking online">
+      <div class="panel panel-ranking">
+        <div class="quiz-head">
+          <div>
+            <p class="eyebrow">Placar ao vivo</p>
+            <h2>Ranking Níver SZ</h2>
+          </div>
+          <span id="ranking-status" class="chip chip-soft">…</span>
+        </div>
+        <p class="lede">Quem está mandando melhor no Quiz, na Trilha e na Cargueira.</p>
+        <div class="rank-tabs" role="tablist">
+          <button type="button" class="rank-tab is-active" data-rank-tab="geral">Geral</button>
+          <button type="button" class="rank-tab" data-rank-tab="quiz">Quiz</button>
+          <button type="button" class="rank-tab" data-rank-tab="trail">Trilha</button>
+          <button type="button" class="rank-tab" data-rank-tab="pack">Cargueira</button>
+        </div>
+        <div id="ranking-list" class="ranking-list" aria-live="polite"></div>
       </div>
     </section>
 
@@ -327,12 +350,14 @@
     <span>Saia da Zona · 3 anos</span>
   </footer>
 
-  <script src="js/config.js?v=55"></script>
-  <script src="js/questions.js?v=55"></script>
-  <script src="js/countdown.js?v=55"></script>
-  <script src="js/weather.js?v=55"></script>
-  <script src="js/trail-game.js?v=55"></script>
-  <script src="js/pack-game.js?v=55"></script>
-  <script src="js/app.js?v=55"></script>
+  <script src="js/config.js?v=56"></script>
+  <script src="js/player.js?v=56"></script>
+  <script src="js/questions.js?v=56"></script>
+  <script src="js/countdown.js?v=56"></script>
+  <script src="js/weather.js?v=56"></script>
+  <script src="js/trail-game.js?v=56"></script>
+  <script src="js/pack-game.js?v=56"></script>
+  <script src="js/app.js?v=56"></script>
+  <script src="js/ranking.js?v=56"></script>
 </body>
 </html>

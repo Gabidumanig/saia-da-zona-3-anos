@@ -8,11 +8,13 @@
   const pointsPerCorrect = Number(config.pointsPerCorrect) || 10;
   let sessionQuestions = [];
   let currentQuestion = 0;
+  let quizScoreSent = false;
 
   const els = {
     views: {
       home: document.getElementById("view-home"),
       infos: document.getElementById("view-infos"),
+      ranking: document.getElementById("view-ranking"),
       quiz: document.getElementById("view-quiz"),
       trail: document.getElementById("view-trail"),
       pack: document.getElementById("view-pack"),
@@ -79,6 +81,7 @@
     saveSession({ questionIds: picked.map((q) => q.id) });
     saveAnswers({});
     currentQuestion = 0;
+    quizScoreSent = false;
     sessionQuestions = picked;
     return sessionQuestions;
   }
@@ -112,8 +115,13 @@
     els.quizProgress.textContent = `${answeredCount()} / ${total}`;
   }
 
-  function showView(name) {
+  async function showView(name) {
+    if (["quiz", "trail", "pack"].includes(name) && window.SDZ_PLAYER?.askName) {
+      await window.SDZ_PLAYER.askName();
+    }
+
     Object.entries(els.views).forEach(([key, node]) => {
+      if (!node) return;
       const active = key === name;
       node.classList.toggle("is-active", active);
       node.hidden = !active;
@@ -124,6 +132,7 @@
     });
 
     if (name === "quiz") renderQuiz();
+    if (name === "ranking" && window.SDZ_RANKING?.refresh) window.SDZ_RANKING.refresh();
     if (window.SDZ_TRAIL_GAME) {
       if (name === "trail") window.SDZ_TRAIL_GAME.activate();
       else window.SDZ_TRAIL_GAME.deactivate();
@@ -150,6 +159,10 @@
         correct === total
           ? `Gabaritou! ${points} pontos.`
           : `Você fez ${points} pontos (${correct} acerto${correct === 1 ? "" : "s"}).`;
+      if (!quizScoreSent && window.SDZ_PLAYER?.submitScore) {
+        quizScoreSent = true;
+        window.SDZ_PLAYER.submitScore("quiz", points);
+      }
       return;
     }
 

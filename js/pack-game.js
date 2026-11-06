@@ -529,6 +529,9 @@
   function endGame() {
     running = false;
     cancelAnimationFrame(raf);
+    if (window.SDZ_PLAYER?.submitScore) {
+      window.SDZ_PLAYER.submitScore("pack", score);
+    }
     showOverlay(`Cargueira incompleta! Você catou ${score} itens.`, true);
     startBtn.textContent = "Jogar de novo";
   }
