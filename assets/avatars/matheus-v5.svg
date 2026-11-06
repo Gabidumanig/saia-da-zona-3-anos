@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
+  <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
+  <!-- touca estampada (sem cabelão) -->
+  <path d="M38 48c2-20 42-20 44 0v6H38z" fill="#4A6A8A"/>
+  <path d="M40 42h8l4 8h-8z" fill="#7AA0C4"/>
+  <path d="M52 40h8l4 10h-8z" fill="#2A3A4A"/>
+  <path d="M64 42h8l4 8h-8z" fill="#7AA0C4"/>
+  <path d="M76 44h6l2 6h-6z" fill="#2A3A4A"/>
+  <!-- cabeça + barba curta -->
+  <circle cx="60" cy="58" r="22" fill="#F0C8A8"/>
+  <path d="M42 64c2 16 34 16 36 0-6 7-30 7-36 0z" fill="#5A4030"/>
+  <circle cx="52" cy="56" r="2.2" fill="#2A2A2A"/>
+  <circle cx="68" cy="56" r="2.2" fill="#2A2A2A"/>
+  <path d="M54 68c3 3 9 3 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
+  <!-- jaqueta turquesa + painel preto -->
+  <rect x="40" y="78" width="40" height="34" rx="12" fill="#2EC4B6"/>
+  <rect x="40" y="78" width="40" height="14" rx="8" fill="#1A1A1A"/>
+  <circle cx="70" cy="96" r="2.5" fill="#FFF" opacity=".75"/>
+  <!-- mochila azul -->
+  <rect x="26" y="78" width="18" height="32" rx="5" fill="#1A6BFF"/>
+  <rect x="28" y="82" width="14" height="6" rx="1" fill="#0B3D91"/>
+  <rect x="28" y="92" width="14" height="6" rx="1" fill="#0B3D91"/>
+  <path d="M42 88c-8 6-10 14-8 20" stroke="#F0C8A8" stroke-width="5" stroke-linecap="round"/>
+  <path d="M78 88c8 6 10 14 8 20" stroke="#F0C8A8" stroke-width="5" stroke-linecap="round"/>
+  <path d="M50 110v16M70 110v16" stroke="#2A2A2A" stroke-width="5" stroke-linecap="round"/>
+</svg>

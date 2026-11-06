@@ -1,28 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
   <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
-  <!-- cabelo volumoso atrÃ¡s / laterais -->
-  <path d="M30 52c0 18 6 28 16 34 2-10 4-18 6-24 4 10 7 20 10 30 3-10 6-20 10-30 2 6 4 14 6 24 10-6 16-16 16-34 0-18-14-28-32-28S30 34 30 52z" fill="#1F1F1F"/>
-  <!-- patterned beanie -->
-  <path d="M38 48c2-20 42-20 44 0v5H38z" fill="#4A6A8A"/>
+  <!-- touca estampada (sem cabelão) -->
+  <path d="M38 48c2-20 42-20 44 0v6H38z" fill="#4A6A8A"/>
   <path d="M40 42h8l4 8h-8z" fill="#7AA0C4"/>
   <path d="M52 40h8l4 10h-8z" fill="#2A3A4A"/>
   <path d="M64 42h8l4 8h-8z" fill="#7AA0C4"/>
   <path d="M76 44h6l2 6h-6z" fill="#2A3A4A"/>
-  <!-- franja saindo da touca -->
-  <path d="M38 50c7-5 16-6 22-3 6-3 15-2 22 3-5 1-10 2-14 1-4 3-12 3-18 1-4 1-8 0-12-2z" fill="#1F1F1F"/>
-  <path d="M34 52c-3 10 0 20 4 26 1-8 2-16 3-22 0-3-2-4-7-4z" fill="#1F1F1F"/>
-  <path d="M86 52c3 10 0 20-4 26-1-8-2-16-3-22 0-3 2-4 7-4z" fill="#1F1F1F"/>
-  <!-- head + beard -->
+  <!-- cabeça + barba curta -->
   <circle cx="60" cy="58" r="22" fill="#F0C8A8"/>
-  <path d="M42 64c2 18 34 18 36 0-6 8-30 8-36 0z" fill="#5A4030"/>
+  <path d="M42 64c2 16 34 16 36 0-6 7-30 7-36 0z" fill="#5A4030"/>
   <circle cx="52" cy="56" r="2.2" fill="#2A2A2A"/>
   <circle cx="68" cy="56" r="2.2" fill="#2A2A2A"/>
   <path d="M54 68c3 3 9 3 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
-  <!-- teal jacket + black panel -->
+  <!-- jaqueta turquesa + painel preto -->
   <rect x="40" y="78" width="40" height="34" rx="12" fill="#2EC4B6"/>
   <rect x="40" y="78" width="40" height="14" rx="8" fill="#1A1A1A"/>
-  <circle cx="70" cy="96" r="3" fill="#FFF" opacity=".7"/>
-  <!-- blue backpack -->
+  <circle cx="70" cy="96" r="2.5" fill="#FFF" opacity=".75"/>
+  <!-- mochila azul -->
   <rect x="26" y="78" width="18" height="32" rx="5" fill="#1A6BFF"/>
   <rect x="28" y="82" width="14" height="6" rx="1" fill="#0B3D91"/>
   <rect x="28" y="92" width="14" height="6" rx="1" fill="#0B3D91"/>
