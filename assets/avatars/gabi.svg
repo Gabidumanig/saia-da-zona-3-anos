@@ -1,39 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
   <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
-  <!-- shorter hair back -->
-  <path d="M32 50c-1 18 4 28 12 34 3-10 6-18 9-24 4 7 7 16 10 26 3-10 6-19 10-26 3 6 6 14 9 24 8-6 13-16 12-34-2-16-14-26-31-26s-29 10-31 26z" fill="#E6BF5A"/>
-  <!-- body -->
-  <rect x="42" y="78" width="36" height="34" rx="12" fill="#FF7AAF"/>
-  <rect x="46" y="84" width="28" height="8" rx="3" fill="#FFD0E4"/>
+  <!-- soft hair back (medium, girly) -->
+  <path d="M30 52c0 20 5 30 14 36 3-10 6-18 9-24 4 8 7 18 10 28 3-10 6-20 10-28 3 6 6 14 9 24 9-6 14-16 14-36 0-18-14-28-33-28S30 34 30 52z" fill="#F0C85E"/>
+  <path d="M33 70c3 10 7 18 12 22M87 70c-3 10-7 18-12 22" stroke="#E0B040" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+  <!-- body dressy pink -->
+  <rect x="42" y="78" width="36" height="34" rx="14" fill="#FF6BA8"/>
+  <rect x="46" y="84" width="28" height="7" rx="3.5" fill="#FFD6E8"/>
+  <!-- tiny heart on shirt -->
+  <path d="M58 94c1.2-1.4 3.2-.2 2 1.4-.8 1-2 1.8-2 1.8s-1.2-.8-2-1.8c-1.2-1.6.8-2.8 2-1.4z" fill="#FFF"/>
   <!-- backpack -->
   <rect x="30" y="80" width="14" height="26" rx="4" fill="#C45C26"/>
   <rect x="32" y="84" width="10" height="5" rx="1" fill="#8B3E14"/>
   <!-- head -->
-  <circle cx="60" cy="52" r="23" fill="#F2C7A4"/>
-  <!-- soft blush -->
-  <circle cx="44" cy="58" r="4" fill="#FF8FAB" opacity=".35"/>
-  <circle cx="76" cy="58" r="4" fill="#FF8FAB" opacity=".35"/>
-  <!-- bangs covering forehead -->
-  <path d="M38 48c2-14 13-22 22-22s20 8 22 22c-5-3-11-5-16-3-4-2-10-2-15 0-4-2-8-1-13 3z" fill="#E6BF5A"/>
-  <path d="M41 46c5-6 12-8 19-6 6-2 12 0 18 6-5-1-9 1-13 3-3-3-8-4-13 0-3-2-6-2-11-3z" fill="#F0D078"/>
-  <!-- short side locks -->
-  <path d="M38 50c-2 6-1 14 2 18 1-5 2-10 3-15 0-2-1-3-5-3z" fill="#E6BF5A"/>
-  <path d="M82 50c2 6 1 14-2 18-1-5-2-10-3-15 0-2 1-3 5-3z" fill="#E6BF5A"/>
-  <!-- thin headband -->
-  <path d="M41 40c5-2 12-3 19-3s14 1 19 3" stroke="#1A1A1A" stroke-width="3.2" stroke-linecap="round"/>
-  <circle cx="49" cy="39" r="1.5" fill="#C0C0C0"/>
-  <circle cx="60" cy="38" r="1.5" fill="#C0C0C0"/>
-  <circle cx="71" cy="39" r="1.5" fill="#C0C0C0"/>
-  <!-- eyes -->
-  <ellipse cx="51" cy="54" rx="3" ry="2.6" fill="#2A2A2A"/>
-  <ellipse cx="69" cy="54" rx="3" ry="2.6" fill="#2A2A2A"/>
-  <circle cx="52" cy="53" r="1" fill="#FFF"/>
-  <circle cx="70" cy="53" r="1" fill="#FFF"/>
-  <path d="M47 51c2-2 5-2 7 0M63 51c2-2 5-2 7 0" stroke="#2A2A2A" stroke-width="1.4" stroke-linecap="round"/>
-  <!-- smile -->
-  <path d="M53 64c3 4.5 11 4.5 14 0" stroke="#C45C6A" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="60" cy="52" r="22" fill="#F6CDB0"/>
+  <!-- blush -->
+  <ellipse cx="44" cy="58" rx="5" ry="3.2" fill="#FF8FAB" opacity=".45"/>
+  <ellipse cx="76" cy="58" rx="5" ry="3.2" fill="#FF8FAB" opacity=".45"/>
+  <!-- pretty bangs -->
+  <path d="M38 47c2-14 13-22 22-22s20 8 22 22c-5-4-11-6-17-4-4-3-10-3-16 0-4-2-8-1-11 4z" fill="#F0C85E"/>
+  <path d="M41 45c5-7 12-9 19-7 6-2 13 0 18 7-5-1-9 1-13 3-4-4-9-5-14 0-3-2-7-3-10-3z" fill="#FFE08A"/>
+  <!-- soft side curls -->
+  <path d="M37 49c-3 8-1 16 3 20 1-6 2-12 3-17 0-2-2-3-6-3z" fill="#F0C85E"/>
+  <path d="M83 49c3 8 1 16-3 20-1-6-2-12-3-17 0-2 2-3 6-3z" fill="#F0C85E"/>
+  <!-- pink bow on side -->
+  <path d="M78 34c-3-2-6 1-5 3 2 1 4 0 5-3z" fill="#FF6BA8"/>
+  <path d="M84 34c3-2 6 1 5 3-2 1-4 0-5-3z" fill="#FF6BA8"/>
+  <circle cx="81" cy="36" r="2.2" fill="#FFD6E8"/>
+  <!-- thin sparkly headband -->
+  <path d="M41 39c5-2 12-3 19-3s14 1 19 3" stroke="#FF6BA8" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="50" cy="37.5" r="1.4" fill="#FFF"/>
+  <circle cx="60" cy="36.5" r="1.4" fill="#FFE08A"/>
+  <circle cx="70" cy="37.5" r="1.4" fill="#FFF"/>
+  <!-- girly eyes + lashes -->
+  <ellipse cx="51" cy="54" rx="3.2" ry="2.8" fill="#2A2A2A"/>
+  <ellipse cx="69" cy="54" rx="3.2" ry="2.8" fill="#2A2A2A"/>
+  <circle cx="52.2" cy="52.8" r="1.1" fill="#FFF"/>
+  <circle cx="70.2" cy="52.8" r="1.1" fill="#FFF"/>
+  <path d="M46 50.5c1.5-2 3.5-2.5 5.5-1.2M48 49c1-1.6 2.4-2 3.6-1.2" stroke="#2A2A2A" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M64 50.5c1.5-2 3.5-2.5 5.5-1.2M66 49c1-1.6 2.4-2 3.6-1.2" stroke="#2A2A2A" stroke-width="1.3" stroke-linecap="round"/>
+  <!-- soft brows -->
+  <path d="M46 49c2.5-1.5 7-1.5 9.5 0" stroke="#C49A55" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
+  <path d="M64.5 49c2.5-1.5 7-1.5 9.5 0" stroke="#C49A55" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
+  <!-- smile + glossy lip hint -->
+  <path d="M53 63.5c3 5 11 5 14 0" stroke="#E26B84" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M57 65.5c2 .9 4 .9 6 0" stroke="#FFB0C4" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- tiny earring -->
+  <circle cx="38" cy="60" r="1.8" fill="#FFD166"/>
+  <circle cx="82" cy="60" r="1.8" fill="#FFD166"/>
   <!-- arms/legs -->
-  <path d="M42 88c-8 6-10 14-8 20" stroke="#F2C7A4" stroke-width="5" stroke-linecap="round"/>
-  <path d="M78 88c8 6 10 14 8 20" stroke="#F2C7A4" stroke-width="5" stroke-linecap="round"/>
-  <path d="M50 110v16M70 110v16" stroke="#2A2A2A" stroke-width="5" stroke-linecap="round"/>
+  <path d="M42 88c-8 6-10 14-8 20" stroke="#F6CDB0" stroke-width="5" stroke-linecap="round"/>
+  <path d="M78 88c8 6 10 14 8 20" stroke="#F6CDB0" stroke-width="5" stroke-linecap="round"/>
+  <path d="M50 110v16M70 110v16" stroke="#FF6BA8" stroke-width="5" stroke-linecap="round"/>
 </svg>
