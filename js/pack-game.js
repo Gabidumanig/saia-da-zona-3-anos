@@ -37,12 +37,48 @@
   let best = Number(localStorage.getItem(BEST_KEY) || 0);
   let spawnTimer = 0;
   let items = [];
-  let pack = { x: W / 2, y: H - 72, w: 118, h: 86, speed: 460 };
+  let pack = { x: W / 2, y: H - 88, w: 108, h: 128, speed: 460 };
   let pointerX = W / 2;
   let keys = { left: false, right: false };
   let flash = 0;
   let catchGlow = 0;
   let active = false;
+  let packSprite = null;
+  let packSpriteReady = false;
+
+  function punchWhiteBackground(img) {
+    const off = document.createElement("canvas");
+    off.width = img.naturalWidth || img.width;
+    off.height = img.naturalHeight || img.height;
+    const ox = off.getContext("2d");
+    ox.drawImage(img, 0, 0);
+    const frame = ox.getImageData(0, 0, off.width, off.height);
+    const px = frame.data;
+    for (let i = 0; i < px.length; i += 4) {
+      const r = px[i];
+      const g = px[i + 1];
+      const b = px[i + 2];
+      if (r > 248 && g > 248 && b > 248) {
+        px[i + 3] = 0;
+      } else if (r > 235 && g > 235 && b > 235) {
+        const edge = (Math.min(r, g, b) - 235) / 20;
+        px[i + 3] = Math.max(0, Math.min(255, Math.round(255 * (1 - edge))));
+      }
+    }
+    ox.putImageData(frame, 0, 0);
+    return off;
+  }
+
+  const packImg = new Image();
+  packImg.onload = () => {
+    packSprite = punchWhiteBackground(packImg);
+    packSpriteReady = true;
+    if (!running) {
+      drawBackground();
+      drawPack();
+    }
+  };
+  packImg.src = "assets/game/cargueira.png";
 
   function updateHud() {
     if (scoreEl) scoreEl.textContent = `${score} itens`;
@@ -145,129 +181,37 @@
     // soft shadow
     ctx.fillStyle = "rgba(0,0,0,0.28)";
     ctx.beginPath();
-    ctx.ellipse(0, h * 0.52, w * 0.48, 8, 0, 0, Math.PI * 2);
+    ctx.ellipse(0, h * 0.48, w * 0.42, 9, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // hip belt (Deuter-style fins)
-    ctx.fillStyle = "#FF7A18";
-    roundRect(-w * 0.62, h * 0.18, w * 0.28, h * 0.18, 8);
-    roundRect(w * 0.34, h * 0.18, w * 0.28, h * 0.18, 8);
-    ctx.fill();
-    ctx.fillStyle = "#1B2740";
-    roundRect(-w * 0.58, h * 0.22, w * 0.2, h * 0.1, 5);
-    roundRect(w * 0.38, h * 0.22, w * 0.2, h * 0.1, 5);
-    ctx.fill();
+    if (packSpriteReady && packSprite) {
+      ctx.drawImage(packSprite, -w / 2, -h / 2, w, h);
+    } else {
+      // fallback while loading
+      ctx.fillStyle = "#7FAE9A";
+      roundRect(-w * 0.38, -h * 0.42, w * 0.76, h * 0.82, 14);
+      ctx.fill();
+      ctx.fillStyle = "#C4786A";
+      roundRect(-w * 0.34, -h * 0.5, w * 0.68, h * 0.22, 10);
+      ctx.fill();
+    }
 
-    // shoulder straps rising behind lid
-    ctx.strokeStyle = "#FF8A2A";
-    ctx.lineWidth = 7;
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo(-w * 0.22, -h * 0.05);
-    ctx.quadraticCurveTo(-w * 0.42, -h * 0.55, -w * 0.12, -h * 0.72);
-    ctx.moveTo(w * 0.22, -h * 0.05);
-    ctx.quadraticCurveTo(w * 0.42, -h * 0.55, w * 0.12, -h * 0.72);
-    ctx.stroke();
-    ctx.strokeStyle = "#1B2740";
+    // catch mouth highlight at the top opening
+    const mouthGlow = catchGlow > 0 ? 0.7 + catchGlow * 0.3 : 0.28;
+    ctx.strokeStyle = `rgba(255, 196, 110, ${mouthGlow})`;
     ctx.lineWidth = 3;
+    roundRect(-w * 0.28, -h * 0.48, w * 0.56, h * 0.14, 8);
     ctx.stroke();
-
-    // main body — navy Deuter shell
-    const body = ctx.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2);
-    body.addColorStop(0, "#2A3F66");
-    body.addColorStop(0.45, "#1B2C4A");
-    body.addColorStop(1, "#121E34");
-    ctx.fillStyle = body;
-    roundRect(-w * 0.42, -h * 0.28, w * 0.84, h * 0.78, 16);
-    ctx.fill();
-
-    // orange side accents / compression panels
-    ctx.fillStyle = "#FF7A18";
-    roundRect(-w * 0.42, -h * 0.08, w * 0.1, h * 0.42, 6);
-    roundRect(w * 0.32, -h * 0.08, w * 0.1, h * 0.42, 6);
-    ctx.fill();
-
-    // mesh side pockets
-    ctx.fillStyle = "rgba(140, 190, 255, 0.22)";
-    roundRect(-w * 0.5, h * 0.02, w * 0.12, h * 0.32, 5);
-    roundRect(w * 0.38, h * 0.02, w * 0.12, h * 0.32, 5);
-    ctx.fill();
-    ctx.strokeStyle = "rgba(255,255,255,0.25)";
-    ctx.lineWidth = 1.5;
-    roundRect(-w * 0.5, h * 0.02, w * 0.12, h * 0.32, 5);
-    ctx.stroke();
-    roundRect(w * 0.38, h * 0.02, w * 0.12, h * 0.32, 5);
-    ctx.stroke();
-
-    // front stretch pocket
-    ctx.fillStyle = "rgba(90, 130, 190, 0.35)";
-    roundRect(-w * 0.28, h * 0.02, w * 0.56, h * 0.28, 10);
-    ctx.fill();
-    ctx.strokeStyle = "#FF8A2A";
-    ctx.lineWidth = 2;
-    roundRect(-w * 0.28, h * 0.02, w * 0.56, h * 0.28, 10);
-    ctx.stroke();
-
-    // zipper U suggestion
-    ctx.strokeStyle = "rgba(255,255,255,0.35)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(-w * 0.22, -h * 0.12);
-    ctx.quadraticCurveTo(0, h * 0.18, w * 0.22, -h * 0.12);
-    ctx.stroke();
-
-    // lid (open upward for catch mouth)
-    const lid = ctx.createLinearGradient(0, -h * 0.55, 0, -h * 0.15);
-    lid.addColorStop(0, "#FF9A3C");
-    lid.addColorStop(1, "#E85D00");
-    ctx.fillStyle = lid;
-    roundRect(-w * 0.36, -h * 0.58, w * 0.72, h * 0.28, 12);
-    ctx.fill();
-
-    // lid buckle
-    ctx.fillStyle = "#1B2740";
-    roundRect(-8, -h * 0.36, 16, 10, 3);
-    ctx.fill();
-    ctx.fillStyle = "#FFD166";
-    ctx.fillRect(-3, -h * 0.34, 6, 6);
-
-    // open mouth (catch opening)
-    const mouthGlow = catchGlow > 0 ? 0.55 + catchGlow * 0.45 : 0.35;
-    ctx.fillStyle = `rgba(4, 16, 36, ${0.75})`;
-    roundRect(-w * 0.3, -h * 0.34, w * 0.6, h * 0.16, 8);
-    ctx.fill();
-    ctx.strokeStyle = `rgba(255, 170, 70, ${mouthGlow})`;
-    ctx.lineWidth = 3;
-    roundRect(-w * 0.3, -h * 0.34, w * 0.6, h * 0.16, 8);
-    ctx.stroke();
-
-    // bottom compartment seam
-    ctx.strokeStyle = "rgba(255,122,24,0.55)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(-w * 0.34, h * 0.32);
-    ctx.lineTo(w * 0.34, h * 0.32);
-    ctx.stroke();
-
-    // tiny brand-free label patch
-    ctx.fillStyle = "rgba(255,255,255,0.12)";
-    roundRect(-18, -h * 0.02, 36, 12, 4);
-    ctx.fill();
-    ctx.fillStyle = "#FF9A3C";
-    ctx.font = "bold 8px Manrope, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("SDZ", 0, 7);
 
     ctx.restore();
 
-    // catch aura
     if (catchGlow > 0) {
       ctx.save();
-      ctx.strokeStyle = `rgba(255, 154, 60, ${catchGlow * 0.7})`;
+      ctx.strokeStyle = `rgba(255, 154, 60, ${catchGlow * 0.75})`;
       ctx.lineWidth = 3;
-      ctx.shadowColor = "rgba(255, 122, 24, 0.8)";
-      ctx.shadowBlur = 18;
-      roundRect(x - w * 0.32, y - h * 0.42, w * 0.64, 18, 8);
+      ctx.shadowColor = "rgba(255, 122, 24, 0.85)";
+      ctx.shadowBlur = 16;
+      roundRect(x - w * 0.3, y - h * 0.5, w * 0.6, 16, 8);
       ctx.stroke();
       ctx.restore();
     }
@@ -442,9 +386,9 @@
   function catchBox() {
     return {
       x: pack.x - pack.w * 0.3,
-      y: pack.y - pack.h * 0.42,
+      y: pack.y - pack.h * 0.52,
       w: pack.w * 0.6,
-      h: pack.h * 0.28,
+      h: pack.h * 0.22,
     };
   }
 
