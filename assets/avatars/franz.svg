@@ -5,16 +5,9 @@
   <rect x="54" y="30" width="12" height="8" rx="2" fill="#F5C518"/>
   <!-- head -->
   <circle cx="60" cy="58" r="22" fill="#DDB892"/>
-  <!-- East Asian almond eyes + riquinho -->
-  <path d="M44 57c3-2.5 9-2.5 12 0" stroke="#2A2A2A" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-  <path d="M64 57c3-2.5 9-2.5 12 0" stroke="#2A2A2A" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-  <ellipse cx="50" cy="58.5" rx="2.1" ry="2.4" fill="#1A1A1A"/>
-  <ellipse cx="70" cy="58.5" rx="2.1" ry="2.4" fill="#1A1A1A"/>
-  <circle cx="50.7" cy="57.7" r="0.7" fill="#FFF"/>
-  <circle cx="70.7" cy="57.7" r="0.7" fill="#FFF"/>
-  <!-- riquinho / eyelid crease -->
-  <path d="M45 54.5c3-2 8-2 11 0" stroke="#B8896A" stroke-width="1.4" stroke-linecap="round"/>
-  <path d="M65 54.5c3-2 8-2 11 0" stroke="#B8896A" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- eyes: só tracinho -->
+  <path d="M45 58h10" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M65 58h10" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round"/>
   <path d="M54 68c3 4 9 4 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
   <!-- red jacket -->
   <rect x="40" y="78" width="40" height="34" rx="12" fill="#E23B2F"/>
