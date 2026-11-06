@@ -1498,6 +1498,29 @@ main,
   color: var(--white);
   font-size: 16px; /* evita zoom automático no iOS */
   outline: none;
+  pointer-events: auto !important;
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  touch-action: manipulation;
+  caret-color: #fff;
+  position: relative;
+  z-index: 2;
+}
+
+.name-modal-card,
+.name-modal-card * {
+  pointer-events: auto;
+}
+
+body.name-modal-open {
+  overflow: hidden;
+}
+
+body.name-modal-open .floaters,
+body.name-modal-open .party,
+body.name-modal-open .noise,
+body.name-modal-open .orb {
+  pointer-events: none !important;
 }
 
 #name-input:focus,

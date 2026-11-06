@@ -565,7 +565,16 @@
     pointerX = ((clientX - rect.left) / rect.width) * W;
   }
 
+  function isTypingTarget(el) {
+    if (!el) return false;
+    const tag = (el.tagName || "").toLowerCase();
+    return tag === "input" || tag === "textarea" || tag === "select" || el.isContentEditable;
+  }
+
   function onKey(e, down) {
+    if (!active || isTypingTarget(e.target) || document.getElementById("name-modal")?.classList.contains("is-open")) {
+      return;
+    }
     if (e.code === "ArrowLeft" || e.code === "KeyA") {
       keys.left = down;
       e.preventDefault();

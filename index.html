@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=60" />
+  <link rel="stylesheet" href="css/styles.css?v=61" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -370,22 +370,23 @@
       <form id="name-form" action="#">
         <label class="name-label" for="name-input">Seu nome</label>
         <input id="name-input" name="player_name" type="text" maxlength="24" minlength="2"
-          autocomplete="nickname" inputmode="text" enterkeyhint="done"
-          placeholder="Ex.: Gabi" required />
+          autocomplete="name" inputmode="text" enterkeyhint="done"
+          placeholder="Ex.: Gabi" required
+          style="-webkit-user-select:text;user-select:text;pointer-events:auto;font-size:16px;" />
         <p id="name-error" class="name-error" hidden>Digite pelo menos 2 letras.</p>
         <button type="submit" id="name-submit" class="btn btn-primary">Salvar e continuar</button>
       </form>
     </div>
   </div>
 
-  <script src="js/config.js?v=60"></script>
-  <script src="js/player.js?v=60"></script>
-  <script src="js/questions.js?v=60"></script>
-  <script src="js/countdown.js?v=60"></script>
-  <script src="js/weather.js?v=60"></script>
-  <script src="js/trail-game.js?v=60"></script>
-  <script src="js/pack-game.js?v=60"></script>
-  <script src="js/app.js?v=60"></script>
-  <script src="js/ranking.js?v=60"></script>
+  <script src="js/config.js?v=61"></script>
+  <script src="js/player.js?v=61"></script>
+  <script src="js/questions.js?v=61"></script>
+  <script src="js/countdown.js?v=61"></script>
+  <script src="js/weather.js?v=61"></script>
+  <script src="js/trail-game.js?v=61"></script>
+  <script src="js/pack-game.js?v=61"></script>
+  <script src="js/app.js?v=61"></script>
+  <script src="js/ranking.js?v=61"></script>
 </body>
 </html>

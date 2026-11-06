@@ -658,6 +658,10 @@
   });
 
   window.addEventListener("keydown", (e) => {
+    const t = e.target;
+    const tag = (t && t.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "textarea" || tag === "select" || t?.isContentEditable) return;
+    if (document.getElementById("name-modal")?.classList.contains("is-open")) return;
     if (e.code === "Space" || e.code === "ArrowUp") {
       if (elsActive()) {
         e.preventDefault();

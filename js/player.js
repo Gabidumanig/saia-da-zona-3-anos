@@ -117,10 +117,10 @@
         <p class="eyebrow">Antes de começar</p>
         <h3 id="name-modal-title">Qual é o seu nome?</h3>
         <p class="name-modal-lede">Esse nome aparece no ranking online do Níver SZ.</p>
-        <form id="name-form" action="#" method="dialog">
+        <form id="name-form" action="#">
           <label class="name-label" for="name-input">Seu nome</label>
           <input id="name-input" name="player_name" type="text" maxlength="24" minlength="2"
-            autocomplete="nickname" inputmode="text" enterkeyhint="done"
+            autocomplete="name" inputmode="text" enterkeyhint="done"
             placeholder="Ex.: Gabi" required />
           <p id="name-error" class="name-error" hidden>Digite pelo menos 2 letras.</p>
           <button type="submit" id="name-submit" class="btn btn-primary">Salvar e continuar</button>
@@ -140,6 +140,7 @@
   function closeModal(modal, name) {
     modal.hidden = true;
     modal.classList.remove("is-open");
+    document.body.classList.remove("name-modal-open");
     showError(false);
     const resolve = pendingResolve;
     pendingResolve = null;
@@ -147,10 +148,10 @@
   }
 
   function trySaveFromInput(input) {
-    const ok = setName(input.value);
+    const ok = setName(input && input.value);
     if (!ok) {
       showError(true);
-      input.focus();
+      if (input) input.focus();
       return null;
     }
     showError(false);
@@ -163,6 +164,21 @@
     const form = modal.querySelector("#name-form");
     const input = modal.querySelector("#name-input");
     const btn = modal.querySelector("#name-submit");
+
+    // Garante que o campo aceita toque/teclado no mobile.
+    if (input) {
+      input.removeAttribute("readonly");
+      input.removeAttribute("disabled");
+      input.setAttribute("autocomplete", "name");
+      input.addEventListener("touchstart", (e) => {
+        e.stopPropagation();
+        input.focus();
+      }, { passive: true });
+      input.addEventListener("click", (e) => {
+        e.stopPropagation();
+        input.focus();
+      });
+    }
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -181,6 +197,11 @@
         closeModal(modal, name);
       });
     }
+
+    // Não fecha ao tocar no fundo — evita perder o foco no teclado mobile.
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) e.stopPropagation();
+    });
   }
 
   function askName(opts = {}) {
@@ -194,23 +215,26 @@
       const modal = ensureModal();
       const input = modal.querySelector("#name-input");
       pendingResolve = resolve;
-      if (existing) input.value = existing;
-      else if (!input.value) input.value = "";
+      if (input) {
+        input.value = existing || "";
+        input.removeAttribute("readonly");
+        input.removeAttribute("disabled");
+      }
       showError(false);
       modal.hidden = false;
       modal.classList.add("is-open");
-      setTimeout(() => {
+      document.body.classList.add("name-modal-open");
+      // Só foca; NÃO usa select() — no iOS isso trava o teclado.
+      requestAnimationFrame(() => {
         try {
-          input.focus({ preventScroll: true });
-          input.select();
+          input?.focus({ preventScroll: false });
         } catch (_) {
-          input.focus();
+          input?.focus();
         }
-      }, 80);
+      });
     });
   }
 
-  // Modal estático no HTML (se existir) também precisa do wire.
   document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("name-modal");
     if (modal) wireModal(modal);
