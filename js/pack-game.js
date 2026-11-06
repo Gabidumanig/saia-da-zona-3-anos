@@ -25,7 +25,7 @@
     { id: "mapa", label: "Mapa", color: "#FF8FAB" },
     { id: "lanterna", label: "Lanterna", color: "#6BA3FF" },
     { id: "chapéu", label: "Chapéu", color: "#E8C56A" },
-    { id: "atum", label: "Atum", color: "#1A6BFF" },
+    { id: "atum", label: "Patê de Atum", color: "#1A6BFF", sprite: "atum" },
     { id: "pepino", label: "Pepino", color: "#2BB673" },
   ];
 
@@ -45,6 +45,7 @@
   let active = false;
   let packSprite = null;
   let packSpriteReady = false;
+  const itemSprites = {};
 
   function punchWhiteBackground(img) {
     const off = document.createElement("canvas");
@@ -80,6 +81,15 @@
   };
   packImg.src = "assets/game/cargueira.png";
 
+  function loadItemSprite(key, src) {
+    const img = new Image();
+    img.onload = () => {
+      itemSprites[key] = punchWhiteBackground(img);
+    };
+    img.src = src;
+  }
+  loadItemSprite("atum", "assets/game/pate-atum.png");
+
   function updateHud() {
     if (scoreEl) scoreEl.textContent = `${score} itens`;
     if (missesEl) missesEl.textContent = `${misses} / ${MAX_MISSES} perdidos`;
@@ -109,15 +119,15 @@
 
   function spawnItem() {
     const type = ITEM_TYPES[Math.floor(Math.random() * ITEM_TYPES.length)];
-    const size = 34 + Math.random() * 10;
+    const size = type.sprite === "atum" ? 48 + Math.random() * 10 : 34 + Math.random() * 10;
     items.push({
       type,
       x: 28 + Math.random() * (W - 56),
       y: -40,
       r: size / 2,
       vy: 120 + Math.random() * 70 + Math.min(score * 3.5, 160),
-      rot: Math.random() * Math.PI * 2,
-      spin: (Math.random() - 0.5) * 3.2,
+      rot: type.sprite ? (Math.random() - 0.5) * 0.5 : Math.random() * Math.PI * 2,
+      spin: type.sprite ? (Math.random() - 0.5) * 0.8 : (Math.random() - 0.5) * 3.2,
     });
   }
 
@@ -234,6 +244,16 @@
     ctx.translate(x, y);
     ctx.rotate(rot);
 
+    if (type.sprite && itemSprites[type.sprite]) {
+      const sprite = itemSprites[type.sprite];
+      const aspect = sprite.width / sprite.height;
+      const ih = r * 2.35;
+      const iw = ih * aspect;
+      ctx.drawImage(sprite, -iw / 2, -ih / 2, iw, ih);
+      ctx.restore();
+      return;
+    }
+
     switch (type.id) {
       case "barraca":
         ctx.fillStyle = type.color;
@@ -340,21 +360,14 @@
         ctx.fill();
         break;
       case "atum":
-        ctx.fillStyle = "#D9E4F5";
-        roundRect(-r * 0.55, -r * 0.7, r * 1.1, r * 1.4, 8);
-        ctx.fill();
-        ctx.fillStyle = type.color;
-        roundRect(-r * 0.55, -r * 0.7, r * 1.1, r * 0.4, 8);
+        ctx.fillStyle = "#1A4FA0";
+        roundRect(-r * 0.55, -r * 0.75, r * 1.1, r * 1.5, 10);
         ctx.fill();
         ctx.fillStyle = "#fff";
-        ctx.font = `bold ${Math.floor(r * 0.35)}px Manrope, sans-serif`;
+        ctx.font = `bold ${Math.floor(r * 0.28)}px Manrope, sans-serif`;
         ctx.textAlign = "center";
-        ctx.fillText("ATUM", 0, -r * 0.42);
-        ctx.fillStyle = "#1A1A1A";
-        ctx.beginPath();
-        ctx.arc(-r * 0.18, r * 0.05, 2.2, 0, Math.PI * 2);
-        ctx.arc(r * 0.18, r * 0.05, 2.2, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillText("PATÊ", 0, -r * 0.1);
+        ctx.fillText("ATUM", 0, r * 0.25);
         break;
       case "pepino":
         ctx.fillStyle = type.color;
