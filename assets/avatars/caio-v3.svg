@@ -1,26 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
   <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
-  <!-- DJ headphones -->
   <path d="M34 46c0-18 52-18 52 0" stroke="#1A1A1A" stroke-width="5" fill="none"/>
   <rect x="28" y="44" width="12" height="18" rx="4" fill="#1A6BFF"/>
   <rect x="80" y="44" width="12" height="18" rx="4" fill="#1A6BFF"/>
-  <!-- beanie -->
   <path d="M38 48c2-20 42-20 44 0v4H38z" fill="#4A3428"/>
   <ellipse cx="60" cy="34" rx="8" ry="5" fill="#4A3428"/>
-  <!-- head -->
   <circle cx="60" cy="58" r="22" fill="#E8B896"/>
-  <!-- glasses -->
   <rect x="42" y="52" width="14" height="10" rx="3" stroke="#222" stroke-width="2" fill="rgba(180,220,255,.25)"/>
   <rect x="64" y="52" width="14" height="10" rx="3" stroke="#222" stroke-width="2" fill="rgba(180,220,255,.25)"/>
   <path d="M56 57h8" stroke="#222" stroke-width="2"/>
-  <!-- bigode bem marcado -->
-  <path d="M46 66c5-5 10-6 14-1 4-5 9-4 14 1-4 4-9 7-14 6-5 1-10-2-14-6z" fill="#2A1A10"/>
-  <path d="M50 67c3-2 6-2 10 0 4-2 7-2 10 0-2 2-5 3-10 3s-8-1-10-3z" fill="#4A3020"/>
-  <path d="M54 73c3 2.5 9 2.5 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
-  <!-- green jacket + purple -->
+  <!-- bigode grosso e visível -->
+  <ellipse cx="60" cy="68" rx="14" ry="5.5" fill="#2A1A10"/>
+  <path d="M48 66c4-3 8-4 12 0 4-4 8-3 12 0-3 3-7 5-12 4.5-5 .5-9-1.5-12-4.5z" fill="#1A1008"/>
+  <path d="M54 74c3 2 9 2 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
   <rect x="40" y="78" width="40" height="34" rx="12" fill="#1FAF7A"/>
   <rect x="48" y="78" width="24" height="8" rx="3" fill="#7B4DFF"/>
-  <!-- backpack -->
   <rect x="28" y="80" width="14" height="26" rx="4" fill="#C45C26"/>
   <rect x="30" y="84" width="10" height="5" rx="1" fill="#8B3E14"/>
   <path d="M40 88c-8 6-10 14-8 20" stroke="#E8B896" stroke-width="5" stroke-linecap="round"/>
