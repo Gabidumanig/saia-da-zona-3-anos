@@ -836,8 +836,11 @@ main,
   position: relative;
   border-radius: 18px;
   overflow: hidden;
-  border: 1px solid var(--glass-border);
-  background: rgba(4, 24, 51, 0.35);
+  border: 1px solid rgba(90, 140, 70, 0.35);
+  background:
+    radial-gradient(ellipse at top, rgba(60, 110, 50, 0.35), transparent 55%),
+    rgba(18, 40, 24, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(180, 220, 140, 0.08);
   line-height: 0;
   touch-action: manipulation;
   user-select: none;

@@ -240,55 +240,133 @@
     updateHud();
   }
 
+  function drawTree(tx, baseY, scale, dark) {
+    const trunkH = 70 * scale;
+    const trunkW = 12 * scale;
+    ctx.fillStyle = dark ? "#3A2414" : "#5A3A1E";
+    ctx.fillRect(tx - trunkW / 2, baseY - trunkH, trunkW, trunkH);
+
+    const greens = dark
+      ? ["#1A4A24", "#245C30", "#1F5530"]
+      : ["#2F7A3A", "#3D9148", "#2A6B34"];
+    for (let layer = 0; layer < 3; layer += 1) {
+      const top = baseY - trunkH - 18 * scale - layer * 28 * scale;
+      const half = (42 - layer * 6) * scale;
+      ctx.fillStyle = greens[layer];
+      ctx.beginPath();
+      ctx.moveTo(tx - half, baseY - trunkH + 10 * scale - layer * 22 * scale);
+      ctx.lineTo(tx, top);
+      ctx.lineTo(tx + half, baseY - trunkH + 10 * scale - layer * 22 * scale);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
   function drawBackground() {
+    // forest canopy sky
     const g = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    g.addColorStop(0, "#6BA3FF");
-    g.addColorStop(0.55, "#B8D4FF");
-    g.addColorStop(1, "#8FBF6A");
+    g.addColorStop(0, "#1B3A28");
+    g.addColorStop(0.35, "#2F5A3A");
+    g.addColorStop(0.7, "#4F8A45");
+    g.addColorStop(1, "#6B9A4A");
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // distant misty hills
     hills.forEach((h, i) => {
-      ctx.fillStyle = i % 2 ? "#4F8A3A" : "#3E7340";
+      ctx.fillStyle = i % 2 ? "#2E5A34" : "#244A2C";
       ctx.beginPath();
-      ctx.moveTo(h.x, GROUND_Y);
-      ctx.quadraticCurveTo(h.x + h.w / 2, GROUND_Y - h.h, h.x + h.w, GROUND_Y);
+      ctx.moveTo(h.x - 20, GROUND_Y);
+      ctx.quadraticCurveTo(h.x + h.w / 2, GROUND_Y - h.h - 30, h.x + h.w + 20, GROUND_Y);
       ctx.closePath();
       ctx.fill();
     });
 
-    clouds.forEach((c) => {
-      ctx.fillStyle = "rgba(255,255,255,0.85)";
-      ctx.beginPath();
-      ctx.ellipse(c.x, c.y, c.w * 0.35, 16, 0, 0, Math.PI * 2);
-      ctx.ellipse(c.x + 22, c.y + 4, c.w * 0.28, 14, 0, 0, Math.PI * 2);
-      ctx.ellipse(c.x - 18, c.y + 6, c.w * 0.25, 12, 0, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    // trail ground
-    ctx.fillStyle = "#6B4F2A";
-    ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
-    ctx.fillStyle = "#8B6A3D";
-    ctx.fillRect(0, GROUND_Y, canvas.width, 10);
-
-    const stripe = ((distance * 0.4) % 40);
-    ctx.fillStyle = "rgba(255,255,255,0.12)";
-    for (let x = -stripe; x < canvas.width; x += 40) {
-      ctx.fillRect(x, GROUND_Y + 16, 18, 4);
+    // back trees
+    for (let i = 0; i < 10; i += 1) {
+      const span = canvas.width + 160;
+      const tx = ((i * 110 - distance * 0.12) % span + span) % span - 40;
+      drawTree(tx, GROUND_Y, 0.7 + (i % 3) * 0.08, true);
     }
 
-    // trees far
-    for (let i = 0; i < 6; i += 1) {
-      const tx = ((i * 170 - distance * 0.15) % (canvas.width + 120)) - 40;
-      ctx.fillStyle = "#5A3A1E";
-      ctx.fillRect(tx + 10, GROUND_Y - 48, 8, 48);
-      ctx.fillStyle = "#2F6B2F";
+    // mid trees denser
+    for (let i = 0; i < 8; i += 1) {
+      const span = canvas.width + 200;
+      const tx = ((i * 140 - distance * 0.28) % span + span) % span - 50;
+      drawTree(tx, GROUND_Y, 1 + (i % 2) * 0.15, false);
+    }
+
+    // hanging canopy leaves at top
+    ctx.fillStyle = "rgba(20, 60, 30, 0.55)";
+    for (let i = 0; i < 14; i += 1) {
+      const lx = ((i * 80 - distance * 0.35) % (canvas.width + 100)) - 40;
       ctx.beginPath();
-      ctx.moveTo(tx - 8, GROUND_Y - 42);
-      ctx.lineTo(tx + 14, GROUND_Y - 88);
-      ctx.lineTo(tx + 36, GROUND_Y - 42);
+      ctx.ellipse(lx, 18 + (i % 3) * 10, 40, 22, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // light shafts
+    ctx.fillStyle = "rgba(255, 240, 180, 0.07)";
+    for (let i = 0; i < 4; i += 1) {
+      const sx = ((i * 220 - distance * 0.2) % (canvas.width + 120)) - 40;
+      ctx.beginPath();
+      ctx.moveTo(sx, 0);
+      ctx.lineTo(sx + 50, 0);
+      ctx.lineTo(sx + 110, GROUND_Y);
+      ctx.lineTo(sx + 40, GROUND_Y);
       ctx.closePath();
+      ctx.fill();
+    }
+
+    // forest floor sides (moss/grass)
+    ctx.fillStyle = "#3D6B32";
+    ctx.fillRect(0, GROUND_Y - 8, canvas.width, 14);
+    ctx.fillStyle = "#2F5528";
+    for (let x = -((distance * 0.5) % 22); x < canvas.width; x += 22) {
+      ctx.beginPath();
+      ctx.moveTo(x, GROUND_Y - 2);
+      ctx.lineTo(x + 5, GROUND_Y - 14);
+      ctx.lineTo(x + 10, GROUND_Y - 2);
+      ctx.fill();
+    }
+
+    // dirt trail
+    ctx.fillStyle = "#6B4A28";
+    ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+    ctx.fillStyle = "#8B6438";
+    ctx.beginPath();
+    ctx.moveTo(0, GROUND_Y);
+    ctx.quadraticCurveTo(canvas.width * 0.35, GROUND_Y - 4, canvas.width * 0.7, GROUND_Y + 2);
+    ctx.lineTo(canvas.width, GROUND_Y);
+    ctx.lineTo(canvas.width, GROUND_Y + 18);
+    ctx.lineTo(0, GROUND_Y + 18);
+    ctx.closePath();
+    ctx.fill();
+
+    // trail stones / footprints
+    const stripe = (distance * 0.55) % 48;
+    ctx.fillStyle = "rgba(50, 32, 16, 0.28)";
+    for (let x = -stripe; x < canvas.width; x += 48) {
+      ctx.beginPath();
+      ctx.ellipse(x + 10, GROUND_Y + 18, 10, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(x + 28, GROUND_Y + 26, 8, 3.5, 0.2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // ferns / bushes foreground sides
+    for (let i = 0; i < 7; i += 1) {
+      const span = canvas.width + 90;
+      const bx = ((i * 130 - distance * 0.55) % span + span) % span - 30;
+      ctx.fillStyle = i % 2 ? "#2A6B34" : "#1F5530";
+      ctx.beginPath();
+      ctx.ellipse(bx, GROUND_Y + 8, 22, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(bx - 8, GROUND_Y + 4);
+      ctx.quadraticCurveTo(bx - 18, GROUND_Y - 18, bx - 2, GROUND_Y - 10);
+      ctx.quadraticCurveTo(bx + 4, GROUND_Y - 22, bx + 10, GROUND_Y - 6);
       ctx.fill();
     }
   }
@@ -519,7 +597,10 @@
     resetWorld();
     drawBackground();
     drawPlayer();
-    showOverlay(best > 0 ? `Recorde atual: ${Math.floor(best)} m` : "Pronto para a trilha?", "Começar");
+    showOverlay(
+      best > 0 ? `Trilha do Saia da Zona · recorde ${Math.floor(best)} m` : "Trilha do Saia da Zona",
+      "Começar"
+    );
   }
 
   function deactivate() {
@@ -563,7 +644,7 @@
 
   resize();
   updateHud();
-  showOverlay("Pronto para a trilha?", "Começar");
+  showOverlay("Trilha do Saia da Zona", "Começar");
 
   window.SDZ_TRAIL_GAME = { activate, deactivate, jump, setAvatar };
 })();
