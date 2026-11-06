@@ -180,7 +180,7 @@
     if (type === "rock") {
       obstacles.push({ ...base, w: 36, h: 28 });
     } else if (type === "snake") {
-      obstacles.push({ ...base, w: 48, h: 16, phase: 0 });
+      obstacles.push({ ...base, w: 62, h: 18, phase: 0 });
     } else if (type === "log") {
       obstacles.push({ ...base, w: 54, h: 22 });
     } else if (type === "waterfall") {
@@ -518,21 +518,53 @@
   }
 
   function drawSnake(obs) {
-    const wave = Math.sin(obs.phase || 0) * 3;
-    ctx.strokeStyle = "#2F8F3A";
-    ctx.lineWidth = 8;
+    const wave = Math.sin(obs.phase || 0) * 3.5;
+    const bands = ["#E23B2F", "#1A1A1A", "#F5D76E", "#1A1A1A"];
+    const segs = 10;
     ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    // corpo ondulado com faixas de coral (vermelho / preto / amarelo)
+    for (let i = 0; i < segs; i += 1) {
+      const t0 = i / segs;
+      const t1 = (i + 1) / segs;
+      const x0 = obs.x + obs.w * t0;
+      const x1 = obs.x + obs.w * t1;
+      const y0 = obs.y - 6 + Math.sin(t0 * Math.PI * 2 + (obs.phase || 0)) * wave;
+      const y1 = obs.y - 6 + Math.sin(t1 * Math.PI * 2 + (obs.phase || 0)) * wave;
+      ctx.strokeStyle = bands[i % bands.length];
+      ctx.lineWidth = 9 - (i === 0 || i === segs - 1 ? 1.5 : 0);
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+    }
+
+    // cabeca preta + olho
+    const hx = obs.x + obs.w - 2;
+    const hy = obs.y - 8 + Math.sin((obs.phase || 0) + 1.2) * 1.5;
+    ctx.fillStyle = "#111";
     ctx.beginPath();
-    ctx.moveTo(obs.x, obs.y - 4);
-    ctx.quadraticCurveTo(obs.x + 16, obs.y - 14 + wave, obs.x + 32, obs.y - 4);
-    ctx.quadraticCurveTo(obs.x + 40, obs.y + 2 - wave, obs.x + obs.w, obs.y - 6);
-    ctx.stroke();
-    ctx.fillStyle = "#F5E66B";
+    ctx.ellipse(hx, hy, 6.5, 5, 0.15, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#F5D76E";
     ctx.beginPath();
-    ctx.arc(obs.x + obs.w - 2, obs.y - 8, 5, 0, Math.PI * 2);
+    ctx.arc(hx + 2, hy - 1.5, 1.6, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = "#111";
-    ctx.fillRect(obs.x + obs.w, obs.y - 9, 2, 2);
+    ctx.beginPath();
+    ctx.arc(hx + 2.4, hy - 1.5, 0.7, 0, Math.PI * 2);
+    ctx.fill();
+
+    // linguinha
+    ctx.strokeStyle = "#E23B2F";
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(hx + 6, hy);
+    ctx.lineTo(hx + 11, hy - 2);
+    ctx.moveTo(hx + 6, hy);
+    ctx.lineTo(hx + 11, hy + 2);
+    ctx.stroke();
   }
 
   function drawLog(obs) {
