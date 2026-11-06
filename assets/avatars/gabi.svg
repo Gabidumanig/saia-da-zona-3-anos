@@ -1,35 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
   <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
-  <!-- cabelo longo comum, sem volume -->
+  
   <path d="M40 48c0 26 1 44 4 56 2-14 3-30 4-44 2 16 4 36 6 52 2-16 4-36 6-52 1 14 2 30 4 44 3-12 4-30 4-56 0-15-10-24-28-24S40 33 40 48z" fill="#E8C078"/>
-  <!-- corpo fleece branco -->
+  
   <rect x="42" y="78" width="36" height="34" rx="14" fill="#F4F7FF"/>
   <rect x="46" y="84" width="28" height="6" rx="3" fill="#D7DEEA"/>
-  <!-- mochila -->
+  
   <rect x="30" y="80" width="14" height="26" rx="4" fill="#C45C26"/>
   <rect x="32" y="84" width="10" height="5" rx="1" fill="#8B3E14"/>
-  <!-- cabeça -->
+  
   <circle cx="60" cy="52" r="22" fill="#F6CDB0"/>
   <ellipse cx="44" cy="58" rx="4.5" ry="3" fill="#FF8FAB" opacity=".35"/>
   <ellipse cx="76" cy="58" rx="4.5" ry="3" fill="#FF8FAB" opacity=".35"/>
-  <!-- franja comum -->
+  
   <path d="M39 45c2-11 12-17 21-17s19 6 21 17c-5-2-10-3-15-2-4-1-8-1-13 0-4-1-9 0-14 2z" fill="#E8C078"/>
-  <!-- laterais longas finas -->
+  
   <path d="M39 48c-1 18 0 36 2 50 1-14 1-32 2-48 0-1-1-2-4-2z" fill="#E8C078"/>
   <path d="M81 48c1 18 0 36-2 50-1-14-1-32-2-48 0-1 1-2 4-2z" fill="#E8C078"/>
-  <!-- faixa preta com ilhoses -->
+  
   <rect x="38" y="36" width="44" height="8" rx="3" fill="#1A1A1A"/>
   <circle cx="46" cy="40" r="2.2" fill="none" stroke="#C0C0C0" stroke-width="1.4"/>
   <circle cx="56" cy="40" r="2.2" fill="none" stroke="#C0C0C0" stroke-width="1.4"/>
   <circle cx="66" cy="40" r="2.2" fill="none" stroke="#C0C0C0" stroke-width="1.4"/>
   <circle cx="76" cy="40" r="2.2" fill="none" stroke="#C0C0C0" stroke-width="1.4"/>
-  <!-- olhos -->
+  
   <ellipse cx="51" cy="54" rx="3" ry="2.6" fill="#4A6FA5"/>
   <ellipse cx="69" cy="54" rx="3" ry="2.6" fill="#4A6FA5"/>
   <circle cx="52" cy="53" r="1" fill="#FFF"/>
   <circle cx="70" cy="53" r="1" fill="#FFF"/>
   <path d="M53 63.5c3 4.5 11 4.5 14 0" stroke="#E26B84" stroke-width="2.2" stroke-linecap="round"/>
-  <!-- brincos -->
+  
   <circle cx="38" cy="60" r="1.8" fill="#F5F5F5"/>
   <circle cx="82" cy="60" r="1.8" fill="#F5F5F5"/>
   <path d="M42 88c-8 6-10 14-8 20" stroke="#F6CDB0" stroke-width="5" stroke-linecap="round"/>
