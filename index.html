@@ -37,6 +37,7 @@
       <button type="button" data-nav="home">Início</button>
       <button type="button" data-nav="teams">Times</button>
       <button type="button" data-nav="quiz">Quiz</button>
+      <button type="button" data-nav="trail">Trilha</button>
       <button type="button" data-nav="scoreboard">Placar</button>
     </nav>
   </header>
@@ -130,6 +131,30 @@
       </div>
     </section>
 
+    <!-- TRAIL GAME -->
+    <section id="view-trail" class="view" hidden aria-label="Trilha">
+      <div class="panel panel-trail">
+        <div class="quiz-head">
+          <div>
+            <p class="eyebrow">Mini jogo</p>
+            <h2>Trilha do aniversário</h2>
+          </div>
+          <div class="quiz-meta">
+            <span id="trail-score" class="chip">0 m</span>
+            <span id="trail-best" class="chip chip-soft">Recorde 0 m</span>
+          </div>
+        </div>
+        <p class="lede trail-hint">Toque ou clique para pular. Desvie de pedras, cobras, chuva e a cachoeira!</p>
+        <div class="trail-stage">
+          <canvas id="trail-canvas" width="900" height="360" aria-label="Joguinho da trilha"></canvas>
+          <div id="trail-overlay" class="trail-overlay">
+            <p id="trail-message">Pronto para a trilha?</p>
+            <button type="button" class="btn btn-primary" id="trail-start">Começar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- SCOREBOARD -->
     <section id="view-scoreboard" class="view" hidden aria-label="Placar">
       <div class="panel">
@@ -150,6 +175,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/questions.js"></script>
+  <script src="js/trail-game.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

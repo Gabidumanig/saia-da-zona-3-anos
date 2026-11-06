@@ -18,6 +18,7 @@
       home: document.getElementById("view-home"),
       teams: document.getElementById("view-teams"),
       quiz: document.getElementById("view-quiz"),
+      trail: document.getElementById("view-trail"),
       scoreboard: document.getElementById("view-scoreboard"),
     },
     teamGrid: document.getElementById("team-grid"),
@@ -99,6 +100,10 @@
 
     if (name === "quiz") renderQuiz();
     if (name === "scoreboard") renderScoreboard();
+    if (window.SDZ_TRAIL_GAME) {
+      if (name === "trail") window.SDZ_TRAIL_GAME.activate();
+      else window.SDZ_TRAIL_GAME.deactivate();
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
