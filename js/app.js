@@ -8,10 +8,13 @@
 
   const STORAGE_KEY = "sdz3_participant";
   const ANSWERS_KEY = "sdz3_answers";
+  const SESSION_KEY = "sdz3_quiz_session";
+  const QUIZ_SIZE = 8;
 
   const config = window.SDZ_CONFIG || {};
-  const questions = Array.isArray(window.SDZ_QUESTIONS) ? window.SDZ_QUESTIONS : [];
+  const questionBank = Array.isArray(window.SDZ_QUESTIONS) ? window.SDZ_QUESTIONS : [];
   const pointsPerCorrect = Number(config.pointsPerCorrect) || 10;
+  let sessionQuestions = [];
 
   const els = {
     views: {
@@ -76,6 +79,71 @@
 
   function saveAnswers(map) {
     localStorage.setItem(ANSWERS_KEY, JSON.stringify(map));
+  }
+
+  function loadSession() {
+    try {
+      return JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+    } catch {
+      return null;
+    }
+  }
+
+  function saveSession(data) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(data));
+  }
+
+  function shuffle(list) {
+    const arr = [...list];
+    for (let i = arr.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function pickRandomQuestions() {
+    const size = Math.min(QUIZ_SIZE, questionBank.length);
+    return shuffle(questionBank).slice(0, size);
+  }
+
+  function questionsFromIds(ids) {
+    const byId = Object.fromEntries(questionBank.map((q) => [q.id, q]));
+    return ids.map((id) => byId[id]).filter(Boolean);
+  }
+
+  function startQuizSession(participantId) {
+    const picked = pickRandomQuestions();
+    saveSession({
+      participantId,
+      questionIds: picked.map((q) => q.id),
+    });
+    saveAnswers({});
+    currentQuestion = 0;
+    sessionQuestions = picked;
+    return sessionQuestions;
+  }
+
+  function ensureQuizSession(participant) {
+    if (!participant) {
+      sessionQuestions = [];
+      return sessionQuestions;
+    }
+
+    const session = loadSession();
+    if (
+      session?.participantId === participant.id &&
+      Array.isArray(session.questionIds) &&
+      session.questionIds.length > 0
+    ) {
+      const restored = questionsFromIds(session.questionIds);
+      if (restored.length === session.questionIds.length) {
+        sessionQuestions = restored;
+        return sessionQuestions;
+      }
+    }
+
+    return startQuizSession(participant.id);
   }
 
   function teamById(id) {
@@ -150,6 +218,7 @@
     }
 
     const existing = loadParticipant();
+    const isFreshPlay = !existing?.teamId;
     const participant = {
       id: existing?.id || uid(),
       teamId: selectedTeamId,
@@ -158,6 +227,8 @@
     };
 
     saveParticipant(participant);
+    if (isFreshPlay) startQuizSession(participant.id);
+    else ensureQuizSession(participant);
     await ensureParticipantRemote(participant);
     renderTeams();
     updateQuizChrome();
@@ -166,7 +237,8 @@
   }
 
   function answeredCount() {
-    return Object.keys(loadAnswers()).length;
+    const ids = new Set(sessionQuestions.map((q) => q.id));
+    return Object.keys(loadAnswers()).filter((id) => ids.has(id)).length;
   }
 
   function updateQuizChrome() {
@@ -174,11 +246,13 @@
     const team = participant ? teamById(participant.teamId) : null;
     els.quizTeamChip.classList.remove("has-avatar");
     els.quizTeamChip.textContent = team ? `Time ${team.name}` : "Sem time";
-    els.quizProgress.textContent = `${answeredCount()} / ${questions.length}`;
+    const total = sessionQuestions.length || QUIZ_SIZE;
+    els.quizProgress.textContent = `${answeredCount()} / ${total}`;
   }
 
   function renderQuiz() {
     const participant = loadParticipant();
+    if (participant) ensureQuizSession(participant);
     updateQuizChrome();
 
     if (!participant) {
@@ -188,12 +262,16 @@
       return;
     }
 
-    if (answeredCount() >= questions.length && questions.length > 0) {
+    const total = sessionQuestions.length;
+    if (answeredCount() >= total && total > 0) {
       els.quizGate.hidden = true;
       els.quizBoard.hidden = true;
       els.quizDone.hidden = false;
-      const correct = Object.values(loadAnswers()).filter((a) => a.correct).length;
-      els.quizSummary.textContent = `Você acertou ${correct} de ${questions.length}. Os pontos já foram para o time ${
+      const ids = new Set(sessionQuestions.map((q) => q.id));
+      const correct = Object.entries(loadAnswers()).filter(
+        ([id, a]) => ids.has(id) && a.correct
+      ).length;
+      els.quizSummary.textContent = `Você acertou ${correct} de ${total}. Os pontos já foram para o time ${
         teamById(participant.teamId).name
       }.`;
       return;
@@ -203,7 +281,7 @@
     els.quizDone.hidden = true;
     els.quizBoard.hidden = false;
 
-    const q = questions[currentQuestion];
+    const q = sessionQuestions[currentQuestion];
     if (!q) return;
 
     const answersMap = loadAnswers();
@@ -239,9 +317,9 @@
     }
 
     els.prevQuestion.disabled = currentQuestion === 0;
-    els.nextQuestion.disabled = !prior || currentQuestion >= questions.length - 1;
+    els.nextQuestion.disabled = !prior || currentQuestion >= total - 1;
 
-    if (prior && currentQuestion >= questions.length - 1 && answeredCount() >= questions.length) {
+    if (prior && currentQuestion >= total - 1 && answeredCount() >= total) {
       els.nextQuestion.disabled = false;
       els.nextQuestion.textContent = "Ver resultado";
     } else {
@@ -412,11 +490,11 @@
     });
 
     els.nextQuestion.addEventListener("click", () => {
-      if (answeredCount() >= questions.length) {
+      if (answeredCount() >= sessionQuestions.length) {
         renderQuiz();
         return;
       }
-      if (currentQuestion < questions.length - 1) {
+      if (currentQuestion < sessionQuestions.length - 1) {
         currentQuestion += 1;
         renderQuiz();
       }
@@ -426,6 +504,8 @@
   bindNav();
   bindQuizNav();
   els.confirmTeam.addEventListener("click", confirmTeam);
+  const existingParticipant = loadParticipant();
+  if (existingParticipant) ensureQuizSession(existingParticipant);
   renderTeams();
   updateQuizChrome();
   showView("home");
