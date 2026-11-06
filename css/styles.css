@@ -943,11 +943,12 @@ main,
   display: block;
   width: 100%;
   min-height: 96px;
-  aspect-ratio: 120 / 140;
-  object-fit: contain;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center top;
   border-radius: 12px;
-  background: linear-gradient(180deg, rgba(143, 191, 106, 0.35), rgba(4, 24, 51, 0.4));
-  padding: 0.2rem;
+  background: rgba(4, 24, 51, 0.4);
+  padding: 0;
 }
 
 .avatar-badge {
