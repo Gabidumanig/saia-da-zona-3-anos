@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=77" />
+  <link rel="stylesheet" href="css/styles.css?v=78" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -68,8 +68,8 @@
       <button type="button" data-nav="home">Início</button>
       <button type="button" data-nav="infos">Infos do rolê</button>
       <button type="button" data-nav="quiz">Quiz SDZ</button>
-      <button type="button" data-nav="trail">Trilha com o Líder</button>
-      <button type="button" data-nav="pack">Cargueira</button>
+      <button type="button" data-nav="trail">Jogo: Trilha</button>
+      <button type="button" data-nav="pack">Jogo: Mochila</button>
     </nav>
   </header>
 
@@ -145,8 +145,8 @@
         <div class="hero-actions">
           <button type="button" class="btn btn-primary" data-nav="infos">Infos importantes</button>
           <button type="button" class="btn btn-ghost" data-nav="quiz">Jogar Quiz SDZ</button>
-          <button type="button" class="btn btn-ghost" data-nav="trail">Game: Trilha com o Líder</button>
-          <button type="button" class="btn btn-ghost" data-nav="pack">Game: Cargueira</button>
+          <button type="button" class="btn btn-ghost" data-nav="trail">Jogo: Trilha</button>
+          <button type="button" class="btn btn-ghost" data-nav="pack">Jogo: Mochila</button>
         </div>
       </div>
     </section>
@@ -283,12 +283,12 @@
     </section>
 
     <!-- TRAIL GAME -->
-    <section id="view-trail" class="view" hidden aria-label="Game: Trilha com o Líder">
+    <section id="view-trail" class="view" hidden aria-label="Jogo: Trilha">
       <div class="panel panel-trail">
         <div class="quiz-head">
           <div>
-            <p class="eyebrow">Game</p>
-            <h2>Trilha com o Líder</h2>
+            <p class="eyebrow">Jogo</p>
+            <h2>Trilha</h2>
           </div>
           <div class="quiz-meta">
             <span id="trail-score" class="chip">0 m</span>
@@ -315,7 +315,7 @@
 
         <p class="lede trail-hint">2. A trilha sobe inclinada — toque pra pular. Desvie de pedras, cobras, chuva e a cachoeira!</p>
         <div class="trail-stage">
-          <canvas id="trail-canvas" width="900" height="420" aria-label="Trilha com o Líder"></canvas>
+          <canvas id="trail-canvas" width="900" height="420" aria-label="Jogo: Trilha"></canvas>
           <div id="trail-overlay" class="trail-overlay">
             <p id="trail-message">Escolha um avatar acima</p>
             <button type="button" class="btn btn-primary" id="trail-start">Começar</button>
@@ -324,7 +324,7 @@
 
         <div class="game-board" data-board="trail">
           <div class="game-board-head">
-            <h3>Placar da Trilha</h3>
+            <h3>Placar do Jogo: Trilha</h3>
             <span class="chip chip-soft" data-board-status>…</span>
           </div>
           <div class="ranking-list" data-board-list aria-live="polite"></div>
@@ -333,12 +333,12 @@
     </section>
 
     <!-- PACK GAME -->
-    <section id="view-pack" class="view" hidden aria-label="Game: Cargueira">
+    <section id="view-pack" class="view" hidden aria-label="Jogo: Mochila">
       <div class="panel panel-pack">
         <div class="quiz-head">
           <div>
-            <p class="eyebrow">Game</p>
-            <h2>Cargueira</h2>
+            <p class="eyebrow">Jogo</p>
+            <h2>Mochila</h2>
           </div>
           <div class="quiz-meta">
             <span id="pack-score" class="chip">0 itens</span>
@@ -360,11 +360,11 @@
 
         <p class="lede pack-hint">
           Arraste ou use ← → para mover a mochila Galapagos. Pegue barraca, garrafa, bússola, bota, pepino, patê de atum, shit tube e o resto do kit.
-          Se deixar passar 3 coisas, a cargueira não fecha!
+          Se deixar passar 3 coisas, a mochila não fecha!
         </p>
 
         <div class="pack-stage">
-          <canvas id="pack-canvas" width="900" height="420" aria-label="Preparando a cargueira"></canvas>
+          <canvas id="pack-canvas" width="900" height="420" aria-label="Jogo: Mochila"></canvas>
           <div id="pack-overlay" class="trail-overlay">
             <p id="pack-message">Mova a mochila e não deixe cair o equipamento!</p>
             <button type="button" class="btn btn-primary" id="pack-start">Começar</button>
@@ -373,7 +373,7 @@
 
         <div class="game-board" data-board="pack">
           <div class="game-board-head">
-            <h3>Placar da Cargueira</h3>
+            <h3>Placar do Jogo: Mochila</h3>
             <span class="chip chip-soft" data-board-status>…</span>
           </div>
           <div class="ranking-list" data-board-list aria-live="polite"></div>
@@ -387,14 +387,14 @@
     <span>Saia da Zona · 3 anos</span>
   </footer>
 
-  <script src="js/config.js?v=77"></script>
-  <script src="js/player.js?v=77"></script>
-  <script src="js/questions.js?v=77"></script>
-  <script src="js/countdown.js?v=77"></script>
-  <script src="js/weather.js?v=77"></script>
-  <script src="js/trail-game.js?v=77"></script>
-  <script src="js/pack-game.js?v=77"></script>
-  <script src="js/app.js?v=77"></script>
-  <script src="js/ranking.js?v=77"></script>
+  <script src="js/config.js?v=78"></script>
+  <script src="js/player.js?v=78"></script>
+  <script src="js/questions.js?v=78"></script>
+  <script src="js/countdown.js?v=78"></script>
+  <script src="js/weather.js?v=78"></script>
+  <script src="js/trail-game.js?v=78"></script>
+  <script src="js/pack-game.js?v=78"></script>
+  <script src="js/app.js?v=78"></script>
+  <script src="js/ranking.js?v=78"></script>
 </body>
 </html>

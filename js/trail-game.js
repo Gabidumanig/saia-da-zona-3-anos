@@ -725,7 +725,7 @@
   resetWorld();
   updateHud();
   showOverlay(
-    selectedAvatarId ? "Trilha com o Líder" : "Escolha um avatar para começar",
+    selectedAvatarId ? "Jogo: Trilha" : "Escolha um avatar para começar",
     "Começar"
   );
 
