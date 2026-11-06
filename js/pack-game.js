@@ -26,7 +26,7 @@
     { id: "lanterna", label: "Lanterna", color: "#6BA3FF" },
     { id: "chapéu", label: "Chapéu", color: "#E8C56A" },
     { id: "atum", label: "Patê de Atum", color: "#1A6BFF", sprite: "atum" },
-    { id: "pepino", label: "Pepino", color: "#2BB673" },
+    { id: "pepino", label: "Pepino", color: "#2BB673", sprite: "pepino" },
   ];
 
   let running = false;
@@ -137,6 +137,7 @@
     img.src = src;
   }
   loadItemSprite("atum", "assets/game/pate-atum.png");
+  loadItemSprite("pepino", "assets/game/pepino.png");
 
   function updateHud() {
     if (scoreEl) scoreEl.textContent = `${score} itens`;
@@ -167,7 +168,7 @@
 
   function spawnItem() {
     const type = ITEM_TYPES[Math.floor(Math.random() * ITEM_TYPES.length)];
-    const size = type.sprite === "atum" ? 48 + Math.random() * 10 : 34 + Math.random() * 10;
+    const size = type.sprite ? 46 + Math.random() * 12 : 34 + Math.random() * 10;
     items.push({
       type,
       x: 28 + Math.random() * (W - 56),
