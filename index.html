@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=7" />
+  <link rel="stylesheet" href="css/styles.css?v=8" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -69,6 +69,44 @@
           <button type="button" class="btn btn-primary" data-nav="teams">Informar time</button>
           <button type="button" class="btn btn-ghost" data-nav="trail">Abrir Joguinho</button>
         </div>
+      </div>
+
+      <div class="countdown-block" aria-label="Contagem regressiva do rolê">
+        <p class="countdown-kicker">O rolê tá chegando</p>
+        <h2 class="countdown-title">Falta pouco pra virar a chave</h2>
+        <p class="countdown-sub">Dia 14 de novembro · 10h · trilha, brincadeira e aniversário. Não fica de fora.</p>
+
+        <div class="countdown-grid" id="countdown-grid" aria-live="polite">
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cd-days">00</span>
+            <span class="countdown-label">dias</span>
+          </div>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cd-hours">00</span>
+            <span class="countdown-label">horas</span>
+          </div>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cd-mins">00</span>
+            <span class="countdown-label">min</span>
+          </div>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cd-secs">00</span>
+            <span class="countdown-label">seg</span>
+          </div>
+        </div>
+
+        <p class="countdown-live" id="countdown-live">Preparando a contagem…</p>
+
+        <address class="countdown-place">
+          <strong>Onde?</strong>
+          <span>R. Honorato Brás Godinho, 290 — Ressaca, Ibiúna - SP · 18158-244</span>
+          <a
+            class="btn btn-primary countdown-map"
+            href="https://www.google.com/maps/search/?api=1&query=R.+Honorato+Br%C3%A1s+Godinho%2C+290+-+Ressaca%2C+Ibi%C3%BAna+-+SP%2C+18158-244"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Abrir no mapa</a>
+        </address>
       </div>
     </section>
 
@@ -180,9 +218,10 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js?v=7"></script>
-  <script src="js/questions.js?v=7"></script>
-  <script src="js/trail-game.js?v=7"></script>
-  <script src="js/app.js?v=7"></script>
+  <script src="js/config.js?v=8"></script>
+  <script src="js/questions.js?v=8"></script>
+  <script src="js/countdown.js?v=8"></script>
+  <script src="js/trail-game.js?v=8"></script>
+  <script src="js/app.js?v=8"></script>
 </body>
 </html>
