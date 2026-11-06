@@ -150,7 +150,7 @@
   loadItemSprite("atum", "assets/game/pate-atum.png");
   loadItemSprite("pepino", "assets/game/pepino.png", { punch: false });
   loadItemSprite("bota", "assets/game/bota.png", { punch: false });
-  loadItemSprite("shit-tube", "assets/game/shit-tube.png", { punch: false });
+  loadItemSprite("shit-tube", "assets/game/shit-tube-v2.png", { punch: false });
 
   function updateHud() {
     if (scoreEl) scoreEl.textContent = `${score} itens`;
