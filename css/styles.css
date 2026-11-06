@@ -467,9 +467,8 @@ main,
 .countdown-kicker {
   position: relative;
   margin: 0 0 0.45rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
   font-weight: 800;
   color: #FFD166;
 }
