@@ -52,15 +52,10 @@ Logo oficial em `assets/logo.png`.
 
 ## Link público do evento
 
-Site publicado no Supabase Storage (bucket público `web`):
+**https://gabidumanig.github.io/saia-da-zona-3-anos/**
 
-**https://xpultzlrrmqjlmiumwnf.supabase.co/storage/v1/object/public/web/index.html**
-
-Para republicar depois de alterações:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\.tools\upload-site.ps1
-```
+Repo: https://github.com/Gabidumanig/saia-da-zona-3-anos  
+GitHub Pages a servir a branch `main` (pasta root).
 
 ## Fluxo no evento
 
