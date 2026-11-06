@@ -51,8 +51,10 @@
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
     const sat = max === 0 ? 0 : (max - min) / max;
-    // fundo branco / off-white / cinza bem claro
-    return max >= 210 && sat <= 0.12;
+    // branco / off-white / xadrez falso de transparência
+    if (max >= 205 && sat <= 0.14) return true;
+    if (sat <= 0.1 && min >= 160 && max <= 235) return true;
+    return false;
   }
 
   function punchWhiteBackground(img) {
