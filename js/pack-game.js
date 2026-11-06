@@ -37,10 +37,11 @@
   let best = Number(localStorage.getItem(BEST_KEY) || 0);
   let spawnTimer = 0;
   let items = [];
-  let pack = { x: W / 2, y: H - 58, w: 92, h: 52, speed: 420 };
+  let pack = { x: W / 2, y: H - 72, w: 118, h: 86, speed: 460 };
   let pointerX = W / 2;
   let keys = { left: false, right: false };
   let flash = 0;
+  let catchGlow = 0;
   let active = false;
 
   function updateHud() {
@@ -85,80 +86,191 @@
   }
 
   function drawBackground() {
-    const g = ctx.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, "#0B3D91");
-    g.addColorStop(0.55, "#0A2A5C");
-    g.addColorStop(1, "#16301A");
-    ctx.fillStyle = g;
+    const sky = ctx.createLinearGradient(0, 0, 0, H);
+    sky.addColorStop(0, "#071833");
+    sky.addColorStop(0.45, "#0C2F63");
+    sky.addColorStop(0.78, "#1A3F2A");
+    sky.addColorStop(1, "#24351C");
+    ctx.fillStyle = sky;
     ctx.fillRect(0, 0, W, H);
 
-    ctx.fillStyle = "rgba(255,255,255,0.04)";
-    for (let i = 0; i < 18; i += 1) {
-      const x = (i * 97) % W;
-      const y = (i * 53) % (H * 0.7);
-      ctx.fillRect(x, y, 4, 8);
+    // distant ridges
+    ctx.fillStyle = "rgba(20, 48, 90, 0.55)";
+    ctx.beginPath();
+    ctx.moveTo(0, H * 0.55);
+    ctx.lineTo(W * 0.18, H * 0.38);
+    ctx.lineTo(W * 0.34, H * 0.52);
+    ctx.lineTo(W * 0.52, H * 0.32);
+    ctx.lineTo(W * 0.7, H * 0.5);
+    ctx.lineTo(W * 0.88, H * 0.36);
+    ctx.lineTo(W, H * 0.48);
+    ctx.lineTo(W, H);
+    ctx.lineTo(0, H);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(255,255,255,0.045)";
+    for (let i = 0; i < 22; i += 1) {
+      ctx.fillRect((i * 83) % W, (i * 47) % (H * 0.55), 3, 7);
     }
 
-    ctx.fillStyle = "#2A4A28";
+    // trail ground
+    const dirt = ctx.createLinearGradient(0, H - 48, 0, H);
+    dirt.addColorStop(0, "#3A5A2C");
+    dirt.addColorStop(0.45, "#4A3A28");
+    dirt.addColorStop(1, "#2C2118");
+    ctx.fillStyle = dirt;
     ctx.beginPath();
-    ctx.moveTo(0, H - 18);
-    ctx.quadraticCurveTo(W * 0.25, H - 34, W * 0.5, H - 20);
-    ctx.quadraticCurveTo(W * 0.75, H - 8, W, H - 26);
+    ctx.moveTo(0, H - 28);
+    ctx.quadraticCurveTo(W * 0.3, H - 46, W * 0.55, H - 30);
+    ctx.quadraticCurveTo(W * 0.8, H - 16, W, H - 34);
     ctx.lineTo(W, H);
     ctx.lineTo(0, H);
     ctx.closePath();
     ctx.fill();
+
+    ctx.strokeStyle = "rgba(255, 140, 60, 0.18)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, H - 22);
+    ctx.quadraticCurveTo(W * 0.5, H - 38, W, H - 18);
+    ctx.stroke();
   }
 
   function drawPack() {
     const { x, y, w, h } = pack;
-    const left = x - w / 2;
-    const top = y - h / 2;
 
     ctx.save();
     ctx.translate(x, y);
 
-    // straps
-    ctx.strokeStyle = "#8B3E14";
-    ctx.lineWidth = 5;
+    // soft shadow
+    ctx.fillStyle = "rgba(0,0,0,0.28)";
+    ctx.beginPath();
+    ctx.ellipse(0, h * 0.52, w * 0.48, 8, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // hip belt (Deuter-style fins)
+    ctx.fillStyle = "#FF7A18";
+    roundRect(-w * 0.62, h * 0.18, w * 0.28, h * 0.18, 8);
+    roundRect(w * 0.34, h * 0.18, w * 0.28, h * 0.18, 8);
+    ctx.fill();
+    ctx.fillStyle = "#1B2740";
+    roundRect(-w * 0.58, h * 0.22, w * 0.2, h * 0.1, 5);
+    roundRect(w * 0.38, h * 0.22, w * 0.2, h * 0.1, 5);
+    ctx.fill();
+
+    // shoulder straps rising behind lid
+    ctx.strokeStyle = "#FF8A2A";
+    ctx.lineWidth = 7;
     ctx.lineCap = "round";
     ctx.beginPath();
-    ctx.moveTo(-18, -h / 2 + 4);
-    ctx.quadraticCurveTo(-28, -h / 2 - 18, -10, -h / 2 - 22);
-    ctx.moveTo(18, -h / 2 + 4);
-    ctx.quadraticCurveTo(28, -h / 2 - 18, 10, -h / 2 - 22);
+    ctx.moveTo(-w * 0.22, -h * 0.05);
+    ctx.quadraticCurveTo(-w * 0.42, -h * 0.55, -w * 0.12, -h * 0.72);
+    ctx.moveTo(w * 0.22, -h * 0.05);
+    ctx.quadraticCurveTo(w * 0.42, -h * 0.55, w * 0.12, -h * 0.72);
+    ctx.stroke();
+    ctx.strokeStyle = "#1B2740";
+    ctx.lineWidth = 3;
     ctx.stroke();
 
-    // body
+    // main body — navy Deuter shell
     const body = ctx.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2);
-    body.addColorStop(0, "#E07A3D");
-    body.addColorStop(1, "#C45C26");
+    body.addColorStop(0, "#2A3F66");
+    body.addColorStop(0.45, "#1B2C4A");
+    body.addColorStop(1, "#121E34");
     ctx.fillStyle = body;
-    roundRect(-w / 2, -h / 2, w, h, 14);
+    roundRect(-w * 0.42, -h * 0.28, w * 0.84, h * 0.78, 16);
     ctx.fill();
 
-    // pocket
-    ctx.fillStyle = "#8B3E14";
-    roundRect(-w * 0.28, -4, w * 0.56, h * 0.42, 8);
+    // orange side accents / compression panels
+    ctx.fillStyle = "#FF7A18";
+    roundRect(-w * 0.42, -h * 0.08, w * 0.1, h * 0.42, 6);
+    roundRect(w * 0.32, -h * 0.08, w * 0.1, h * 0.42, 6);
     ctx.fill();
 
-    ctx.fillStyle = "#FFD166";
+    // mesh side pockets
+    ctx.fillStyle = "rgba(140, 190, 255, 0.22)";
+    roundRect(-w * 0.5, h * 0.02, w * 0.12, h * 0.32, 5);
+    roundRect(w * 0.38, h * 0.02, w * 0.12, h * 0.32, 5);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,0.25)";
+    ctx.lineWidth = 1.5;
+    roundRect(-w * 0.5, h * 0.02, w * 0.12, h * 0.32, 5);
+    ctx.stroke();
+    roundRect(w * 0.38, h * 0.02, w * 0.12, h * 0.32, 5);
+    ctx.stroke();
+
+    // front stretch pocket
+    ctx.fillStyle = "rgba(90, 130, 190, 0.35)";
+    roundRect(-w * 0.28, h * 0.02, w * 0.56, h * 0.28, 10);
+    ctx.fill();
+    ctx.strokeStyle = "#FF8A2A";
+    ctx.lineWidth = 2;
+    roundRect(-w * 0.28, h * 0.02, w * 0.56, h * 0.28, 10);
+    ctx.stroke();
+
+    // zipper U suggestion
+    ctx.strokeStyle = "rgba(255,255,255,0.35)";
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(0, 8, 4, 0, Math.PI * 2);
+    ctx.moveTo(-w * 0.22, -h * 0.12);
+    ctx.quadraticCurveTo(0, h * 0.18, w * 0.22, -h * 0.12);
+    ctx.stroke();
+
+    // lid (open upward for catch mouth)
+    const lid = ctx.createLinearGradient(0, -h * 0.55, 0, -h * 0.15);
+    lid.addColorStop(0, "#FF9A3C");
+    lid.addColorStop(1, "#E85D00");
+    ctx.fillStyle = lid;
+    roundRect(-w * 0.36, -h * 0.58, w * 0.72, h * 0.28, 12);
     ctx.fill();
 
-    // open mouth glow
-    ctx.fillStyle = "rgba(4, 24, 51, 0.35)";
-    roundRect(-w * 0.34, -h / 2 + 2, w * 0.68, 12, 6);
+    // lid buckle
+    ctx.fillStyle = "#1B2740";
+    roundRect(-8, -h * 0.36, 16, 10, 3);
     ctx.fill();
+    ctx.fillStyle = "#FFD166";
+    ctx.fillRect(-3, -h * 0.34, 6, 6);
+
+    // open mouth (catch opening)
+    const mouthGlow = catchGlow > 0 ? 0.55 + catchGlow * 0.45 : 0.35;
+    ctx.fillStyle = `rgba(4, 16, 36, ${0.75})`;
+    roundRect(-w * 0.3, -h * 0.34, w * 0.6, h * 0.16, 8);
+    ctx.fill();
+    ctx.strokeStyle = `rgba(255, 170, 70, ${mouthGlow})`;
+    ctx.lineWidth = 3;
+    roundRect(-w * 0.3, -h * 0.34, w * 0.6, h * 0.16, 8);
+    ctx.stroke();
+
+    // bottom compartment seam
+    ctx.strokeStyle = "rgba(255,122,24,0.55)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-w * 0.34, h * 0.32);
+    ctx.lineTo(w * 0.34, h * 0.32);
+    ctx.stroke();
+
+    // tiny brand-free label patch
+    ctx.fillStyle = "rgba(255,255,255,0.12)";
+    roundRect(-18, -h * 0.02, 36, 12, 4);
+    ctx.fill();
+    ctx.fillStyle = "#FF9A3C";
+    ctx.font = "bold 8px Manrope, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("SDZ", 0, 7);
 
     ctx.restore();
 
-    // catch zone hint
-    ctx.strokeStyle = "rgba(255,209,102,0.25)";
-    ctx.setLineDash([6, 6]);
-    ctx.strokeRect(left + 8, top - 6, w - 16, 10);
-    ctx.setLineDash([]);
+    // catch aura
+    if (catchGlow > 0) {
+      ctx.save();
+      ctx.strokeStyle = `rgba(255, 154, 60, ${catchGlow * 0.7})`;
+      ctx.lineWidth = 3;
+      ctx.shadowColor = "rgba(255, 122, 24, 0.8)";
+      ctx.shadowBlur = 18;
+      roundRect(x - w * 0.32, y - h * 0.42, w * 0.64, 18, 8);
+      ctx.stroke();
+      ctx.restore();
+    }
   }
 
   function roundRect(x, y, w, h, r) {
@@ -329,10 +441,10 @@
 
   function catchBox() {
     return {
-      x: pack.x - pack.w * 0.38,
-      y: pack.y - pack.h * 0.55,
-      w: pack.w * 0.76,
-      h: pack.h * 0.45,
+      x: pack.x - pack.w * 0.3,
+      y: pack.y - pack.h * 0.42,
+      w: pack.w * 0.6,
+      h: pack.h * 0.28,
     };
   }
 
@@ -368,6 +480,7 @@
 
       if (hit) {
         score += 1;
+        catchGlow = 1;
         if (score > best) {
           best = score;
           localStorage.setItem(BEST_KEY, String(best));
@@ -391,6 +504,7 @@
     }
     items = next;
     if (flash > 0) flash = Math.max(0, flash - dt);
+    if (catchGlow > 0) catchGlow = Math.max(0, catchGlow - dt * 2.2);
   }
 
   function endGame() {
