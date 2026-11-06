@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=38" />
+  <link rel="stylesheet" href="css/styles.css?v=39" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -48,13 +48,19 @@
   </div>
 
   <header class="topbar">
-    <div class="brand-cluster">
-      <a class="brand-mark" href="#home" data-nav="home">
-        <img src="assets/logo.png" alt="Saia da Zona" class="logo" width="148" height="56" />
-      </a>
-      <div class="brand-info">
-        <p class="brand-info-years">3 anos</p>
+    <div class="topbar-main">
+      <div class="brand-cluster">
+        <a class="brand-mark" href="#home" data-nav="home">
+          <img src="assets/logo.png" alt="Saia da Zona" class="logo" width="148" height="56" />
+        </a>
+        <div class="brand-info">
+          <p class="brand-info-years">3 anos</p>
+        </div>
       </div>
+      <aside id="weather-box" class="weather-box" aria-label="Previsão do tempo em Ibiúna">
+        <p class="weather-place">Ibiúna — SP</p>
+        <p class="weather-now">Carregando…</p>
+      </aside>
     </div>
     <nav class="nav">
       <button type="button" data-nav="home">Início</button>
@@ -238,11 +244,12 @@
     <span>Saia da Zona · 3 anos</span>
   </footer>
 
-  <script src="js/config.js?v=38"></script>
-  <script src="js/questions.js?v=38"></script>
-  <script src="js/countdown.js?v=38"></script>
-  <script src="js/trail-game.js?v=38"></script>
-  <script src="js/pack-game.js?v=38"></script>
-  <script src="js/app.js?v=38"></script>
+  <script src="js/config.js?v=39"></script>
+  <script src="js/questions.js?v=39"></script>
+  <script src="js/countdown.js?v=39"></script>
+  <script src="js/weather.js?v=39"></script>
+  <script src="js/trail-game.js?v=39"></script>
+  <script src="js/pack-game.js?v=39"></script>
+  <script src="js/app.js?v=39"></script>
 </body>
 </html>
