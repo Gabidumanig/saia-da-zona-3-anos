@@ -21,8 +21,9 @@
   const scoreEl = document.getElementById("trail-score");
   const bestEl = document.getElementById("trail-best");
   const avatarGrid = document.getElementById("avatar-grid");
+  const avatarStatus = document.getElementById("avatar-status");
 
-  if (!canvas || !overlay || !startBtn) return;
+  if (!canvas || !overlay || !startBtn || !avatarGrid) return;
 
   const ctx = canvas.getContext("2d");
   let running = false;
@@ -77,7 +78,6 @@
   }
 
   function renderAvatarGrid() {
-    if (!avatarGrid) return;
     avatarGrid.innerHTML = "";
     AVATARS.forEach((avatar) => {
       const btn = document.createElement("button");
@@ -86,16 +86,19 @@
       btn.setAttribute("role", "option");
       btn.setAttribute("aria-label", avatar.name);
       if (selectedAvatarId === avatar.id) btn.classList.add("is-selected");
-      btn.innerHTML = `<strong>${avatar.name}</strong><img src="${avatar.src}" alt="" loading="lazy" />`;
+      btn.innerHTML = `<strong>${avatar.name}</strong><img src="${avatar.src}" alt="${avatar.name}" width="96" height="112" />`;
       btn.addEventListener("click", () => {
         setAvatar(avatar.id);
         renderAvatarGrid();
-        if (!alive) {
-          showOverlay(`Vamos com ${avatar.name}!`, "Começar");
-        }
+        if (avatarStatus) avatarStatus.textContent = `Avatar selecionado: ${avatar.name}. Agora toque em Começar.`;
+        if (!alive) showOverlay(`Vamos com ${avatar.name}!`, "Começar");
       });
       avatarGrid.appendChild(btn);
     });
+
+    if (avatarStatus && !selectedAvatarId) {
+      avatarStatus.textContent = "Toque em um avatar para selecionar.";
+    }
   }
 
   function resize() {

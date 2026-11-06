@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=6" />
+  <link rel="stylesheet" href="css/styles.css?v=7" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -37,7 +37,7 @@
       <button type="button" data-nav="home">Início</button>
       <button type="button" data-nav="teams">Times</button>
       <button type="button" data-nav="quiz">Quiz</button>
-      <button type="button" data-nav="trail">Trilha</button>
+      <button type="button" data-nav="trail">Joguinho</button>
       <button type="button" data-nav="scoreboard">Placar</button>
     </nav>
   </header>
@@ -67,7 +67,7 @@
         </div>
         <div class="hero-actions">
           <button type="button" class="btn btn-primary" data-nav="teams">Informar time</button>
-          <button type="button" class="btn btn-ghost" data-nav="quiz">Abrir Quiz</button>
+          <button type="button" class="btn btn-ghost" data-nav="trail">Abrir Joguinho</button>
         </div>
       </div>
     </section>
@@ -132,11 +132,11 @@
     </section>
 
     <!-- TRAIL GAME -->
-    <section id="view-trail" class="view" hidden aria-label="Trilha">
+    <section id="view-trail" class="view" hidden aria-label="Joguinho">
       <div class="panel panel-trail">
         <div class="quiz-head">
           <div>
-            <p class="eyebrow">Mini jogo</p>
+            <p class="eyebrow">Joguinho</p>
             <h2>Trilha do Saia da Zona</h2>
           </div>
           <div class="quiz-meta">
@@ -144,13 +144,18 @@
             <span id="trail-best" class="chip chip-soft">Recorde 0 m</span>
           </div>
         </div>
-        <p class="lede trail-hint">Escolha o bonequinho, depois toque para pular. Desvie de pedras, cobras, chuva e a cachoeira!</p>
-        <p class="avatar-label">Escolha o seu avatar</p>
-        <div class="avatar-grid" id="avatar-grid" role="listbox" aria-label="Avatares da trilha"></div>
+
+        <div class="avatar-picker">
+          <p class="avatar-label">1. Escolha o seu bonequinho</p>
+          <div class="avatar-grid" id="avatar-grid" role="listbox" aria-label="Avatares do joguinho"></div>
+          <p class="status-line" id="avatar-status">Toque em um avatar para selecionar.</p>
+        </div>
+
+        <p class="lede trail-hint">2. Depois toque na tela para pular. Desvie de pedras, cobras, chuva e a cachoeira!</p>
         <div class="trail-stage">
           <canvas id="trail-canvas" width="900" height="360" aria-label="Joguinho da trilha"></canvas>
           <div id="trail-overlay" class="trail-overlay">
-            <p id="trail-message">Trilha do Saia da Zona</p>
+            <p id="trail-message">Escolha um avatar acima</p>
             <button type="button" class="btn btn-primary" id="trail-start">Começar</button>
           </div>
         </div>
@@ -175,9 +180,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js?v=6"></script>
-  <script src="js/questions.js?v=6"></script>
-  <script src="js/trail-game.js?v=6"></script>
-  <script src="js/app.js?v=6"></script>
+  <script src="js/config.js?v=7"></script>
+  <script src="js/questions.js?v=7"></script>
+  <script src="js/trail-game.js?v=7"></script>
+  <script src="js/app.js?v=7"></script>
 </body>
 </html>
