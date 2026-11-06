@@ -521,16 +521,18 @@ main,
   border: 0;
   background: transparent;
   color: var(--muted);
-  font: 600 0.9rem/1.1 var(--font-body);
+  font: 600 0.9rem/1.15 var(--font-body);
   padding: 0.7rem 0.95rem;
   border-radius: 999px;
   cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+  transition: color 0.2s ease, background 0.2s ease;
   min-height: 44px;
+  text-align: left;
 }
 
 .nav-ico {
   display: none;
+  flex: 0 0 auto;
   line-height: 0;
 }
 
@@ -538,8 +540,8 @@ main,
   display: block;
 }
 
-.nav-short {
-  display: none;
+.nav-label {
+  display: inline;
 }
 
 .nav button:hover,
@@ -1385,70 +1387,79 @@ main,
 
 @media (max-width: 720px) {
   body {
-    padding-bottom: calc(4.6rem + env(safe-area-inset-bottom));
+    padding-left: calc(9.6rem + env(safe-area-inset-left));
   }
 
   .topbar {
-    padding-bottom: 0.35rem;
+    max-width: none;
+    margin: 0;
+    padding: 0.85rem 0.85rem 0.85rem 0;
+    gap: 0;
   }
 
   .topbar-main {
     align-items: flex-start;
+    padding-left: 0.85rem;
   }
 
   .topbar .nav {
     position: fixed;
+    top: 0;
     left: 0;
-    right: 0;
     bottom: 0;
     z-index: 80;
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 0.15rem;
+    width: 9.6rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 0.35rem;
     margin: 0;
-    padding: 0.4rem 0.35rem calc(0.4rem + env(safe-area-inset-bottom));
-    border-top: 1px solid rgba(120, 190, 255, 0.22);
+    padding: 5.5rem 0.45rem calc(0.85rem + env(safe-area-inset-bottom)) 0.45rem;
+    border-right: 1px solid rgba(120, 190, 255, 0.22);
     background:
-      linear-gradient(180deg, rgba(8, 28, 58, 0.92) 0%, rgba(4, 18, 40, 0.98) 100%);
+      linear-gradient(180deg, rgba(8, 28, 58, 0.96) 0%, rgba(4, 18, 40, 0.98) 100%);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 -10px 30px rgba(2, 10, 28, 0.35);
+    box-shadow: 10px 0 28px rgba(2, 10, 28, 0.28);
+    overflow-y: auto;
   }
 
   .topbar .nav button {
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.22rem;
     width: 100%;
-    min-height: 3.35rem;
-    padding: 0.4rem 0.15rem;
+    min-height: 3.1rem;
+    padding: 0.65rem 0.55rem;
     border-radius: 14px;
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.01em;
+    line-height: 1.2;
+    gap: 0.4rem;
+    align-items: flex-start;
   }
 
   .topbar .nav .nav-ico {
     display: block;
-    opacity: 0.85;
+    margin-top: 0.1rem;
+    opacity: 0.9;
   }
 
-  .topbar .nav button.is-active .nav-ico {
-    opacity: 1;
-    color: #9ec5ff;
-  }
-
-  .topbar .nav .nav-full {
-    display: none;
-  }
-
-  .topbar .nav .nav-short {
-    display: inline;
+  .topbar .nav .nav-label {
+    white-space: normal;
   }
 
   .topbar .nav button.is-active {
-    background: rgba(26, 107, 255, 0.28);
+    background: rgba(26, 107, 255, 0.3);
+    color: #fff;
     box-shadow: none;
+  }
+
+  .topbar .nav button.is-active .nav-ico {
+    color: #9ec5ff;
+  }
+
+  .view {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
   }
 
   .weather-box {
