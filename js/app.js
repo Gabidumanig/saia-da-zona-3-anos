@@ -12,6 +12,7 @@
   const els = {
     views: {
       home: document.getElementById("view-home"),
+      infos: document.getElementById("view-infos"),
       quiz: document.getElementById("view-quiz"),
       trail: document.getElementById("view-trail"),
       pack: document.getElementById("view-pack"),
