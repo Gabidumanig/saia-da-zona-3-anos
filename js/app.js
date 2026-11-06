@@ -7,12 +7,12 @@
   ];
 
   const AVATARS = [
-    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi.jpg" },
-    { id: "caio", name: "Caio", src: "assets/avatars/caio.jpg" },
-    { id: "franz", name: "Franz", src: "assets/avatars/franz.jpg" },
-    { id: "jin", name: "Jin", src: "assets/avatars/jin.jpg" },
-    { id: "diego", name: "Diego", src: "assets/avatars/diego.jpg" },
-    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus.jpg" },
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi.svg" },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio.svg" },
+    { id: "franz", name: "Franz", src: "assets/avatars/franz.svg" },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin.svg" },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego.svg" },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus.svg" },
   ];
 
   const STORAGE_KEY = "sdz3_participant";
@@ -140,7 +140,7 @@
       btn.setAttribute("role", "option");
       btn.setAttribute("aria-label", avatar.name);
       if (selectedAvatarId === avatar.id) btn.classList.add("is-selected");
-      btn.innerHTML = `<img src="${avatar.src}" alt="${avatar.name}" loading="lazy" /><strong>${avatar.name}</strong>`;
+      btn.innerHTML = `<strong>${avatar.name}</strong><img src="${avatar.src}" alt="" loading="lazy" />`;
       btn.addEventListener("click", () => {
         selectedAvatarId = avatar.id;
         renderAvatars();

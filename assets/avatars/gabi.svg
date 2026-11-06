@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
+  <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
+  <!-- hair back -->
+  <path d="M28 58c2 34 10 48 20 52 4-16 8-28 12-34 4 8 8 20 12 34 10-4 18-18 20-52-8-28-48-28-64 0z" fill="#E8C56A"/>
+  <!-- body pink -->
+  <rect x="42" y="78" width="36" height="34" rx="12" fill="#FF7AAF"/>
+  <rect x="46" y="84" width="28" height="8" rx="3" fill="#FFD0E4"/>
+  <!-- backpack -->
+  <rect x="30" y="80" width="14" height="26" rx="4" fill="#C45C26"/>
+  <rect x="32" y="84" width="10" height="5" rx="1" fill="#8B3E14"/>
+  <!-- head -->
+  <circle cx="60" cy="52" r="24" fill="#F2C7A4"/>
+  <!-- bangs + headband -->
+  <path d="M38 48c4-18 40-18 44 0v6H38z" fill="#E8C56A"/>
+  <rect x="36" y="42" width="48" height="8" rx="3" fill="#1A1A1A"/>
+  <circle cx="44" cy="46" r="2" fill="#C0C0C0"/>
+  <circle cx="60" cy="46" r="2" fill="#C0C0C0"/>
+  <circle cx="76" cy="46" r="2" fill="#C0C0C0"/>
+  <!-- face -->
+  <circle cx="52" cy="54" r="2.2" fill="#2A2A2A"/>
+  <circle cx="68" cy="54" r="2.2" fill="#2A2A2A"/>
+  <path d="M54 64c3 4 9 4 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
+  <!-- arms/legs -->
+  <path d="M42 88c-8 6-10 14-8 20" stroke="#F2C7A4" stroke-width="5" stroke-linecap="round"/>
+  <path d="M78 88c8 6 10 14 8 20" stroke="#F2C7A4" stroke-width="5" stroke-linecap="round"/>
+  <path d="M50 110v16M70 110v16" stroke="#2A2A2A" stroke-width="5" stroke-linecap="round"/>
+</svg>

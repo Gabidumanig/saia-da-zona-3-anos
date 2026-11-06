@@ -587,28 +587,31 @@ main,
   box-shadow: 0 0 0 2px rgba(26, 107, 255, 0.55);
 }
 
-.avatar-card img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
 .avatar-card strong {
   display: block;
-  margin-top: 0.4rem;
-  font-size: 0.85rem;
+  margin: 0.15rem 0 0.35rem;
+  font-size: 0.92rem;
   text-align: center;
   font-family: var(--font-display);
   letter-spacing: -0.02em;
+}
+
+.avatar-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 120 / 140;
+  object-fit: contain;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(107, 163, 255, 0.22), rgba(4, 24, 51, 0.35));
+  padding: 0.25rem;
 }
 
 .avatar-badge {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.12);
   border: 2px solid rgba(255, 255, 255, 0.55);
   margin-right: 0.4rem;
   vertical-align: middle;
