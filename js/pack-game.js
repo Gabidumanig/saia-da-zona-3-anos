@@ -17,7 +17,7 @@
   const H = canvas.height;
 
   const ITEM_TYPES = [
-    { id: "barraca", label: "Barraca", color: "#3DDC97" },
+    { id: "barraca", label: "Barraca", color: "#1E4BA1", sprite: "barraca" },
     { id: "garrafa", label: "Garrafa", color: "#00C2FF" },
     { id: "bussola", label: "Bússola", color: "#FFD166" },
     { id: "bota", label: "Bota", color: "#C45C26", sprite: "bota" },
@@ -151,6 +151,7 @@
   loadItemSprite("pepino", "assets/game/pepino.png", { punch: false });
   loadItemSprite("bota", "assets/game/bota.png", { punch: false });
   loadItemSprite("shit-tube", "assets/game/shit-tube-v2.png", { punch: false });
+  loadItemSprite("barraca", "assets/game/barraca.png", { punch: false });
 
   function updateHud() {
     if (scoreEl) scoreEl.textContent = `${score} itens`;
