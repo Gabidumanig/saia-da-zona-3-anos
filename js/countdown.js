@@ -40,7 +40,7 @@
       els.hours.textContent = "00";
       els.mins.textContent = "00";
       els.secs.textContent = "00";
-      if (els.live) els.live.textContent = "se você não for só você não vai";
+      if (els.live) els.live.textContent = "Se você não for, só você não vai!";
       if (els.grid) els.grid.classList.add("is-live");
       return;
     }
@@ -57,7 +57,7 @@
     setValue(els.secs, secs);
 
     if (els.live) {
-      els.live.textContent = "se você não for só você não vai";
+      els.live.textContent = "Se você não for, só você não vai!";
     }
   }
 
