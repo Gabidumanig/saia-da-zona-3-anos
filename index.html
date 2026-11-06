@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=61" />
+  <link rel="stylesheet" href="css/styles.css?v=62" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -66,7 +66,6 @@
     <nav class="nav">
       <button type="button" data-nav="home">Início</button>
       <button type="button" data-nav="infos">Infos</button>
-      <button type="button" data-nav="ranking">Ranking</button>
       <button type="button" data-nav="quiz">Quiz SDZ</button>
       <button type="button" data-nav="trail">Game: Trilha com o Líder</button>
       <button type="button" data-nav="pack">Game: Cargueira</button>
@@ -142,44 +141,10 @@
         </div>
         <div class="hero-actions">
           <button type="button" class="btn btn-primary" data-nav="infos">Infos importantes</button>
-          <button type="button" class="btn btn-ghost" data-nav="ranking">Ver ranking</button>
           <button type="button" class="btn btn-ghost" data-nav="quiz">Jogar Quiz SDZ</button>
           <button type="button" class="btn btn-ghost" data-nav="trail">Game: Trilha com o Líder</button>
           <button type="button" class="btn btn-ghost" data-nav="pack">Game: Cargueira</button>
         </div>
-      </div>
-    </section>
-
-    <!-- RANKING -->
-    <section id="view-ranking" class="view" hidden aria-label="Ranking online">
-      <div class="panel panel-ranking">
-        <div class="quiz-head">
-          <div>
-            <p class="eyebrow">Placar ao vivo</p>
-            <h2>Ranking Níver SZ</h2>
-          </div>
-          <span id="ranking-status" class="chip chip-soft">…</span>
-        </div>
-        <p class="lede">Quem está mandando melhor no Quiz, na Trilha e na Cargueira.</p>
-
-        <form id="ranking-name-form" class="ranking-name-form" action="#">
-          <label for="ranking-name-input">Seu nome no ranking</label>
-          <div class="ranking-name-row">
-            <input id="ranking-name-input" type="text" maxlength="24" minlength="2"
-              autocomplete="nickname" inputmode="text" enterkeyhint="done"
-              placeholder="Digite seu nome" required />
-            <button type="submit" class="btn btn-primary">Salvar</button>
-          </div>
-          <p id="ranking-name-hint" class="ranking-name-hint">Salva o nome pra aparecer no placar depois do Quiz e dos jogos.</p>
-        </form>
-
-        <div class="rank-tabs" role="tablist">
-          <button type="button" class="rank-tab is-active" data-rank-tab="geral">Geral</button>
-          <button type="button" class="rank-tab" data-rank-tab="quiz">Quiz</button>
-          <button type="button" class="rank-tab" data-rank-tab="trail">Trilha</button>
-          <button type="button" class="rank-tab" data-rank-tab="pack">Cargueira</button>
-        </div>
-        <div id="ranking-list" class="ranking-list" aria-live="polite"></div>
       </div>
     </section>
 
@@ -275,6 +240,17 @@
           </div>
         </div>
 
+        <form class="game-name-form" data-game-name="quiz" action="#">
+          <label for="name-input-quiz">Seu nome</label>
+          <div class="ranking-name-row">
+            <input id="name-input-quiz" type="text" maxlength="24" minlength="2"
+              autocomplete="name" inputmode="text" enterkeyhint="done"
+              placeholder="Digite seu nome pra entrar no placar" required />
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+          <p class="ranking-name-hint" data-name-hint>Coloca teu nome antes de jogar.</p>
+        </form>
+
         <div id="quiz-board" class="quiz-board">
           <p class="question-label" id="question-label">Pergunta 1</p>
           <h3 class="question-text" id="question-text"></h3>
@@ -291,6 +267,14 @@
           <p class="quiz-score" id="quiz-score">0 / 8</p>
           <p id="quiz-summary"></p>
           <button type="button" class="btn btn-primary" id="play-again">Jogar novamente</button>
+        </div>
+
+        <div class="game-board" data-board="quiz">
+          <div class="game-board-head">
+            <h3>Placar do Quiz</h3>
+            <span class="chip chip-soft" data-board-status>…</span>
+          </div>
+          <div class="ranking-list" data-board-list aria-live="polite"></div>
         </div>
       </div>
     </section>
@@ -309,6 +293,17 @@
           </div>
         </div>
 
+        <form class="game-name-form" data-game-name="trail" action="#">
+          <label for="name-input-trail">Seu nome</label>
+          <div class="ranking-name-row">
+            <input id="name-input-trail" type="text" maxlength="24" minlength="2"
+              autocomplete="name" inputmode="text" enterkeyhint="done"
+              placeholder="Digite seu nome pra entrar no placar" required />
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+          <p class="ranking-name-hint" data-name-hint>Coloca teu nome antes de jogar.</p>
+        </form>
+
         <div class="avatar-picker">
           <p class="avatar-label">1. Escolha o seu Líder</p>
           <div class="avatar-grid" id="avatar-grid" role="listbox" aria-label="Avatares do joguinho"></div>
@@ -322,6 +317,14 @@
             <p id="trail-message">Escolha um avatar acima</p>
             <button type="button" class="btn btn-primary" id="trail-start">Começar</button>
           </div>
+        </div>
+
+        <div class="game-board" data-board="trail">
+          <div class="game-board-head">
+            <h3>Placar da Trilha</h3>
+            <span class="chip chip-soft" data-board-status>…</span>
+          </div>
+          <div class="ranking-list" data-board-list aria-live="polite"></div>
         </div>
       </div>
     </section>
@@ -341,6 +344,17 @@
           </div>
         </div>
 
+        <form class="game-name-form" data-game-name="pack" action="#">
+          <label for="name-input-pack">Seu nome</label>
+          <div class="ranking-name-row">
+            <input id="name-input-pack" type="text" maxlength="24" minlength="2"
+              autocomplete="name" inputmode="text" enterkeyhint="done"
+              placeholder="Digite seu nome pra entrar no placar" required />
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+          <p class="ranking-name-hint" data-name-hint>Coloca teu nome antes de jogar.</p>
+        </form>
+
         <p class="lede pack-hint">
           Arraste ou use ← → para mover a mochila Galapagos. Pegue barraca, garrafa, bússola, bota, pepino, patê de atum, shit tube e o resto do kit.
           Se deixar passar 3 coisas, a cargueira não fecha!
@@ -353,6 +367,14 @@
             <button type="button" class="btn btn-primary" id="pack-start">Começar</button>
           </div>
         </div>
+
+        <div class="game-board" data-board="pack">
+          <div class="game-board-head">
+            <h3>Placar da Cargueira</h3>
+            <span class="chip chip-soft" data-board-status>…</span>
+          </div>
+          <div class="ranking-list" data-board-list aria-live="polite"></div>
+        </div>
       </div>
     </section>
 
@@ -362,31 +384,14 @@
     <span>Saia da Zona · 3 anos</span>
   </footer>
 
-  <div id="name-modal" class="name-modal" hidden>
-    <div class="name-modal-card" role="dialog" aria-modal="true" aria-labelledby="name-modal-title">
-      <p class="eyebrow">Antes de começar</p>
-      <h3 id="name-modal-title">Qual é o seu nome?</h3>
-      <p class="name-modal-lede">Esse nome aparece no ranking online do Níver SZ.</p>
-      <form id="name-form" action="#">
-        <label class="name-label" for="name-input">Seu nome</label>
-        <input id="name-input" name="player_name" type="text" maxlength="24" minlength="2"
-          autocomplete="name" inputmode="text" enterkeyhint="done"
-          placeholder="Ex.: Gabi" required
-          style="-webkit-user-select:text;user-select:text;pointer-events:auto;font-size:16px;" />
-        <p id="name-error" class="name-error" hidden>Digite pelo menos 2 letras.</p>
-        <button type="submit" id="name-submit" class="btn btn-primary">Salvar e continuar</button>
-      </form>
-    </div>
-  </div>
-
-  <script src="js/config.js?v=61"></script>
-  <script src="js/player.js?v=61"></script>
-  <script src="js/questions.js?v=61"></script>
-  <script src="js/countdown.js?v=61"></script>
-  <script src="js/weather.js?v=61"></script>
-  <script src="js/trail-game.js?v=61"></script>
-  <script src="js/pack-game.js?v=61"></script>
-  <script src="js/app.js?v=61"></script>
-  <script src="js/ranking.js?v=61"></script>
+  <script src="js/config.js?v=62"></script>
+  <script src="js/player.js?v=62"></script>
+  <script src="js/questions.js?v=62"></script>
+  <script src="js/countdown.js?v=62"></script>
+  <script src="js/weather.js?v=62"></script>
+  <script src="js/trail-game.js?v=62"></script>
+  <script src="js/pack-game.js?v=62"></script>
+  <script src="js/app.js?v=62"></script>
+  <script src="js/ranking.js?v=62"></script>
 </body>
 </html>

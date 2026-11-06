@@ -551,6 +551,10 @@
   }
 
   function startGame() {
+    if (window.SDZ_RANKING?.requireName && !window.SDZ_RANKING.requireName("pack")) {
+      showOverlay("Salva teu nome acima pra jogar", true);
+      return;
+    }
     resetRound();
     hideOverlay();
     running = true;

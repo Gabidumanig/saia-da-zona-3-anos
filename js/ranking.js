@@ -1,72 +1,17 @@
 (() => {
-  const listEl = document.getElementById("ranking-list");
-  const statusEl = document.getElementById("ranking-status");
-  const tabs = document.querySelectorAll("[data-rank-tab]");
-  const nameForm = document.getElementById("ranking-name-form");
-  const nameInput = document.getElementById("ranking-name-input");
-  const nameHint = document.getElementById("ranking-name-hint");
-  if (!listEl) return;
+  const SCORE_KEY = {
+    quiz: "quiz_best",
+    trail: "trail_best",
+    pack: "pack_best",
+  };
 
-  let mode = "geral";
+  const UNIT = {
+    quiz: (n) => `${n} pts`,
+    trail: (n) => `${n} m`,
+    pack: (n) => `${n} itens`,
+  };
+
   let rows = [];
-
-  function totalOf(row) {
-    return (row.quiz_best || 0) + (row.trail_best || 0) + (row.pack_best || 0);
-  }
-
-  function sortRows() {
-    const copy = [...rows];
-    if (mode === "quiz") copy.sort((a, b) => (b.quiz_best || 0) - (a.quiz_best || 0));
-    else if (mode === "trail") copy.sort((a, b) => (b.trail_best || 0) - (a.trail_best || 0));
-    else if (mode === "pack") copy.sort((a, b) => (b.pack_best || 0) - (a.pack_best || 0));
-    else copy.sort((a, b) => totalOf(b) - totalOf(a));
-    return copy.filter((r) => {
-      if (mode === "quiz") return (r.quiz_best || 0) > 0;
-      if (mode === "trail") return (r.trail_best || 0) > 0;
-      if (mode === "pack") return (r.pack_best || 0) > 0;
-      return totalOf(r) > 0;
-    });
-  }
-
-  function scoreLabel(row) {
-    if (mode === "quiz") return `${row.quiz_best} pts`;
-    if (mode === "trail") return `${row.trail_best} m`;
-    if (mode === "pack") return `${row.pack_best} itens`;
-    return `${totalOf(row)} pts`;
-  }
-
-  function syncNameField() {
-    if (!nameInput) return;
-    const me = window.SDZ_PLAYER?.getName?.() || "";
-    if (me && nameInput.value !== me) nameInput.value = me;
-    if (nameHint) {
-      nameHint.textContent = me
-        ? `Jogando como ${me}. Pode trocar o nome quando quiser.`
-        : "Salva o nome pra aparecer no placar depois do Quiz e dos jogos.";
-      nameHint.classList.toggle("is-ok", Boolean(me));
-    }
-  }
-
-  function render() {
-    const me = window.SDZ_PLAYER?.getName?.() || "";
-    const sorted = sortRows().slice(0, 30);
-    if (!sorted.length) {
-      listEl.innerHTML = `<p class="ranking-empty">Ainda sem placar. Salva teu nome acima e joga o Quiz, a Trilha ou a Cargueira!</p>`;
-      return;
-    }
-    listEl.innerHTML = sorted
-      .map((row, i) => {
-        const isMe = me && row.player_name === me;
-        return `
-          <div class="rank-row${isMe ? " is-me" : ""}${i === 0 ? " is-lead" : ""}">
-            <span class="rank-pos">${i + 1}º</span>
-            <strong class="rank-name">${escapeHtml(row.player_name)}</strong>
-            <span class="rank-score">${scoreLabel(row)}</span>
-          </div>
-        `;
-      })
-      .join("");
-  }
 
   function escapeHtml(str) {
     return String(str)
@@ -76,49 +21,114 @@
       .replace(/"/g, "&quot;");
   }
 
-  async function refresh() {
-    if (statusEl) statusEl.textContent = "Atualizando…";
-    rows = (await window.SDZ_PLAYER?.fetchLeaderboard?.()) || [];
-    if (statusEl) {
-      statusEl.textContent = window.SDZ_PLAYER?.online
-        ? `${rows.length} jogador${rows.length === 1 ? "" : "es"} online`
-        : "Ranking offline";
-    }
-    syncNameField();
-    render();
+  function scoreOf(row, game) {
+    return Number(row[SCORE_KEY[game]] || 0);
   }
 
-  if (nameForm && nameInput) {
-    nameForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const ok = window.SDZ_PLAYER?.setName?.(nameInput.value);
-      if (!ok) {
-        if (nameHint) {
-          nameHint.textContent = "Digite pelo menos 2 letras.";
-          nameHint.classList.remove("is-ok");
-        }
-        nameInput.focus();
-        return;
+  function renderBoard(game) {
+    const root = document.querySelector(`.game-board[data-board="${game}"]`);
+    if (!root) return;
+    const listEl = root.querySelector("[data-board-list]");
+    const statusEl = root.querySelector("[data-board-status]");
+    const me = window.SDZ_PLAYER?.getName?.() || "";
+    const sorted = [...rows]
+      .filter((r) => scoreOf(r, game) > 0)
+      .sort((a, b) => scoreOf(b, game) - scoreOf(a, game))
+      .slice(0, 30);
+
+    if (statusEl) {
+      statusEl.textContent = window.SDZ_PLAYER?.online
+        ? `${sorted.length} no placar`
+        : "Placar offline";
+    }
+
+    if (!listEl) return;
+    if (!sorted.length) {
+      listEl.innerHTML = `<p class="ranking-empty">Ninguém jogou ainda. Seja o primeiro!</p>`;
+      return;
+    }
+
+    listEl.innerHTML = sorted
+      .map((row, i) => {
+        const isMe = me && row.player_name === me;
+        return `
+          <div class="rank-row${isMe ? " is-me" : ""}${i === 0 ? " is-lead" : ""}">
+            <span class="rank-pos">${i + 1}º</span>
+            <strong class="rank-name">${escapeHtml(row.player_name)}</strong>
+            <span class="rank-score">${UNIT[game](scoreOf(row, game))}</span>
+          </div>
+        `;
+      })
+      .join("");
+  }
+
+  function syncNameForms() {
+    const me = window.SDZ_PLAYER?.getName?.() || "";
+    document.querySelectorAll(".game-name-form").forEach((form) => {
+      const input = form.querySelector("input");
+      const hint = form.querySelector("[data-name-hint]");
+      if (input && me && input.value !== me) input.value = me;
+      if (hint) {
+        hint.textContent = me
+          ? `Jogando como ${me}`
+          : "Coloca teu nome antes de jogar.";
+        hint.classList.toggle("is-ok", Boolean(me));
       }
-      syncNameField();
-      render();
     });
   }
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      mode = tab.getAttribute("data-rank-tab");
-      tabs.forEach((t) => t.classList.toggle("is-active", t === tab));
-      render();
+  function focusNameInView(viewName) {
+    const map = { quiz: "name-input-quiz", trail: "name-input-trail", pack: "name-input-pack" };
+    const input = document.getElementById(map[viewName]);
+    if (!input) return;
+    input.focus();
+    const form = input.closest(".game-name-form");
+    const hint = form?.querySelector("[data-name-hint]");
+    if (hint) {
+      hint.textContent = "Digite e salve teu nome pra jogar.";
+      hint.classList.remove("is-ok");
+    }
+  }
+
+  function requireName(viewName) {
+    const name = window.SDZ_PLAYER?.getName?.() || "";
+    if (name) return true;
+    focusNameInView(viewName);
+    return false;
+  }
+
+  async function refresh() {
+    rows = (await window.SDZ_PLAYER?.fetchLeaderboard?.()) || [];
+    syncNameForms();
+    ["quiz", "trail", "pack"].forEach(renderBoard);
+  }
+
+  document.querySelectorAll(".game-name-form").forEach((form) => {
+    const input = form.querySelector("input");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const ok = window.SDZ_PLAYER?.setName?.(input?.value || "");
+      const hint = form.querySelector("[data-name-hint]");
+      if (!ok) {
+        if (hint) {
+          hint.textContent = "Digite pelo menos 2 letras.";
+          hint.classList.remove("is-ok");
+        }
+        input?.focus();
+        return;
+      }
+      syncNameForms();
+      ["quiz", "trail", "pack"].forEach(renderBoard);
     });
   });
 
   window.addEventListener("sdz-score-updated", refresh);
   window.addEventListener("sdz-name-updated", () => {
-    syncNameField();
-    render();
+    syncNameForms();
+    ["quiz", "trail", "pack"].forEach(renderBoard);
   });
-  window.SDZ_RANKING = { refresh };
+
+  window.SDZ_RANKING = { refresh, requireName, syncNameForms };
 
   refresh();
   setInterval(refresh, 20000);

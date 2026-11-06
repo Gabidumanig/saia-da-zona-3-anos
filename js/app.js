@@ -14,7 +14,6 @@
     views: {
       home: document.getElementById("view-home"),
       infos: document.getElementById("view-infos"),
-      ranking: document.getElementById("view-ranking"),
       quiz: document.getElementById("view-quiz"),
       trail: document.getElementById("view-trail"),
       pack: document.getElementById("view-pack"),
@@ -115,11 +114,7 @@
     els.quizProgress.textContent = `${answeredCount()} / ${total}`;
   }
 
-  async function showView(name) {
-    if (["quiz", "trail", "pack"].includes(name) && window.SDZ_PLAYER?.askName) {
-      await window.SDZ_PLAYER.askName();
-    }
-
+  function showView(name) {
     Object.entries(els.views).forEach(([key, node]) => {
       if (!node) return;
       const active = key === name;
@@ -132,7 +127,10 @@
     });
 
     if (name === "quiz") renderQuiz();
-    if (name === "ranking" && window.SDZ_RANKING?.refresh) window.SDZ_RANKING.refresh();
+    if (["quiz", "trail", "pack"].includes(name)) {
+      window.SDZ_RANKING?.syncNameForms?.();
+      window.SDZ_RANKING?.refresh?.();
+    }
     if (window.SDZ_TRAIL_GAME) {
       if (name === "trail") window.SDZ_TRAIL_GAME.activate();
       else window.SDZ_TRAIL_GAME.deactivate();
@@ -216,6 +214,9 @@
   }
 
   function submitAnswer(question, choiceIndex) {
+    if (window.SDZ_RANKING?.requireName && !window.SDZ_RANKING.requireName("quiz")) {
+      return;
+    }
     const answersMap = loadAnswers();
     if (answersMap[question.id]) return;
 

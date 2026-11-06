@@ -605,6 +605,10 @@
   }
 
   function start() {
+    if (window.SDZ_RANKING?.requireName && !window.SDZ_RANKING.requireName("trail")) {
+      showOverlay("Salva teu nome acima pra jogar", "Começar");
+      return;
+    }
     if (!selectedAvatarId || !avatarReady) {
       showOverlay("Escolha um avatar para começar", "Começar");
       return;
