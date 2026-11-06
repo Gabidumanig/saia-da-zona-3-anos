@@ -9,10 +9,9 @@
   <rect x="42" y="52" width="14" height="10" rx="3" stroke="#222" stroke-width="2" fill="rgba(180,220,255,.25)"/>
   <rect x="64" y="52" width="14" height="10" rx="3" stroke="#222" stroke-width="2" fill="rgba(180,220,255,.25)"/>
   <path d="M56 57h8" stroke="#222" stroke-width="2"/>
-  <!-- bigode grosso e visível -->
-  <ellipse cx="60" cy="68" rx="14" ry="5.5" fill="#2A1A10"/>
-  <path d="M48 66c4-3 8-4 12 0 4-4 8-3 12 0-3 3-7 5-12 4.5-5 .5-9-1.5-12-4.5z" fill="#1A1008"/>
-  <path d="M54 74c3 2 9 2 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
+  <!-- bigode fino -->
+  <path d="M50 67.5c3.5-1.8 7-2.2 10-.2 3-2 6.5-1.6 10 .2" stroke="#3A2A1A" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  <path d="M54 73c3 2.5 9 2.5 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
   <rect x="40" y="78" width="40" height="34" rx="12" fill="#1FAF7A"/>
   <rect x="48" y="78" width="24" height="8" rx="3" fill="#7B4DFF"/>
   <rect x="28" y="80" width="14" height="26" rx="4" fill="#C45C26"/>

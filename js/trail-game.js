@@ -6,12 +6,12 @@
   const GROUND_Y = 292;
 
   const AVATARS = [
-    { id: "franz", name: "Franz", src: "assets/avatars/franz-v3.svg?v=58" },
-    { id: "diego", name: "Diego", src: "assets/avatars/diego-v3.svg?v=58" },
-    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v3.svg?v=58" },
-    { id: "jin", name: "Jin", src: "assets/avatars/jin-v3.svg?v=58" },
-    { id: "caio", name: "Caio", src: "assets/avatars/caio-v3.svg?v=58" },
-    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v3.svg?v=58" },
+    { id: "franz", name: "Franz", src: "assets/avatars/franz-v3.svg?v=60" },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego-v4.svg?v=60" },
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v4.svg?v=60" },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin-v3.svg?v=60" },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio-v4.svg?v=60" },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v3.svg?v=60" },
   ];
 
   const canvas = document.getElementById("trail-canvas");
