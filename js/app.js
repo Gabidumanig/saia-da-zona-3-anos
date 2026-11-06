@@ -14,6 +14,7 @@
       home: document.getElementById("view-home"),
       quiz: document.getElementById("view-quiz"),
       trail: document.getElementById("view-trail"),
+      pack: document.getElementById("view-pack"),
     },
     quizBoard: document.getElementById("quiz-board"),
     quizDone: document.getElementById("quiz-done"),
@@ -125,6 +126,10 @@
     if (window.SDZ_TRAIL_GAME) {
       if (name === "trail") window.SDZ_TRAIL_GAME.activate();
       else window.SDZ_TRAIL_GAME.deactivate();
+    }
+    if (window.SDZ_PACK_GAME) {
+      if (name === "pack") window.SDZ_PACK_GAME.activate();
+      else window.SDZ_PACK_GAME.deactivate();
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }

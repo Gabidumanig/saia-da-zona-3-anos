@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=32" />
+  <link rel="stylesheet" href="css/styles.css?v=33" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -60,6 +60,7 @@
       <button type="button" data-nav="home">Início</button>
       <button type="button" data-nav="quiz">Quiz</button>
       <button type="button" data-nav="trail">Joguinho</button>
+      <button type="button" data-nav="pack">Cargueira</button>
     </nav>
   </header>
 
@@ -132,6 +133,7 @@
         <div class="hero-actions">
           <button type="button" class="btn btn-primary" data-nav="quiz">Jogar quiz</button>
           <button type="button" class="btn btn-ghost" data-nav="trail">Abrir Joguinho</button>
+          <button type="button" class="btn btn-ghost" data-nav="pack">Preparar cargueira</button>
         </div>
       </div>
     </section>
@@ -200,16 +202,47 @@
       </div>
     </section>
 
+    <!-- PACK GAME -->
+    <section id="view-pack" class="view" hidden aria-label="Preparando a cargueira">
+      <div class="panel panel-pack">
+        <div class="quiz-head">
+          <div>
+            <p class="eyebrow">Joguinho</p>
+            <h2>Preparando a cargueira</h2>
+          </div>
+          <div class="quiz-meta">
+            <span id="pack-score" class="chip">0 itens</span>
+            <span id="pack-misses" class="chip chip-soft">0 / 3 perdidos</span>
+            <span id="pack-best" class="chip chip-soft">Recorde 0</span>
+          </div>
+        </div>
+
+        <p class="lede pack-hint">
+          Arraste ou use ← → para mover a mochila. Pegue barraca, garrafa, bússola, bota e o resto do kit.
+          Se deixar passar 3 coisas, a cargueira não fecha!
+        </p>
+
+        <div class="pack-stage">
+          <canvas id="pack-canvas" width="900" height="420" aria-label="Preparando a cargueira"></canvas>
+          <div id="pack-overlay" class="trail-overlay">
+            <p id="pack-message">Mova a mochila e não deixe cair o equipamento!</p>
+            <button type="button" class="btn btn-primary" id="pack-start">Começar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
     <span>Saia da Zona · 3 anos</span>
   </footer>
 
-  <script src="js/config.js?v=32"></script>
-  <script src="js/questions.js?v=32"></script>
-  <script src="js/countdown.js?v=32"></script>
-  <script src="js/trail-game.js?v=32"></script>
-  <script src="js/app.js?v=32"></script>
+  <script src="js/config.js?v=33"></script>
+  <script src="js/questions.js?v=33"></script>
+  <script src="js/countdown.js?v=33"></script>
+  <script src="js/trail-game.js?v=33"></script>
+  <script src="js/pack-game.js?v=33"></script>
+  <script src="js/app.js?v=33"></script>
 </body>
 </html>
