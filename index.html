@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=14" />
+  <link rel="stylesheet" href="css/styles.css?v=15" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -35,10 +35,8 @@
     </a>
     <nav class="nav">
       <button type="button" data-nav="home">Início</button>
-      <button type="button" data-nav="teams">Times</button>
       <button type="button" data-nav="quiz">Quiz</button>
       <button type="button" data-nav="trail">Joguinho</button>
-      <button type="button" data-nav="scoreboard">Placar</button>
     </nav>
   </header>
 
@@ -104,30 +102,9 @@
           </span>
         </div>
         <div class="hero-actions">
-          <button type="button" class="btn btn-primary" data-nav="teams">Informar time</button>
+          <button type="button" class="btn btn-primary" data-nav="quiz">Jogar quiz</button>
           <button type="button" class="btn btn-ghost" data-nav="trail">Abrir Joguinho</button>
         </div>
-      </div>
-    </section>
-
-    <!-- TEAMS -->
-    <section id="view-teams" class="view" hidden aria-label="Times">
-      <div class="panel">
-        <p class="eyebrow">Passo 1</p>
-        <h2>Informe o seu time</h2>
-        <p class="lede">Você já sabe de qual time faz parte. Selecione-o abaixo — cada acerto no Quiz soma pontos para ele.</p>
-
-        <div class="team-grid" id="team-grid"></div>
-
-        <div class="player-form" id="player-form" hidden>
-          <label for="player-name">Qual é o seu nome? <span>(opcional)</span></label>
-          <div class="inline-form">
-            <input id="player-name" type="text" maxlength="40" placeholder="Seu nome ou apelido" autocomplete="nickname" />
-            <button type="button" class="btn btn-primary" id="confirm-team">Confirmar</button>
-          </div>
-        </div>
-
-        <p class="status-line" id="team-status" aria-live="polite"></p>
       </div>
     </section>
 
@@ -136,21 +113,15 @@
       <div class="panel panel-quiz">
         <div class="quiz-head">
           <div>
-            <p class="eyebrow">Quiz ao vivo</p>
+            <p class="eyebrow">Quiz</p>
             <h2>Hora da disputa</h2>
           </div>
           <div class="quiz-meta">
-            <span id="quiz-team-chip" class="chip">Sem time</span>
             <span id="quiz-progress" class="chip chip-soft">0 / 0</span>
           </div>
         </div>
 
-        <div id="quiz-gate" class="quiz-gate">
-          <p>Informe o seu time antes de jogar.</p>
-          <button type="button" class="btn btn-primary" data-nav="teams">Informar time</button>
-        </div>
-
-        <div id="quiz-board" class="quiz-board" hidden>
+        <div id="quiz-board" class="quiz-board">
           <p class="question-label" id="question-label">Pergunta 1</p>
           <h3 class="question-text" id="question-text"></h3>
           <div class="answers" id="answers"></div>
@@ -163,8 +134,9 @@
 
         <div id="quiz-done" class="quiz-done" hidden>
           <h3>Quiz finalizado</h3>
+          <p class="quiz-score" id="quiz-score">0 / 8</p>
           <p id="quiz-summary"></p>
-          <button type="button" class="btn btn-primary" data-nav="scoreboard">Ver placar ao vivo</button>
+          <button type="button" class="btn btn-primary" id="play-again">Jogar novamente</button>
         </div>
       </div>
     </section>
@@ -200,28 +172,16 @@
       </div>
     </section>
 
-    <!-- SCOREBOARD -->
-    <section id="view-scoreboard" class="view" hidden aria-label="Placar">
-      <div class="panel">
-        <p class="eyebrow">Ao vivo</p>
-        <h2>Placar dos times</h2>
-        <p class="lede">Atualiza em tempo real enquanto o evento rola.</p>
-        <div class="scoreboard" id="scoreboard"></div>
-        <p class="status-line" id="score-status">Conectando ao placar…</p>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
     <span>Saia da Zona · 3 anos</span>
-    <span id="connection-pill" class="pill">offline</span>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js?v=14"></script>
-  <script src="js/questions.js?v=14"></script>
-  <script src="js/countdown.js?v=14"></script>
-  <script src="js/trail-game.js?v=14"></script>
-  <script src="js/app.js?v=14"></script>
+  <script src="js/config.js?v=15"></script>
+  <script src="js/questions.js?v=15"></script>
+  <script src="js/countdown.js?v=15"></script>
+  <script src="js/trail-game.js?v=15"></script>
+  <script src="js/app.js?v=15"></script>
 </body>
 </html>
