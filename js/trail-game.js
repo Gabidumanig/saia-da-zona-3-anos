@@ -1,9 +1,9 @@
 (() => {
   const BEST_KEY = "sdz3_trail_best";
   const AVATAR_KEY = "sdz3_trail_avatar";
-  const GRAVITY = 2200;
-  const JUMP_V = -780;
-  const GROUND_Y = 292;
+  const GRAVITY = 2400;
+  const JUMP_V = -820;
+  const PATH_X = 0.5;
 
   const AVATARS = [
     { id: "franz", name: "Franz", src: "assets/avatars/franz-v6.svg?v=67" },
@@ -30,13 +30,11 @@
   let alive = false;
   let raf = 0;
   let lastTs = 0;
-  let distance = 0;
+  let altitude = 0;
   let best = Number(localStorage.getItem(BEST_KEY) || 0);
-  let speed = 280;
+  let climbSpeed = 160;
   let spawnTimer = 0;
   let obstacles = [];
-  let clouds = [];
-  let hills = [];
   let rainDrops = [];
   let walkPhase = 0;
   let selectedAvatarId = localStorage.getItem(AVATAR_KEY) || null;
@@ -44,14 +42,23 @@
   let avatarReady = false;
   let avatarName = "";
 
+  // worldY grows as we climb; player.baseY is the resting height on screen
   const player = {
-    x: 110,
-    y: GROUND_Y,
+    x: 0,
+    y: 0,
     vy: 0,
     w: 46,
     h: 64,
     onGround: true,
   };
+
+  function groundY() {
+    return canvas.height * 0.72;
+  }
+
+  function pathCenterX() {
+    return canvas.width * PATH_X;
+  }
 
   function avatarById(id) {
     return AVATARS.find((a) => a.id === id) || null;
@@ -104,37 +111,27 @@
   function resize() {
     const parent = canvas.parentElement;
     const maxW = Math.min(900, parent.clientWidth);
-    const ratio = 360 / 900;
+    const ratio = 420 / 900;
     canvas.style.width = `${maxW}px`;
     canvas.style.height = `${Math.round(maxW * ratio)}px`;
   }
 
   function resetWorld() {
-    distance = 0;
-    speed = 280;
-    spawnTimer = 0.8;
+    altitude = 0;
+    climbSpeed = 160;
+    spawnTimer = 0.9;
     obstacles = [];
     rainDrops = [];
-    player.y = GROUND_Y;
+    player.x = pathCenterX() - player.w / 2;
+    player.y = groundY();
     player.vy = 0;
     player.onGround = true;
     walkPhase = 0;
-    clouds = Array.from({ length: 4 }, (_, i) => ({
-      x: 80 + i * 220,
-      y: 36 + (i % 2) * 22,
-      w: 70 + (i % 3) * 18,
-      s: 12 + i * 3,
-    }));
-    hills = Array.from({ length: 5 }, (_, i) => ({
-      x: i * 220,
-      h: 40 + (i % 3) * 18,
-      w: 180 + (i % 2) * 40,
-    }));
     updateHud();
   }
 
   function updateHud() {
-    const meters = Math.floor(distance / 18);
+    const meters = Math.floor(altitude / 14);
     if (scoreEl) scoreEl.textContent = `${meters} m`;
     if (bestEl) bestEl.textContent = `Recorde ${Math.floor(best)} m`;
   }
@@ -158,38 +155,43 @@
   }
 
   function pickObstacle() {
-    const types = ["rock", "snake", "waterfall", "rain", "log"];
     const roll = Math.random();
-    if (roll < 0.28) return "rock";
-    if (roll < 0.48) return "snake";
-    if (roll < 0.66) return "log";
+    if (roll < 0.26) return "rock";
+    if (roll < 0.46) return "snake";
+    if (roll < 0.64) return "log";
     if (roll < 0.82) return "waterfall";
     return "rain";
   }
 
   function spawnObstacle() {
     const type = pickObstacle();
-    const base = { type, x: canvas.width + 40, hit: false };
+    const cx = pathCenterX();
+    const base = { type, y: -40, hit: false };
 
     if (type === "rock") {
-      obstacles.push({ ...base, w: 36, h: 28, y: GROUND_Y });
+      const w = 36;
+      obstacles.push({ ...base, w, h: 28, x: cx - w / 2 + (Math.random() * 30 - 15) });
     } else if (type === "snake") {
-      obstacles.push({ ...base, w: 48, h: 16, y: GROUND_Y, phase: 0 });
+      const w = 48;
+      obstacles.push({ ...base, w, h: 16, x: cx - w / 2 + (Math.random() * 24 - 12), phase: 0 });
     } else if (type === "log") {
-      obstacles.push({ ...base, w: 54, h: 22, y: GROUND_Y });
+      const w = 54;
+      obstacles.push({ ...base, w, h: 22, x: cx - w / 2 });
     } else if (type === "waterfall") {
-      obstacles.push({ ...base, w: 58, h: 120, y: GROUND_Y });
+      const w = 70;
+      obstacles.push({ ...base, w, h: 120, x: cx - w / 2 });
     } else if (type === "rain") {
-      obstacles.push({ ...base, w: 90, h: 24, y: GROUND_Y, cloudY: 48 });
+      const w = 100;
+      obstacles.push({ ...base, w, h: 24, x: cx - w / 2, cloudY: 0 });
     }
   }
 
   function hitbox(obs) {
     if (obs.type === "waterfall") {
-      return { x: obs.x + 10, y: obs.y - 34, w: obs.w - 20, h: 34 };
+      return { x: obs.x + 12, y: obs.y - 36, w: obs.w - 24, h: 36 };
     }
     if (obs.type === "rain") {
-      return { x: obs.x + 12, y: obs.y - 18, w: obs.w - 24, h: 18 };
+      return { x: obs.x + 14, y: obs.y - 18, w: obs.w - 28, h: 18 };
     }
     if (obs.type === "snake") {
       return { x: obs.x + 4, y: obs.y - obs.h, w: obs.w - 8, h: obs.h };
@@ -213,7 +215,7 @@
   function gameOver() {
     alive = false;
     running = false;
-    const meters = Math.floor(distance / 18);
+    const meters = Math.floor(altitude / 14);
     if (meters > best) {
       best = meters;
       localStorage.setItem(BEST_KEY, String(best));
@@ -222,60 +224,54 @@
     if (window.SDZ_PLAYER?.submitScore) {
       window.SDZ_PLAYER.submitScore("trail", meters);
     }
-    showOverlay(`Queda na trilha · ${meters} m`, "Tentar de novo");
+    showOverlay(`Queda na subida · ${meters} m`, "Tentar de novo");
   }
 
   function update(dt) {
     if (!alive) return;
 
-    distance += speed * dt;
-    speed = Math.min(520, 280 + distance / 900);
-    walkPhase += dt * (player.onGround ? 10 : 0);
+    altitude += climbSpeed * dt;
+    climbSpeed = Math.min(340, 160 + altitude / 700);
+    walkPhase += dt * (player.onGround ? 11 : 0);
 
     player.vy += GRAVITY * dt;
     player.y += player.vy * dt;
-    if (player.y >= GROUND_Y) {
-      player.y = GROUND_Y;
+    const gy = groundY();
+    if (player.y >= gy) {
+      player.y = gy;
       player.vy = 0;
       player.onGround = true;
     }
+    player.x = pathCenterX() - player.w / 2;
 
     spawnTimer -= dt;
     if (spawnTimer <= 0) {
       spawnObstacle();
-      spawnTimer = Math.max(0.85, 1.7 - distance / 8000) + Math.random() * 0.55;
+      spawnTimer = Math.max(0.75, 1.55 - altitude / 7000) + Math.random() * 0.5;
     }
 
+    const scroll = climbSpeed * dt;
     obstacles.forEach((obs) => {
-      obs.x -= speed * dt;
+      obs.y += scroll;
       if (obs.type === "snake") obs.phase = (obs.phase || 0) + dt * 8;
+      if (obs.type === "rain") obs.cloudY = obs.y - 110;
     });
-    obstacles = obstacles.filter((obs) => obs.x + obs.w > -40);
+    obstacles = obstacles.filter((obs) => obs.y - obs.h < canvas.height + 60);
 
-    clouds.forEach((c) => {
-      c.x -= c.s * dt;
-      if (c.x + c.w < 0) c.x = canvas.width + 40;
-    });
-    hills.forEach((h) => {
-      h.x -= speed * 0.25 * dt;
-      if (h.x + h.w < 0) h.x += 220 * hills.length;
-    });
-
-    rainDrops = rainDrops.filter((d) => d.y < GROUND_Y + 10);
+    rainDrops = rainDrops.filter((d) => d.y < canvas.height + 20);
     obstacles
       .filter((o) => o.type === "rain")
       .forEach((o) => {
-        if (Math.random() < 0.45) {
+        if (Math.random() < 0.5) {
           rainDrops.push({
             x: o.x + 10 + Math.random() * (o.w - 20),
-            y: o.cloudY + 28,
-            vy: 280 + Math.random() * 120,
+            y: (o.cloudY || o.y - 110) + 28,
+            vy: 220 + Math.random() * 140,
           });
         }
       });
     rainDrops.forEach((d) => {
-      d.y += d.vy * dt;
-      d.x -= speed * 0.2 * dt;
+      d.y += d.vy * dt + scroll * 0.35;
     });
 
     const pb = playerBox();
@@ -312,122 +308,154 @@
   }
 
   function drawBackground() {
-    // forest canopy sky
-    const g = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    g.addColorStop(0, "#1B3A28");
-    g.addColorStop(0.35, "#2F5A3A");
-    g.addColorStop(0.7, "#4F8A45");
-    g.addColorStop(1, "#6B9A4A");
+    const W = canvas.width;
+    const H = canvas.height;
+    const gy = groundY();
+    const scroll = altitude;
+
+    // mountain sky → ridge
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, "#7EC8E8");
+    g.addColorStop(0.22, "#4A8F6A");
+    g.addColorStop(0.55, "#2F6B45");
+    g.addColorStop(1, "#1F4A30");
     ctx.fillStyle = g;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, W, H);
 
-    // distant misty hills
-    hills.forEach((h, i) => {
-      ctx.fillStyle = i % 2 ? "#2E5A34" : "#244A2C";
+    // distant peaks (scroll slowly)
+    for (let i = 0; i < 5; i += 1) {
+      const span = H + 220;
+      const py = ((i * 160 + scroll * 0.15) % span) - 40;
+      ctx.fillStyle = i % 2 ? "rgba(36, 74, 52, 0.55)" : "rgba(28, 60, 42, 0.5)";
       ctx.beginPath();
-      ctx.moveTo(h.x - 20, GROUND_Y);
-      ctx.quadraticCurveTo(h.x + h.w / 2, GROUND_Y - h.h - 30, h.x + h.w + 20, GROUND_Y);
+      ctx.moveTo(0, py + 120);
+      ctx.lineTo(W * 0.22, py);
+      ctx.lineTo(W * 0.4, py + 90);
+      ctx.lineTo(0, py + 140);
       ctx.closePath();
       ctx.fill();
-    });
-
-    // back trees
-    for (let i = 0; i < 10; i += 1) {
-      const span = canvas.width + 160;
-      const tx = ((i * 110 - distance * 0.12) % span + span) % span - 40;
-      drawTree(tx, GROUND_Y, 0.7 + (i % 3) * 0.08, true);
-    }
-
-    // mid trees denser
-    for (let i = 0; i < 8; i += 1) {
-      const span = canvas.width + 200;
-      const tx = ((i * 140 - distance * 0.28) % span + span) % span - 50;
-      drawTree(tx, GROUND_Y, 1 + (i % 2) * 0.15, false);
-    }
-
-    // hanging canopy leaves at top
-    ctx.fillStyle = "rgba(20, 60, 30, 0.55)";
-    for (let i = 0; i < 14; i += 1) {
-      const lx = ((i * 80 - distance * 0.35) % (canvas.width + 100)) - 40;
       ctx.beginPath();
-      ctx.ellipse(lx, 18 + (i % 3) * 10, 40, 22, 0, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // light shafts
-    ctx.fillStyle = "rgba(255, 240, 180, 0.07)";
-    for (let i = 0; i < 4; i += 1) {
-      const sx = ((i * 220 - distance * 0.2) % (canvas.width + 120)) - 40;
-      ctx.beginPath();
-      ctx.moveTo(sx, 0);
-      ctx.lineTo(sx + 50, 0);
-      ctx.lineTo(sx + 110, GROUND_Y);
-      ctx.lineTo(sx + 40, GROUND_Y);
+      ctx.moveTo(W, py + 130);
+      ctx.lineTo(W * 0.78, py + 10);
+      ctx.lineTo(W * 0.58, py + 100);
+      ctx.lineTo(W, py + 150);
       ctx.closePath();
       ctx.fill();
     }
 
-    // forest floor sides (moss/grass)
-    ctx.fillStyle = "#3D6B32";
-    ctx.fillRect(0, GROUND_Y - 8, canvas.width, 14);
-    ctx.fillStyle = "#2F5528";
-    for (let x = -((distance * 0.5) % 22); x < canvas.width; x += 22) {
-      ctx.beginPath();
-      ctx.moveTo(x, GROUND_Y - 2);
-      ctx.lineTo(x + 5, GROUND_Y - 14);
-      ctx.lineTo(x + 10, GROUND_Y - 2);
-      ctx.fill();
+    // side forest scrolling upward (visual: trees move down)
+    for (let i = 0; i < 9; i += 1) {
+      const span = H + 180;
+      const ty = ((i * 95 + scroll * 0.45) % span) - 60;
+      drawTree(W * 0.12 + (i % 2) * 18, ty + 80, 0.75 + (i % 3) * 0.1, true);
+      drawTree(W * 0.88 - (i % 2) * 16, ty + 70, 0.8 + (i % 2) * 0.12, true);
+    }
+    for (let i = 0; i < 7; i += 1) {
+      const span = H + 200;
+      const ty = ((i * 120 + scroll * 0.7) % span) - 50;
+      drawTree(W * 0.2 + (i % 3) * 8, ty + 90, 1 + (i % 2) * 0.12, false);
+      drawTree(W * 0.8 - (i % 3) * 8, ty + 85, 1.05, false);
     }
 
-    // dirt trail
-    ctx.fillStyle = "#6B4A28";
-    ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
-    ctx.fillStyle = "#8B6438";
+    // cliff walls framing the trail
+    ctx.fillStyle = "#3A4A38";
     ctx.beginPath();
-    ctx.moveTo(0, GROUND_Y);
-    ctx.quadraticCurveTo(canvas.width * 0.35, GROUND_Y - 4, canvas.width * 0.7, GROUND_Y + 2);
-    ctx.lineTo(canvas.width, GROUND_Y);
-    ctx.lineTo(canvas.width, GROUND_Y + 18);
-    ctx.lineTo(0, GROUND_Y + 18);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(W * 0.28, 0);
+    for (let i = 0; i <= 10; i += 1) {
+      const yy = (i / 10) * H;
+      const wobble = Math.sin((yy + scroll) * 0.02) * 10;
+      ctx.lineTo(W * 0.26 + wobble, yy);
+    }
+    ctx.lineTo(0, H);
     ctx.closePath();
     ctx.fill();
 
-    // trail stones / footprints
-    const stripe = (distance * 0.55) % 48;
-    ctx.fillStyle = "rgba(50, 32, 16, 0.28)";
-    for (let x = -stripe; x < canvas.width; x += 48) {
+    ctx.beginPath();
+    ctx.moveTo(W, 0);
+    ctx.lineTo(W * 0.72, 0);
+    for (let i = 0; i <= 10; i += 1) {
+      const yy = (i / 10) * H;
+      const wobble = Math.sin((yy + scroll) * 0.02 + 1.2) * 10;
+      ctx.lineTo(W * 0.74 + wobble, yy);
+    }
+    ctx.lineTo(W, H);
+    ctx.closePath();
+    ctx.fill();
+
+    // climbing dirt path up the center
+    const pathW = Math.min(150, W * 0.28);
+    const cx = pathCenterX();
+    ctx.fillStyle = "#6B4A28";
+    ctx.beginPath();
+    ctx.moveTo(cx - pathW * 0.55, H);
+    for (let i = 0; i <= 16; i += 1) {
+      const t = i / 16;
+      const yy = H - t * H;
+      const sway = Math.sin((yy + scroll * 0.9) * 0.03) * 18;
+      ctx.lineTo(cx - pathW * 0.5 + sway, yy);
+    }
+    for (let i = 16; i >= 0; i -= 1) {
+      const t = i / 16;
+      const yy = H - t * H;
+      const sway = Math.sin((yy + scroll * 0.9) * 0.03) * 18;
+      ctx.lineTo(cx + pathW * 0.5 + sway, yy);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "#8B6438";
+    ctx.beginPath();
+    ctx.moveTo(cx - pathW * 0.32, H);
+    for (let i = 0; i <= 16; i += 1) {
+      const t = i / 16;
+      const yy = H - t * H;
+      const sway = Math.sin((yy + scroll * 0.9) * 0.03) * 18;
+      ctx.lineTo(cx - pathW * 0.28 + sway, yy);
+    }
+    for (let i = 16; i >= 0; i -= 1) {
+      const t = i / 16;
+      const yy = H - t * H;
+      const sway = Math.sin((yy + scroll * 0.9) * 0.03) * 18;
+      ctx.lineTo(cx + pathW * 0.28 + sway, yy);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // switchback steps / stones on the path
+    ctx.fillStyle = "rgba(50, 32, 16, 0.3)";
+    for (let i = 0; i < 14; i += 1) {
+      const span = H + 60;
+      const sy = ((i * 48 + scroll * 0.95) % span) - 20;
+      const sway = Math.sin((sy + scroll * 0.9) * 0.03) * 18;
       ctx.beginPath();
-      ctx.ellipse(x + 10, GROUND_Y + 18, 10, 4, 0, 0, Math.PI * 2);
+      ctx.ellipse(cx - 12 + sway, sy, 14, 5, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.beginPath();
-      ctx.ellipse(x + 28, GROUND_Y + 26, 8, 3.5, 0.2, 0, Math.PI * 2);
+      ctx.ellipse(cx + 14 + sway, sy + 10, 12, 4.5, 0.15, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    // ferns / bushes foreground sides
-    for (let i = 0; i < 7; i += 1) {
-      const span = canvas.width + 90;
-      const bx = ((i * 130 - distance * 0.55) % span + span) % span - 30;
-      ctx.fillStyle = i % 2 ? "#2A6B34" : "#1F5530";
-      ctx.beginPath();
-      ctx.ellipse(bx, GROUND_Y + 8, 22, 14, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(bx - 8, GROUND_Y + 4);
-      ctx.quadraticCurveTo(bx - 18, GROUND_Y - 18, bx - 2, GROUND_Y - 10);
-      ctx.quadraticCurveTo(bx + 4, GROUND_Y - 22, bx + 10, GROUND_Y - 6);
-      ctx.fill();
-    }
+    // summit mist near top of view
+    ctx.fillStyle = "rgba(255,255,255,0.08)";
+    ctx.fillRect(0, 0, W, 50);
+
+    // standing ledge under player
+    ctx.fillStyle = "#4A6B38";
+    ctx.fillRect(0, gy + 2, W, H - gy);
+    ctx.fillStyle = "#3D6B32";
+    ctx.fillRect(cx - pathW * 0.6, gy - 6, pathW * 1.2, 14);
   }
 
   function drawPlayer() {
     const x = player.x;
     const y = player.y;
     const bob = player.onGround ? Math.sin(walkPhase) * 2 : 0;
+    const gy = groundY();
 
     ctx.fillStyle = "rgba(0,0,0,0.18)";
     ctx.beginPath();
-    ctx.ellipse(x + 22, GROUND_Y + 4, 20, 5, 0, 0, Math.PI * 2);
+    ctx.ellipse(x + 22, gy + 4, 20, 5, 0, 0, Math.PI * 2);
     ctx.fill();
 
     if (avatarReady && avatarImg) {
@@ -452,7 +480,6 @@
       return;
     }
 
-    // fallback bonequinho
     const leg = player.onGround ? Math.sin(walkPhase) * 7 : 4;
     ctx.strokeStyle = "#1A2A4A";
     ctx.lineWidth = 4;
@@ -534,7 +561,7 @@
     ctx.fillRect(obs.x, obs.y - 18, obs.w, 18);
     ctx.fillStyle = "rgba(255,255,255,0.55)";
     for (let i = 0; i < 5; i += 1) {
-      const ox = obs.x + 12 + i * 8;
+      const ox = obs.x + 14 + i * 9;
       const oy = obs.y - 100 + ((Date.now() / 30 + i * 17) % 90);
       ctx.fillRect(ox, oy, 3, 10);
     }
@@ -544,11 +571,12 @@
   }
 
   function drawRain(obs) {
+    const cloudY = obs.cloudY || obs.y - 110;
     ctx.fillStyle = "rgba(90,110,140,0.75)";
     ctx.beginPath();
-    ctx.ellipse(obs.x + obs.w / 2, obs.cloudY, obs.w * 0.42, 18, 0, 0, Math.PI * 2);
-    ctx.ellipse(obs.x + 22, obs.cloudY + 6, 22, 12, 0, 0, Math.PI * 2);
-    ctx.ellipse(obs.x + obs.w - 22, obs.cloudY + 6, 22, 12, 0, 0, Math.PI * 2);
+    ctx.ellipse(obs.x + obs.w / 2, cloudY, obs.w * 0.42, 18, 0, 0, Math.PI * 2);
+    ctx.ellipse(obs.x + 22, cloudY + 6, 22, 12, 0, 0, Math.PI * 2);
+    ctx.ellipse(obs.x + obs.w - 22, cloudY + 6, 22, 12, 0, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = "#4A6A3A";
@@ -586,10 +614,10 @@
   function drawHudCorner() {
     if (!alive) return;
     ctx.fillStyle = "rgba(4,24,51,0.35)";
-    ctx.fillRect(12, 12, 120, 28);
+    ctx.fillRect(12, 12, 140, 28);
     ctx.fillStyle = "#fff";
     ctx.font = "700 14px Manrope, sans-serif";
-    ctx.fillText(`${Math.floor(distance / 18)} m`, 24, 32);
+    ctx.fillText(`↑ ${Math.floor(altitude / 14)} m`, 24, 32);
   }
 
   function frame(ts) {
@@ -683,6 +711,8 @@
   window.addEventListener("resize", () => {
     resize();
     if (!running) {
+      player.x = pathCenterX() - player.w / 2;
+      player.y = groundY();
       drawBackground();
       drawPlayer();
     }
@@ -691,9 +721,10 @@
   resize();
   renderAvatarGrid();
   if (selectedAvatarId) setAvatar(selectedAvatarId);
+  resetWorld();
   updateHud();
   showOverlay(
-    selectedAvatarId ? "Trilha com o Líder" : "Escolha um avatar para começar",
+    selectedAvatarId ? "Subida com o Líder" : "Escolha um avatar para começar",
     "Começar"
   );
 
