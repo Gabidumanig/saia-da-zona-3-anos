@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=5" />
+  <link rel="stylesheet" href="css/styles.css?v=6" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -82,9 +82,6 @@
         <div class="team-grid" id="team-grid"></div>
 
         <div class="player-form" id="player-form" hidden>
-          <p class="avatar-label">Escolha o seu avatar</p>
-          <div class="avatar-grid" id="avatar-grid" role="listbox" aria-label="Avatares"></div>
-
           <label for="player-name">Qual é o seu nome? <span>(opcional)</span></label>
           <div class="inline-form">
             <input id="player-name" type="text" maxlength="40" placeholder="Seu nome ou apelido" autocomplete="nickname" />
@@ -147,7 +144,9 @@
             <span id="trail-best" class="chip chip-soft">Recorde 0 m</span>
           </div>
         </div>
-        <p class="lede trail-hint">Toque ou clique para pular. Desvie de pedras, cobras, chuva e a cachoeira!</p>
+        <p class="lede trail-hint">Escolha o bonequinho, depois toque para pular. Desvie de pedras, cobras, chuva e a cachoeira!</p>
+        <p class="avatar-label">Escolha o seu avatar</p>
+        <div class="avatar-grid" id="avatar-grid" role="listbox" aria-label="Avatares da trilha"></div>
         <div class="trail-stage">
           <canvas id="trail-canvas" width="900" height="360" aria-label="Joguinho da trilha"></canvas>
           <div id="trail-overlay" class="trail-overlay">
@@ -176,9 +175,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js?v=5"></script>
-  <script src="js/questions.js?v=5"></script>
-  <script src="js/trail-game.js?v=5"></script>
-  <script src="js/app.js?v=5"></script>
+  <script src="js/config.js?v=6"></script>
+  <script src="js/questions.js?v=6"></script>
+  <script src="js/trail-game.js?v=6"></script>
+  <script src="js/app.js?v=6"></script>
 </body>
 </html>

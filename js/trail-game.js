@@ -1,8 +1,18 @@
 (() => {
   const BEST_KEY = "sdz3_trail_best";
+  const AVATAR_KEY = "sdz3_trail_avatar";
   const GRAVITY = 2200;
   const JUMP_V = -780;
   const GROUND_Y = 292;
+
+  const AVATARS = [
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi.svg" },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio.svg" },
+    { id: "franz", name: "Franz", src: "assets/avatars/franz.svg" },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin.svg" },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego.svg" },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus.svg" },
+  ];
 
   const canvas = document.getElementById("trail-canvas");
   const overlay = document.getElementById("trail-overlay");
@@ -10,6 +20,7 @@
   const startBtn = document.getElementById("trail-start");
   const scoreEl = document.getElementById("trail-score");
   const bestEl = document.getElementById("trail-best");
+  const avatarGrid = document.getElementById("avatar-grid");
 
   if (!canvas || !overlay || !startBtn) return;
 
@@ -27,22 +38,32 @@
   let hills = [];
   let rainDrops = [];
   let walkPhase = 0;
+  let selectedAvatarId = localStorage.getItem(AVATAR_KEY) || null;
   let avatarImg = null;
   let avatarReady = false;
+  let avatarName = "";
 
   const player = {
     x: 110,
     y: GROUND_Y,
     vy: 0,
-    w: 34,
-    h: 52,
+    w: 46,
+    h: 64,
     onGround: true,
   };
 
-  function setAvatar(src) {
+  function avatarById(id) {
+    return AVATARS.find((a) => a.id === id) || null;
+  }
+
+  function setAvatar(id) {
+    const avatar = avatarById(id);
+    selectedAvatarId = avatar ? avatar.id : null;
     avatarReady = false;
     avatarImg = null;
-    if (!src) return;
+    avatarName = avatar ? avatar.name : "";
+    if (!avatar) return;
+    localStorage.setItem(AVATAR_KEY, avatar.id);
     const img = new Image();
     img.onload = () => {
       avatarImg = img;
@@ -52,7 +73,29 @@
         drawPlayer();
       }
     };
-    img.src = src;
+    img.src = avatar.src;
+  }
+
+  function renderAvatarGrid() {
+    if (!avatarGrid) return;
+    avatarGrid.innerHTML = "";
+    AVATARS.forEach((avatar) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "avatar-card";
+      btn.setAttribute("role", "option");
+      btn.setAttribute("aria-label", avatar.name);
+      if (selectedAvatarId === avatar.id) btn.classList.add("is-selected");
+      btn.innerHTML = `<strong>${avatar.name}</strong><img src="${avatar.src}" alt="" loading="lazy" />`;
+      btn.addEventListener("click", () => {
+        setAvatar(avatar.id);
+        renderAvatarGrid();
+        if (!alive) {
+          showOverlay(`Vamos com ${avatar.name}!`, "Começar");
+        }
+      });
+      avatarGrid.appendChild(btn);
+    });
   }
 
   function resize() {
@@ -153,10 +196,10 @@
 
   function playerBox() {
     return {
-      x: player.x + 6,
-      y: player.y - player.h + 6,
-      w: player.w - 10,
-      h: player.h - 8,
+      x: player.x + 8,
+      y: player.y - player.h + 10,
+      w: player.w - 14,
+      h: player.h - 14,
     };
   }
 
@@ -375,15 +418,36 @@
     const x = player.x;
     const y = player.y;
     const bob = player.onGround ? Math.sin(walkPhase) * 2 : 0;
-    const leg = player.onGround ? Math.sin(walkPhase) * 7 : 4;
 
-    // shadow
     ctx.fillStyle = "rgba(0,0,0,0.18)";
     ctx.beginPath();
-    ctx.ellipse(x + 16, GROUND_Y + 4, 16, 5, 0, 0, Math.PI * 2);
+    ctx.ellipse(x + 22, GROUND_Y + 4, 20, 5, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // legs
+    if (avatarReady && avatarImg) {
+      const h = 72;
+      const w = 62;
+      ctx.drawImage(avatarImg, x - 4, y - h + bob, w, h);
+
+      if (avatarName) {
+        ctx.font = "700 13px Manrope, sans-serif";
+        const tw = ctx.measureText(avatarName).width;
+        const labelX = x + w / 2 - 4;
+        const labelY = y - h + bob - 8;
+        ctx.fillStyle = "rgba(4, 24, 51, 0.7)";
+        ctx.beginPath();
+        ctx.roundRect(labelX - tw / 2 - 8, labelY - 14, tw + 16, 20, 10);
+        ctx.fill();
+        ctx.fillStyle = "#FFFFFF";
+        ctx.textAlign = "center";
+        ctx.fillText(avatarName, labelX, labelY);
+        ctx.textAlign = "left";
+      }
+      return;
+    }
+
+    // fallback bonequinho
+    const leg = player.onGround ? Math.sin(walkPhase) * 7 : 4;
     ctx.strokeStyle = "#1A2A4A";
     ctx.lineWidth = 4;
     ctx.lineCap = "round";
@@ -393,57 +457,14 @@
     ctx.moveTo(x + 18, y - 18 + bob);
     ctx.lineTo(x + 22 + leg, y + bob);
     ctx.stroke();
-
-    // body
     ctx.fillStyle = "#1A6BFF";
     ctx.fillRect(x + 8, y - 40 + bob, 18, 24);
-
-    // backpack cargueira
     ctx.fillStyle = "#C45C26";
     ctx.fillRect(x - 2, y - 44 + bob, 14, 28);
-    ctx.fillStyle = "#8B3E14";
-    ctx.fillRect(x, y - 40 + bob, 10, 8);
-    ctx.fillRect(x, y - 28 + bob, 10, 6);
-    ctx.strokeStyle = "#5A2A0E";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(x - 2, y - 44 + bob, 14, 28);
-
-    // head / avatar
-    if (avatarReady && avatarImg) {
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(x + 17, y - 48 + bob, 14, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.clip();
-      ctx.drawImage(avatarImg, x + 3, y - 62 + bob, 28, 28);
-      ctx.restore();
-      ctx.strokeStyle = "#FFFFFF";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(x + 17, y - 48 + bob, 14, 0, Math.PI * 2);
-      ctx.stroke();
-    } else {
-      ctx.fillStyle = "#F2C7A4";
-      ctx.beginPath();
-      ctx.arc(x + 17, y - 48 + bob, 10, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#0B3D91";
-      ctx.beginPath();
-      ctx.arc(x + 17, y - 52 + bob, 9, Math.PI, 0);
-      ctx.fill();
-      ctx.fillRect(x + 8, y - 52 + bob, 18, 4);
-    }
-
-    // arms
-    ctx.strokeStyle = "#F2C7A4";
-    ctx.lineWidth = 3;
+    ctx.fillStyle = "#F2C7A4";
     ctx.beginPath();
-    ctx.moveTo(x + 10, y - 34 + bob);
-    ctx.lineTo(x + 2, y - 22 + bob + (player.onGround ? -leg * 0.3 : -6));
-    ctx.moveTo(x + 24, y - 34 + bob);
-    ctx.lineTo(x + 32, y - 22 + bob + (player.onGround ? leg * 0.3 : -6));
-    ctx.stroke();
+    ctx.arc(x + 17, y - 48 + bob, 10, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   function drawRock(obs) {
@@ -578,6 +599,10 @@
   }
 
   function start() {
+    if (!selectedAvatarId || !avatarReady) {
+      showOverlay("Escolha um avatar para começar", "Começar");
+      return;
+    }
     resetWorld();
     alive = true;
     running = true;
@@ -594,11 +619,18 @@
 
   function activate() {
     resize();
+    renderAvatarGrid();
+    if (selectedAvatarId) setAvatar(selectedAvatarId);
     resetWorld();
     drawBackground();
     drawPlayer();
+    const av = avatarById(selectedAvatarId);
     showOverlay(
-      best > 0 ? `Trilha do Saia da Zona · recorde ${Math.floor(best)} m` : "Trilha do Saia da Zona",
+      av
+        ? best > 0
+          ? `${av.name} · recorde ${Math.floor(best)} m`
+          : `Vamos com ${av.name}!`
+        : "Escolha um avatar para começar",
       "Começar"
     );
   }
@@ -643,8 +675,13 @@
   });
 
   resize();
+  renderAvatarGrid();
+  if (selectedAvatarId) setAvatar(selectedAvatarId);
   updateHud();
-  showOverlay("Trilha do Saia da Zona", "Começar");
+  showOverlay(
+    selectedAvatarId ? "Trilha do Saia da Zona" : "Escolha um avatar para começar",
+    "Começar"
+  );
 
   window.SDZ_TRAIL_GAME = { activate, deactivate, jump, setAvatar };
 })();

@@ -554,13 +554,13 @@ main,
   margin-top: 1.25rem;
 }
 
-.avatar-label {
+.panel-trail .avatar-label {
   margin: 0 0 0.75rem;
   font-weight: 700;
   color: var(--white);
 }
 
-.avatar-grid {
+.panel-trail .avatar-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
