@@ -682,7 +682,7 @@
   if (selectedAvatarId) setAvatar(selectedAvatarId);
   updateHud();
   showOverlay(
-    selectedAvatarId ? "Trilha com o líder" : "Escolha um avatar para começar",
+    selectedAvatarId ? "Trilha com o Líder" : "Escolha um avatar para começar",
     "Começar"
   );
 
