@@ -1473,13 +1473,15 @@ main,
 }
 
 #name-form,
-.ranking-name-form {
+.ranking-name-form,
+.game-name-form {
   display: grid;
   gap: 0.55rem;
 }
 
 .name-label,
-.ranking-name-form label {
+.ranking-name-form label,
+.game-name-form label {
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -1488,7 +1490,8 @@ main,
 }
 
 #name-input,
-#ranking-name-input {
+#ranking-name-input,
+.game-name-form input {
   width: 100%;
   min-height: 48px;
   padding: 0.85rem 1rem;
@@ -1507,24 +1510,9 @@ main,
   z-index: 2;
 }
 
-.name-modal-card,
-.name-modal-card * {
-  pointer-events: auto;
-}
-
-body.name-modal-open {
-  overflow: hidden;
-}
-
-body.name-modal-open .floaters,
-body.name-modal-open .party,
-body.name-modal-open .noise,
-body.name-modal-open .orb {
-  pointer-events: none !important;
-}
-
 #name-input:focus,
-#ranking-name-input:focus {
+#ranking-name-input:focus,
+.game-name-form input:focus {
   border-color: rgba(110, 200, 255, 0.85);
   box-shadow: 0 0 0 3px rgba(70, 160, 255, 0.25);
 }
