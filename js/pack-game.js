@@ -27,6 +27,7 @@
     { id: "chapéu", label: "Chapéu", color: "#E8C56A" },
     { id: "atum", label: "Patê de Atum", color: "#1A6BFF", sprite: "atum" },
     { id: "pepino", label: "Pepino", color: "#2BB673", sprite: "pepino" },
+    { id: "shit-tube", label: "Shit tube", color: "#FF7A18", sprite: "shit-tube" },
   ];
 
   let running = false;
@@ -131,16 +132,25 @@
   };
   packImg.src = "assets/game/cargueira.png";
 
-  function loadItemSprite(key, src) {
+  function loadItemSprite(key, src, { punch = true } = {}) {
     const img = new Image();
     img.onload = () => {
+      if (!punch) {
+        const off = document.createElement("canvas");
+        off.width = img.naturalWidth || img.width;
+        off.height = img.naturalHeight || img.height;
+        off.getContext("2d").drawImage(img, 0, 0);
+        itemSprites[key] = off;
+        return;
+      }
       itemSprites[key] = punchWhiteBackground(img);
     };
     img.src = src;
   }
   loadItemSprite("atum", "assets/game/pate-atum.png");
-  loadItemSprite("pepino", "assets/game/pepino.png");
-  loadItemSprite("bota", "assets/game/bota.png");
+  loadItemSprite("pepino", "assets/game/pepino.png", { punch: false });
+  loadItemSprite("bota", "assets/game/bota.png", { punch: false });
+  loadItemSprite("shit-tube", "assets/game/shit-tube.png", { punch: false });
 
   function updateHud() {
     if (scoreEl) scoreEl.textContent = `${score} itens`;
