@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=20" />
+  <link rel="stylesheet" href="css/styles.css?v=21" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -45,76 +45,67 @@
   <main>
     <!-- HOME -->
     <section id="view-home" class="view view-home is-active" aria-label="Início">
-      <div class="home-slideshow" aria-hidden="true">
-        <div class="home-slideshow-track" id="home-slideshow"></div>
-        <div class="home-slideshow-veil"></div>
-      </div>
+      <div class="countdown-block" aria-label="Contagem regressiva do rolê">
+        <p class="countdown-kicker">tá chegando...</p>
+        <h2 class="countdown-title">Nos vemos dentro da zona</h2>
+        <p class="countdown-sub">Dia 14 de novembro · 10h ·</p>
 
-      <div class="home-content">
-        <p class="home-slideshow-caption" id="home-slideshow-label" aria-live="polite"></p>
-
-        <div class="countdown-block" aria-label="Contagem regressiva do rolê">
-          <p class="countdown-kicker">tá chegando...</p>
-          <h2 class="countdown-title">Nos vemos dentro da zona</h2>
-          <p class="countdown-sub">Dia 14 de novembro · 10h ·</p>
-
-          <div class="countdown-grid" id="countdown-grid" aria-live="polite">
-            <div class="countdown-unit">
-              <span class="countdown-value" id="cd-days">00</span>
-              <span class="countdown-label">dias</span>
-            </div>
-            <div class="countdown-unit">
-              <span class="countdown-value" id="cd-hours">00</span>
-              <span class="countdown-label">horas</span>
-            </div>
-            <div class="countdown-unit">
-              <span class="countdown-value" id="cd-mins">00</span>
-              <span class="countdown-label">min</span>
-            </div>
-            <div class="countdown-unit">
-              <span class="countdown-value" id="cd-secs">00</span>
-              <span class="countdown-label">seg</span>
-            </div>
+        <div class="countdown-grid" id="countdown-grid" aria-live="polite">
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cd-days">00</span>
+            <span class="countdown-label">dias</span>
           </div>
-
-          <p class="countdown-live" id="countdown-live">se você não for só você não vai</p>
-
-          <address class="countdown-place">
-            <strong>Onde?</strong>
-            <span>R. Honorato Brás Godinho, 290 — Ressaca, Ibiúna - SP · 18158-244</span>
-            <a
-              class="btn btn-primary countdown-map"
-              href="https://www.google.com/maps/search/?api=1&query=R.+Honorato+Br%C3%A1s+Godinho%2C+290+-+Ressaca%2C+Ibi%C3%BAna+-+SP%2C+18158-244"
-              target="_blank"
-              rel="noopener noreferrer"
-            >Abrir no mapa</a>
-          </address>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cd-hours">00</span>
+            <span class="countdown-label">horas</span>
+          </div>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cd-mins">00</span>
+            <span class="countdown-label">min</span>
+          </div>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cd-secs">00</span>
+            <span class="countdown-label">seg</span>
+          </div>
         </div>
 
-        <div class="hero">
-          <div class="balloons" aria-hidden="true">
-            <span class="balloon balloon-a"></span>
-            <span class="balloon balloon-b"></span>
-            <span class="balloon balloon-c"></span>
-          </div>
-          <p class="hero-kicker">Evento especial</p>
-          <h1 class="hero-brand">
-            <img src="assets/logo.png" alt="Saia da Zona" class="hero-logo" width="420" height="160" />
-          </h1>
-          <div class="hero-title-row">
-            <p class="hero-title">3 anos</p>
-            <span class="cake" aria-hidden="true">
-              <span class="cake-tier cake-top"></span>
-              <span class="cake-tier cake-mid"></span>
-              <span class="cake-tier cake-base"></span>
-              <span class="cake-candle"></span>
-              <span class="cake-flame"></span>
-            </span>
-          </div>
-          <div class="hero-actions">
-            <button type="button" class="btn btn-primary" data-nav="quiz">Jogar quiz</button>
-            <button type="button" class="btn btn-ghost" data-nav="trail">Abrir Joguinho</button>
-          </div>
+        <p class="countdown-live" id="countdown-live">se você não for só você não vai</p>
+
+        <address class="countdown-place">
+          <strong>Onde?</strong>
+          <span>R. Honorato Brás Godinho, 290 — Ressaca, Ibiúna - SP · 18158-244</span>
+          <a
+            class="btn btn-primary countdown-map"
+            href="https://www.google.com/maps/search/?api=1&query=R.+Honorato+Br%C3%A1s+Godinho%2C+290+-+Ressaca%2C+Ibi%C3%BAna+-+SP%2C+18158-244"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Abrir no mapa</a>
+        </address>
+      </div>
+
+      <div class="hero">
+        <div class="balloons" aria-hidden="true">
+          <span class="balloon balloon-a"></span>
+          <span class="balloon balloon-b"></span>
+          <span class="balloon balloon-c"></span>
+        </div>
+        <p class="hero-kicker">Evento especial</p>
+        <h1 class="hero-brand">
+          <img src="assets/logo.png" alt="Saia da Zona" class="hero-logo" width="420" height="160" />
+        </h1>
+        <div class="hero-title-row">
+          <p class="hero-title">3 anos</p>
+          <span class="cake" aria-hidden="true">
+            <span class="cake-tier cake-top"></span>
+            <span class="cake-tier cake-mid"></span>
+            <span class="cake-tier cake-base"></span>
+            <span class="cake-candle"></span>
+            <span class="cake-flame"></span>
+          </span>
+        </div>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary" data-nav="quiz">Jogar quiz</button>
+          <button type="button" class="btn btn-ghost" data-nav="trail">Abrir Joguinho</button>
         </div>
       </div>
     </section>
@@ -189,12 +180,10 @@
     <span>Saia da Zona · 3 anos</span>
   </footer>
 
-  <script src="js/config.js?v=20"></script>
-  <script src="js/questions.js?v=20"></script>
-  <script src="js/slideshow-photos.js?v=20"></script>
-  <script src="js/slideshow.js?v=20"></script>
-  <script src="js/countdown.js?v=20"></script>
-  <script src="js/trail-game.js?v=20"></script>
-  <script src="js/app.js?v=20"></script>
+  <script src="js/config.js?v=21"></script>
+  <script src="js/questions.js?v=21"></script>
+  <script src="js/countdown.js?v=21"></script>
+  <script src="js/trail-game.js?v=21"></script>
+  <script src="js/app.js?v=21"></script>
 </body>
 </html>
