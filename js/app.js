@@ -123,7 +123,7 @@
         selectedTeamId = team.id;
         renderTeams();
         els.playerForm.hidden = false;
-        els.teamStatus.textContent = `Time ${team.name} selecionado. Confirme para entrar.`;
+        els.teamStatus.textContent = `Time ${team.name} selecionado. Confirme para continuar.`;
       });
       els.teamGrid.appendChild(btn);
     });
@@ -138,7 +138,7 @@
 
   async function confirmTeam() {
     if (!selectedTeamId) {
-      els.teamStatus.textContent = "Escolha um time primeiro.";
+      els.teamStatus.textContent = "Informe o seu time primeiro.";
       return;
     }
 
