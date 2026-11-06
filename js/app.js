@@ -1,9 +1,9 @@
 (() => {
   const TEAMS = [
-    { id: "bonete", name: "Bonete", blurb: "Praia, vento e atitude", color: "var(--team-bonete)" },
-    { id: "marins", name: "Marins", blurb: "Altitude e vista infinita", color: "var(--team-marins)" },
-    { id: "itatiaia", name: "Itatiaia", blurb: "Parque, pico e história", color: "var(--team-itatiaia)" },
-    { id: "lopo", name: "Lopo", blurb: "Pedra, sol e desafio", color: "var(--team-lopo)" },
+    { id: "bonete", name: "Bonete", color: "var(--team-bonete)" },
+    { id: "marins", name: "Marins", color: "var(--team-marins)" },
+    { id: "itatiaia", name: "Itatiaia", color: "var(--team-itatiaia)" },
+    { id: "lopo", name: "Lopo", color: "var(--team-lopo)" },
   ];
 
   const STORAGE_KEY = "sdz3_participant";
@@ -114,7 +114,7 @@
       if (participant?.teamId === team.id || selectedTeamId === team.id) {
         btn.classList.add("is-selected");
       }
-      btn.innerHTML = `<strong>${team.name}</strong><span>${team.blurb}</span>`;
+      btn.innerHTML = `<strong>${team.name}</strong>`;
       btn.addEventListener("click", () => {
         if (participant?.teamId) {
           els.teamStatus.textContent = `Você já está no time ${teamById(participant.teamId).name}.`;

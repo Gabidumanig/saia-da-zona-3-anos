@@ -96,6 +96,207 @@ body::before {
   to { transform: translate3d(24px, -30px, 0) scale(1.08); }
 }
 
+/* Aniversário: confetes, balões, bolo */
+.party {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.confetti {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  opacity: 0.85;
+  animation: confetti-fall linear infinite;
+}
+
+.confetti:nth-child(odd) {
+  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+}
+
+.confetti:nth-child(3n) {
+  width: 10px;
+  height: 5px;
+  border-radius: 1px;
+}
+
+.c1 { left: 6%; background: #FF6B8A; animation-duration: 7.2s; animation-delay: 0s; }
+.c2 { left: 14%; background: #FFD166; animation-duration: 8.4s; animation-delay: -1.2s; }
+.c3 { left: 22%; background: #6BA3FF; animation-duration: 6.6s; animation-delay: -2.4s; }
+.c4 { left: 31%; background: #FFFFFF; animation-duration: 9s; animation-delay: -0.6s; }
+.c5 { left: 40%; background: #00C2FF; animation-duration: 7.8s; animation-delay: -3.1s; }
+.c6 { left: 49%; background: #FF8FAB; animation-duration: 8.8s; animation-delay: -4.2s; }
+.c7 { left: 58%; background: #FFD166; animation-duration: 6.9s; animation-delay: -1.8s; }
+.c8 { left: 67%; background: #1A6BFF; animation-duration: 9.4s; animation-delay: -5s; }
+.c9 { left: 74%; background: #FFFFFF; animation-duration: 7.5s; animation-delay: -2.7s; }
+.c10 { left: 82%; background: #3DDC97; animation-duration: 8.1s; animation-delay: -0.9s; }
+.c11 { left: 89%; background: #FF6B8A; animation-duration: 6.4s; animation-delay: -3.6s; }
+.c12 { left: 95%; background: #6BA3FF; animation-duration: 9.2s; animation-delay: -4.8s; }
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -8vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% { opacity: 0.9; }
+  100% {
+    transform: translate3d(28px, 108vh, 0) rotate(720deg);
+    opacity: 0.35;
+  }
+}
+
+.balloons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.balloon {
+  position: absolute;
+  width: 42px;
+  height: 52px;
+  border-radius: 50% 50% 50% 50% / 42% 42% 58% 58%;
+  animation: balloon-float 5.5s ease-in-out infinite;
+}
+
+.balloon::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid inherit;
+  transform: translateX(-50%);
+  border-top-color: currentColor;
+}
+
+.balloon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1.5px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateX(-50%);
+}
+
+.balloon-a {
+  right: 8%;
+  top: 8%;
+  background: linear-gradient(160deg, #FF8FAB, #FF6B8A);
+  color: #FF6B8A;
+  animation-delay: 0s;
+}
+
+.balloon-b {
+  right: 18%;
+  top: 18%;
+  background: linear-gradient(160deg, #FFFFFF, #B8D4FF);
+  color: #B8D4FF;
+  animation-delay: -1.4s;
+  width: 34px;
+  height: 42px;
+}
+
+.balloon-c {
+  right: 4%;
+  top: 28%;
+  background: linear-gradient(160deg, #6BA3FF, #1A6BFF);
+  color: #1A6BFF;
+  animation-delay: -2.6s;
+  width: 38px;
+  height: 48px;
+}
+
+@keyframes balloon-float {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-16px) rotate(5deg); }
+}
+
+.cake {
+  position: relative;
+  width: 54px;
+  height: 58px;
+  flex-shrink: 0;
+  margin-bottom: 0.55rem;
+  animation: cake-bounce 2.8s ease-in-out infinite;
+}
+
+.cake-tier {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 6px 6px 4px 4px;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+}
+
+.cake-base {
+  bottom: 0;
+  width: 52px;
+  height: 16px;
+  background: linear-gradient(180deg, #FFD9A0, #F0B35A);
+}
+
+.cake-mid {
+  bottom: 14px;
+  width: 40px;
+  height: 14px;
+  background: linear-gradient(180deg, #FFE8F0, #FF8FAB);
+}
+
+.cake-top {
+  bottom: 26px;
+  width: 28px;
+  height: 12px;
+  background: linear-gradient(180deg, #FFFFFF, #C9DCFF);
+}
+
+.cake-candle {
+  position: absolute;
+  left: 50%;
+  bottom: 36px;
+  width: 4px;
+  height: 12px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #FFFFFF, #E8F0FF);
+  border-radius: 1px;
+}
+
+.cake-flame {
+  position: absolute;
+  left: 50%;
+  bottom: 46px;
+  width: 8px;
+  height: 12px;
+  transform: translateX(-50%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 40% 40%, #FFF6A8, #FF9F1C 70%);
+  animation: flame-flicker 0.9s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 6px rgba(255, 180, 40, 0.75));
+}
+
+@keyframes cake-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes flame-flicker {
+  from { transform: translateX(-50%) scale(1) rotate(-4deg); opacity: 0.9; }
+  to { transform: translateX(-50%) scale(1.12) rotate(5deg); opacity: 1; }
+}
+
 .topbar,
 main,
 .footer {
@@ -168,6 +369,7 @@ main,
 }
 
 .hero {
+  position: relative;
   min-height: calc(100vh - 140px);
   display: flex;
   flex-direction: column;
@@ -220,12 +422,11 @@ main,
   animation: rise 0.7s 0.08s ease both;
 }
 
-.hero-sub {
-  margin: 0.25rem 0 0.5rem;
-  max-width: 34rem;
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  color: var(--muted);
-  line-height: 1.5;
+.hero-title-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.85rem;
+  flex-wrap: wrap;
 }
 
 .hero-actions {
@@ -345,16 +546,8 @@ main,
   position: relative;
   display: block;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   letter-spacing: -0.02em;
-}
-
-.team-card span {
-  position: relative;
-  display: block;
-  margin-top: 0.35rem;
-  color: var(--muted);
-  font-size: 0.88rem;
 }
 
 .player-form {
@@ -609,4 +802,20 @@ main,
   .hero {
     min-height: calc(100vh - 180px);
   }
+
+  .balloon-a { right: 2%; top: 2%; }
+  .balloon-b { right: 14%; top: 10%; }
+  .balloon-c { right: 0; top: 20%; opacity: 0.85; }
+
+  .cake {
+    width: 44px;
+    height: 50px;
+    margin-bottom: 0.35rem;
+  }
+
+  .cake-base { width: 42px; height: 14px; }
+  .cake-mid { width: 32px; height: 12px; bottom: 12px; }
+  .cake-top { width: 22px; height: 10px; bottom: 22px; }
+  .cake-candle { bottom: 30px; }
+  .cake-flame { bottom: 40px; }
 }
