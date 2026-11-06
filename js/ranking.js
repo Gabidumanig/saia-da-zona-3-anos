@@ -2,6 +2,9 @@
   const listEl = document.getElementById("ranking-list");
   const statusEl = document.getElementById("ranking-status");
   const tabs = document.querySelectorAll("[data-rank-tab]");
+  const nameForm = document.getElementById("ranking-name-form");
+  const nameInput = document.getElementById("ranking-name-input");
+  const nameHint = document.getElementById("ranking-name-hint");
   if (!listEl) return;
 
   let mode = "geral";
@@ -32,11 +35,23 @@
     return `${totalOf(row)} pts`;
   }
 
+  function syncNameField() {
+    if (!nameInput) return;
+    const me = window.SDZ_PLAYER?.getName?.() || "";
+    if (me && nameInput.value !== me) nameInput.value = me;
+    if (nameHint) {
+      nameHint.textContent = me
+        ? `Jogando como ${me}. Pode trocar o nome quando quiser.`
+        : "Salva o nome pra aparecer no placar depois do Quiz e dos jogos.";
+      nameHint.classList.toggle("is-ok", Boolean(me));
+    }
+  }
+
   function render() {
     const me = window.SDZ_PLAYER?.getName?.() || "";
     const sorted = sortRows().slice(0, 30);
     if (!sorted.length) {
-      listEl.innerHTML = `<p class="ranking-empty">Ainda sem placar. Joga o Quiz, a Trilha ou a Cargueira!</p>`;
+      listEl.innerHTML = `<p class="ranking-empty">Ainda sem placar. Salva teu nome acima e joga o Quiz, a Trilha ou a Cargueira!</p>`;
       return;
     }
     listEl.innerHTML = sorted
@@ -69,7 +84,25 @@
         ? `${rows.length} jogador${rows.length === 1 ? "" : "es"} online`
         : "Ranking offline";
     }
+    syncNameField();
     render();
+  }
+
+  if (nameForm && nameInput) {
+    nameForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const ok = window.SDZ_PLAYER?.setName?.(nameInput.value);
+      if (!ok) {
+        if (nameHint) {
+          nameHint.textContent = "Digite pelo menos 2 letras.";
+          nameHint.classList.remove("is-ok");
+        }
+        nameInput.focus();
+        return;
+      }
+      syncNameField();
+      render();
+    });
   }
 
   tabs.forEach((tab) => {
@@ -81,6 +114,10 @@
   });
 
   window.addEventListener("sdz-score-updated", refresh);
+  window.addEventListener("sdz-name-updated", () => {
+    syncNameField();
+    render();
+  });
   window.SDZ_RANKING = { refresh };
 
   refresh();

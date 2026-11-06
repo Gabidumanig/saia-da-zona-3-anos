@@ -5,28 +5,55 @@
   const url = (config.supabaseUrl || "").trim().replace(/\/$/, "");
   const key = (config.supabaseAnonKey || "").trim();
 
+  let pendingResolve = null;
+
   function uid() {
-    if (crypto.randomUUID) return crypto.randomUUID();
+    try {
+      if (crypto.randomUUID) return crypto.randomUUID();
+    } catch (_) {
+      /* ignore */
+    }
     return `p_${Date.now()}_${Math.random().toString(16).slice(2)}`;
   }
 
+  function storageGet(k) {
+    try {
+      return localStorage.getItem(k);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function storageSet(k, v) {
+    try {
+      localStorage.setItem(k, v);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   function getKey() {
-    let id = localStorage.getItem(ID_KEY);
+    let id = storageGet(ID_KEY);
     if (!id) {
       id = uid();
-      localStorage.setItem(ID_KEY, id);
+      storageSet(ID_KEY, id);
     }
     return id;
   }
 
   function getName() {
-    return (localStorage.getItem(NAME_KEY) || "").trim();
+    return (storageGet(NAME_KEY) || "").trim();
   }
 
   function setName(name) {
-    const clean = String(name || "").trim().slice(0, 24);
+    const clean = String(name || "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 24);
     if (clean.length < 2) return false;
-    localStorage.setItem(NAME_KEY, clean);
+    if (!storageSet(NAME_KEY, clean)) return false;
+    window.dispatchEvent(new CustomEvent("sdz-name-updated", { detail: { name: clean } }));
     return true;
   }
 
@@ -88,43 +115,109 @@
     modal.innerHTML = `
       <div class="name-modal-card" role="dialog" aria-modal="true" aria-labelledby="name-modal-title">
         <p class="eyebrow">Antes de começar</p>
-        <h3 id="name-modal-title">Como te chamas?</h3>
-        <p class="name-modal-lede">Teu nome entra no ranking online do Níver SZ.</p>
-        <form id="name-form">
-          <input id="name-input" type="text" maxlength="24" autocomplete="nickname" placeholder="Seu nome" required />
-          <button type="submit" class="btn btn-primary">Continuar</button>
+        <h3 id="name-modal-title">Qual é o seu nome?</h3>
+        <p class="name-modal-lede">Esse nome aparece no ranking online do Níver SZ.</p>
+        <form id="name-form" action="#" method="dialog">
+          <label class="name-label" for="name-input">Seu nome</label>
+          <input id="name-input" name="player_name" type="text" maxlength="24" minlength="2"
+            autocomplete="nickname" inputmode="text" enterkeyhint="done"
+            placeholder="Ex.: Gabi" required />
+          <p id="name-error" class="name-error" hidden>Digite pelo menos 2 letras.</p>
+          <button type="submit" id="name-submit" class="btn btn-primary">Salvar e continuar</button>
         </form>
       </div>
     `;
     document.body.appendChild(modal);
+    wireModal(modal);
     return modal;
   }
 
-  function askName() {
+  function showError(show) {
+    const err = document.getElementById("name-error");
+    if (err) err.hidden = !show;
+  }
+
+  function closeModal(modal, name) {
+    modal.hidden = true;
+    modal.classList.remove("is-open");
+    showError(false);
+    const resolve = pendingResolve;
+    pendingResolve = null;
+    if (resolve) resolve(name);
+  }
+
+  function trySaveFromInput(input) {
+    const ok = setName(input.value);
+    if (!ok) {
+      showError(true);
+      input.focus();
+      return null;
+    }
+    showError(false);
+    return getName();
+  }
+
+  function wireModal(modal) {
+    if (modal.dataset.wired === "1") return;
+    modal.dataset.wired = "1";
+    const form = modal.querySelector("#name-form");
+    const input = modal.querySelector("#name-input");
+    const btn = modal.querySelector("#name-submit");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const name = trySaveFromInput(input);
+      if (!name) return;
+      closeModal(modal, name);
+    });
+
+    if (btn) {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const name = trySaveFromInput(input);
+        if (!name) return;
+        closeModal(modal, name);
+      });
+    }
+  }
+
+  function askName(opts = {}) {
+    const force = Boolean(opts.force);
     return new Promise((resolve) => {
       const existing = getName();
-      if (existing) {
+      if (existing && !force) {
         resolve(existing);
         return;
       }
       const modal = ensureModal();
-      const form = modal.querySelector("#name-form");
       const input = modal.querySelector("#name-input");
+      pendingResolve = resolve;
+      if (existing) input.value = existing;
+      else if (!input.value) input.value = "";
+      showError(false);
       modal.hidden = false;
-      setTimeout(() => input.focus(), 50);
-
-      function onSubmit(e) {
-        e.preventDefault();
-        if (!setName(input.value)) {
+      modal.classList.add("is-open");
+      setTimeout(() => {
+        try {
+          input.focus({ preventScroll: true });
+          input.select();
+        } catch (_) {
           input.focus();
-          return;
         }
-        form.removeEventListener("submit", onSubmit);
-        modal.hidden = true;
-        resolve(getName());
-      }
-      form.addEventListener("submit", onSubmit);
+      }, 80);
     });
+  }
+
+  // Modal estático no HTML (se existir) também precisa do wire.
+  document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("name-modal");
+    if (modal) wireModal(modal);
+  });
+  if (document.readyState !== "loading") {
+    const modal = document.getElementById("name-modal");
+    if (modal) wireModal(modal);
   }
 
   window.SDZ_PLAYER = {

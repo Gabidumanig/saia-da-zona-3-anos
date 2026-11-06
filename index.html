@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=58" />
+  <link rel="stylesheet" href="css/styles.css?v=59" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -161,6 +161,18 @@
           <span id="ranking-status" class="chip chip-soft">…</span>
         </div>
         <p class="lede">Quem está mandando melhor no Quiz, na Trilha e na Cargueira.</p>
+
+        <form id="ranking-name-form" class="ranking-name-form" action="#">
+          <label for="ranking-name-input">Seu nome no ranking</label>
+          <div class="ranking-name-row">
+            <input id="ranking-name-input" type="text" maxlength="24" minlength="2"
+              autocomplete="nickname" inputmode="text" enterkeyhint="done"
+              placeholder="Digite seu nome" required />
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+          <p id="ranking-name-hint" class="ranking-name-hint">Salva o nome pra aparecer no placar depois do Quiz e dos jogos.</p>
+        </form>
+
         <div class="rank-tabs" role="tablist">
           <button type="button" class="rank-tab is-active" data-rank-tab="geral">Geral</button>
           <button type="button" class="rank-tab" data-rank-tab="quiz">Quiz</button>
@@ -350,14 +362,30 @@
     <span>Saia da Zona · 3 anos</span>
   </footer>
 
-  <script src="js/config.js?v=58"></script>
-  <script src="js/player.js?v=58"></script>
-  <script src="js/questions.js?v=58"></script>
-  <script src="js/countdown.js?v=58"></script>
-  <script src="js/weather.js?v=58"></script>
-  <script src="js/trail-game.js?v=58"></script>
-  <script src="js/pack-game.js?v=58"></script>
-  <script src="js/app.js?v=58"></script>
-  <script src="js/ranking.js?v=58"></script>
+  <div id="name-modal" class="name-modal" hidden>
+    <div class="name-modal-card" role="dialog" aria-modal="true" aria-labelledby="name-modal-title">
+      <p class="eyebrow">Antes de começar</p>
+      <h3 id="name-modal-title">Qual é o seu nome?</h3>
+      <p class="name-modal-lede">Esse nome aparece no ranking online do Níver SZ.</p>
+      <form id="name-form" action="#">
+        <label class="name-label" for="name-input">Seu nome</label>
+        <input id="name-input" name="player_name" type="text" maxlength="24" minlength="2"
+          autocomplete="nickname" inputmode="text" enterkeyhint="done"
+          placeholder="Ex.: Gabi" required />
+        <p id="name-error" class="name-error" hidden>Digite pelo menos 2 letras.</p>
+        <button type="submit" id="name-submit" class="btn btn-primary">Salvar e continuar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config.js?v=59"></script>
+  <script src="js/player.js?v=59"></script>
+  <script src="js/questions.js?v=59"></script>
+  <script src="js/countdown.js?v=59"></script>
+  <script src="js/weather.js?v=59"></script>
+  <script src="js/trail-game.js?v=59"></script>
+  <script src="js/pack-game.js?v=59"></script>
+  <script src="js/app.js?v=59"></script>
+  <script src="js/ranking.js?v=59"></script>
 </body>
 </html>
