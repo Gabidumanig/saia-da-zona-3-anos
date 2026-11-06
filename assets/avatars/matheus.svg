@@ -1,18 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
   <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
-  <!-- hair under / around beanie -->
-  <path d="M34 54c2 16 8 24 16 28 2-8 4-16 6-22 4 8 7 18 10 28 3-10 6-20 10-28 2 6 4 14 6 22 8-4 14-12 16-28 0-14-12-24-32-24S34 40 34 54z" fill="#2A2A2A"/>
+  <!-- cabelo volumoso atrás / laterais -->
+  <path d="M30 52c0 18 6 28 16 34 2-10 4-18 6-24 4 10 7 20 10 30 3-10 6-20 10-30 2 6 4 14 6 24 10-6 16-16 16-34 0-18-14-28-32-28S30 34 30 52z" fill="#1F1F1F"/>
   <!-- patterned beanie -->
   <path d="M38 48c2-20 42-20 44 0v5H38z" fill="#4A6A8A"/>
   <path d="M40 42h8l4 8h-8z" fill="#7AA0C4"/>
   <path d="M52 40h8l4 10h-8z" fill="#2A3A4A"/>
   <path d="M64 42h8l4 8h-8z" fill="#7AA0C4"/>
   <path d="M76 44h6l2 6h-6z" fill="#2A3A4A"/>
-  <!-- hair fringe peeking under beanie -->
-  <path d="M40 50c6-4 14-5 20-3 6-2 14-1 20 3-4 1-8 2-12 1-4 2-10 2-16 1-4 1-8 0-12-2z" fill="#2A2A2A"/>
-  <!-- side hair -->
-  <path d="M36 52c-2 8 0 16 3 20 1-6 2-12 2-17 0-2-1-3-5-3z" fill="#2A2A2A"/>
-  <path d="M84 52c2 8 0 16-3 20-1-6-2-12-2-17 0-2 1-3 5-3z" fill="#2A2A2A"/>
+  <!-- franja saindo da touca -->
+  <path d="M38 50c7-5 16-6 22-3 6-3 15-2 22 3-5 1-10 2-14 1-4 3-12 3-18 1-4 1-8 0-12-2z" fill="#1F1F1F"/>
+  <path d="M34 52c-3 10 0 20 4 26 1-8 2-16 3-22 0-3-2-4-7-4z" fill="#1F1F1F"/>
+  <path d="M86 52c3 10 0 20-4 26-1-8-2-16-3-22 0-3 2-4 7-4z" fill="#1F1F1F"/>
   <!-- head + beard -->
   <circle cx="60" cy="58" r="22" fill="#F0C8A8"/>
   <path d="M42 64c2 18 34 18 36 0-6 8-30 8-36 0z" fill="#5A4030"/>

@@ -1,12 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
   <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
-  <!-- soft hair back (medium, girly) -->
-  <path d="M30 52c0 20 5 30 14 36 3-10 6-18 9-24 4 8 7 18 10 28 3-10 6-20 10-28 3 6 6 14 9 24 9-6 14-16 14-36 0-18-14-28-33-28S30 34 30 52z" fill="#F0C85E"/>
-  <path d="M33 70c3 10 7 18 12 22M87 70c-3 10-7 18-12 22" stroke="#E0B040" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+  <!-- cabelo curto / bob girly -->
+  <path d="M32 50c0 12 4 20 12 24 2-6 4-12 6-16 3 6 5 14 7 20 2-6 4-14 7-20 2 4 4 10 6 16 8-4 12-12 12-24 0-16-12-26-31-26S32 34 32 50z" fill="#F0C85E"/>
   <!-- body dressy pink -->
   <rect x="42" y="78" width="36" height="34" rx="14" fill="#FF6BA8"/>
   <rect x="46" y="84" width="28" height="7" rx="3.5" fill="#FFD6E8"/>
-  <!-- tiny heart on shirt -->
   <path d="M58 94c1.2-1.4 3.2-.2 2 1.4-.8 1-2 1.8-2 1.8s-1.2-.8-2-1.8c-1.2-1.6.8-2.8 2-1.4z" fill="#FFF"/>
   <!-- backpack -->
   <rect x="30" y="80" width="14" height="26" rx="4" fill="#C45C26"/>
@@ -16,38 +14,34 @@
   <!-- blush -->
   <ellipse cx="44" cy="58" rx="5" ry="3.2" fill="#FF8FAB" opacity=".45"/>
   <ellipse cx="76" cy="58" rx="5" ry="3.2" fill="#FF8FAB" opacity=".45"/>
-  <!-- pretty bangs -->
-  <path d="M38 47c2-14 13-22 22-22s20 8 22 22c-5-4-11-6-17-4-4-3-10-3-16 0-4-2-8-1-11 4z" fill="#F0C85E"/>
-  <path d="M41 45c5-7 12-9 19-7 6-2 13 0 18 7-5-1-9 1-13 3-4-4-9-5-14 0-3-2-7-3-10-3z" fill="#FFE08A"/>
-  <!-- soft side curls -->
-  <path d="M37 49c-3 8-1 16 3 20 1-6 2-12 3-17 0-2-2-3-6-3z" fill="#F0C85E"/>
-  <path d="M83 49c3 8 1 16-3 20-1-6-2-12-3-17 0-2 2-3 6-3z" fill="#F0C85E"/>
-  <!-- pink bow on side -->
+  <!-- fringe curto -->
+  <path d="M38 46c2-13 13-20 22-20s20 7 22 20c-5-3-11-5-17-3-4-2-10-2-16 0-4-2-8-1-11 3z" fill="#F0C85E"/>
+  <path d="M41 44c5-6 12-8 19-6 6-2 13 0 18 6-5-1-9 1-13 2-4-3-9-4-14 0-3-2-7-2-10-2z" fill="#FFE08A"/>
+  <!-- soft side curls curtos -->
+  <path d="M37 48c-2 6 0 12 3 15 1-5 2-10 3-14 0-1-2-2-6-1z" fill="#F0C85E"/>
+  <path d="M83 48c2 6 0 12-3 15-1-5-2-10-3-14 0-1 2-2 6-1z" fill="#F0C85E"/>
+  <!-- pink bow -->
   <path d="M78 34c-3-2-6 1-5 3 2 1 4 0 5-3z" fill="#FF6BA8"/>
   <path d="M84 34c3-2 6 1 5 3-2 1-4 0-5-3z" fill="#FF6BA8"/>
   <circle cx="81" cy="36" r="2.2" fill="#FFD6E8"/>
-  <!-- thin sparkly headband -->
+  <!-- headband -->
   <path d="M41 39c5-2 12-3 19-3s14 1 19 3" stroke="#FF6BA8" stroke-width="2.6" stroke-linecap="round"/>
   <circle cx="50" cy="37.5" r="1.4" fill="#FFF"/>
   <circle cx="60" cy="36.5" r="1.4" fill="#FFE08A"/>
   <circle cx="70" cy="37.5" r="1.4" fill="#FFF"/>
-  <!-- girly eyes + lashes -->
+  <!-- eyes + lashes -->
   <ellipse cx="51" cy="54" rx="3.2" ry="2.8" fill="#2A2A2A"/>
   <ellipse cx="69" cy="54" rx="3.2" ry="2.8" fill="#2A2A2A"/>
   <circle cx="52.2" cy="52.8" r="1.1" fill="#FFF"/>
   <circle cx="70.2" cy="52.8" r="1.1" fill="#FFF"/>
   <path d="M46 50.5c1.5-2 3.5-2.5 5.5-1.2M48 49c1-1.6 2.4-2 3.6-1.2" stroke="#2A2A2A" stroke-width="1.3" stroke-linecap="round"/>
   <path d="M64 50.5c1.5-2 3.5-2.5 5.5-1.2M66 49c1-1.6 2.4-2 3.6-1.2" stroke="#2A2A2A" stroke-width="1.3" stroke-linecap="round"/>
-  <!-- soft brows -->
   <path d="M46 49c2.5-1.5 7-1.5 9.5 0" stroke="#C49A55" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
   <path d="M64.5 49c2.5-1.5 7-1.5 9.5 0" stroke="#C49A55" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
-  <!-- smile + glossy lip hint -->
   <path d="M53 63.5c3 5 11 5 14 0" stroke="#E26B84" stroke-width="2.3" stroke-linecap="round"/>
   <path d="M57 65.5c2 .9 4 .9 6 0" stroke="#FFB0C4" stroke-width="1.2" stroke-linecap="round"/>
-  <!-- tiny earring -->
   <circle cx="38" cy="60" r="1.8" fill="#FFD166"/>
   <circle cx="82" cy="60" r="1.8" fill="#FFD166"/>
-  <!-- arms/legs -->
   <path d="M42 88c-8 6-10 14-8 20" stroke="#F6CDB0" stroke-width="5" stroke-linecap="round"/>
   <path d="M78 88c8 6 10 14 8 20" stroke="#F6CDB0" stroke-width="5" stroke-linecap="round"/>
   <path d="M50 110v16M70 110v16" stroke="#FF6BA8" stroke-width="5" stroke-linecap="round"/>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
+  <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
+  <!-- black beanie -->
+  <path d="M38 48c2-20 42-20 44 0v5H38z" fill="#1A1A1A"/>
+  <rect x="54" y="30" width="12" height="8" rx="2" fill="#F5C518"/>
+  <!-- head -->
+  <circle cx="60" cy="58" r="22" fill="#DDB892"/>
+  <!-- eyes: só tracinho -->
+  <path d="M45 58h10" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M65 58h10" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M54 68c3 4 9 4 12 0" stroke="#C45C6A" stroke-width="2" stroke-linecap="round"/>
+  <!-- red jacket -->
+  <rect x="40" y="78" width="40" height="34" rx="12" fill="#E23B2F"/>
+  <rect x="56" y="78" width="8" height="20" fill="#B91F18"/>
+  <!-- khaki pants hint -->
+  <rect x="46" y="104" width="28" height="8" rx="3" fill="#9A7B4F"/>
+  <!-- backpack -->
+  <rect x="28" y="80" width="14" height="26" rx="4" fill="#C45C26"/>
+  <rect x="30" y="84" width="10" height="5" rx="1" fill="#8B3E14"/>
+  <!-- open arms -->
+  <path d="M40 88c-14 2-18 8-20 14" stroke="#DDB892" stroke-width="5" stroke-linecap="round"/>
+  <path d="M80 88c14 2 18 8 20 14" stroke="#DDB892" stroke-width="5" stroke-linecap="round"/>
+  <path d="M50 112v14M70 112v14" stroke="#6B5230" stroke-width="5" stroke-linecap="round"/>
+</svg>
