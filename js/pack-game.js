@@ -20,7 +20,7 @@
     { id: "barraca", label: "Barraca", color: "#3DDC97" },
     { id: "garrafa", label: "Garrafa", color: "#00C2FF" },
     { id: "bussola", label: "Bússola", color: "#FFD166" },
-    { id: "bota", label: "Bota", color: "#C45C26" },
+    { id: "bota", label: "Bota", color: "#C45C26", sprite: "bota" },
     { id: "corda", label: "Corda", color: "#F0B35A" },
     { id: "mapa", label: "Mapa", color: "#FF8FAB" },
     { id: "lanterna", label: "Lanterna", color: "#6BA3FF" },
@@ -140,6 +140,7 @@
   }
   loadItemSprite("atum", "assets/game/pate-atum.png");
   loadItemSprite("pepino", "assets/game/pepino.png");
+  loadItemSprite("bota", "assets/game/bota.png");
 
   function updateHud() {
     if (scoreEl) scoreEl.textContent = `${score} itens`;
