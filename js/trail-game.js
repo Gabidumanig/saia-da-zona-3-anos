@@ -6,11 +6,11 @@
   const GROUND_Y = 292;
 
   const AVATARS = [
-    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi.svg" },
-    { id: "caio", name: "Caio", src: "assets/avatars/caio.svg" },
     { id: "franz", name: "Franz", src: "assets/avatars/franz.svg" },
-    { id: "jin", name: "Jin", src: "assets/avatars/jin.svg" },
     { id: "diego", name: "Diego", src: "assets/avatars/diego.svg" },
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi.svg" },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin.svg" },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio.svg" },
     { id: "matheus", name: "Matheus", src: "assets/avatars/matheus.svg" },
   ];
 
