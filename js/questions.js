@@ -14,7 +14,7 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "q2",
-    text: "Quantos anos a empresa está a completar neste evento?",
+    text: "Quantos anos a empresa está completando neste evento?",
     options: ["1", "2", "3", "5"],
     correctIndex: 2,
   },

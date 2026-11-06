@@ -117,20 +117,20 @@
       btn.innerHTML = `<strong>${team.name}</strong><span>${team.blurb}</span>`;
       btn.addEventListener("click", () => {
         if (participant?.teamId) {
-          els.teamStatus.textContent = `Já estás no time ${teamById(participant.teamId).name}.`;
+          els.teamStatus.textContent = `Você já está no time ${teamById(participant.teamId).name}.`;
           return;
         }
         selectedTeamId = team.id;
         renderTeams();
         els.playerForm.hidden = false;
-        els.teamStatus.textContent = `Time ${team.name} selecionado. Confirma para entrar.`;
+        els.teamStatus.textContent = `Time ${team.name} selecionado. Confirme para entrar.`;
       });
       els.teamGrid.appendChild(btn);
     });
 
     if (participant?.teamId) {
       els.playerForm.hidden = true;
-      els.teamStatus.textContent = `Estás no time ${teamById(participant.teamId).name}${
+      els.teamStatus.textContent = `Você está no time ${teamById(participant.teamId).name}${
         participant.name ? ` · ${participant.name}` : ""
       }.`;
     }
@@ -138,7 +138,7 @@
 
   async function confirmTeam() {
     if (!selectedTeamId) {
-      els.teamStatus.textContent = "Escolhe um time primeiro.";
+      els.teamStatus.textContent = "Escolha um time primeiro.";
       return;
     }
 
@@ -153,7 +153,7 @@
     await ensureParticipantRemote(participant);
     renderTeams();
     updateQuizChrome();
-    els.teamStatus.textContent = `Pronto! Bem-vindo ao time ${teamById(participant.teamId).name}.`;
+    els.teamStatus.textContent = `Pronto! Bem-vindo(a) ao time ${teamById(participant.teamId).name}.`;
     showView("quiz");
   }
 
@@ -184,7 +184,7 @@
       els.quizBoard.hidden = true;
       els.quizDone.hidden = false;
       const correct = Object.values(loadAnswers()).filter((a) => a.correct).length;
-      els.quizSummary.textContent = `Acertaste ${correct} de ${questions.length}. Os pontos já foram para o time ${
+      els.quizSummary.textContent = `Você acertou ${correct} de ${questions.length}. Os pontos já foram para o time ${
         teamById(participant.teamId).name
       }.`;
       return;
@@ -224,7 +224,7 @@
 
     if (prior) {
       els.quizFeedback.textContent = prior.correct
-        ? `Boa! +${pointsPerCorrect} para o teu time.`
+        ? `Boa! +${pointsPerCorrect} para o seu time.`
         : "Essa não foi. Segue para a próxima.";
       els.quizFeedback.classList.add(prior.correct ? "is-ok" : "is-bad");
     }
@@ -349,7 +349,7 @@
     if (!url || !key || !window.supabase) {
       setConnection(false);
       els.scoreStatus.textContent =
-        "Modo local: configura o Supabase em js/config.js para placar partilhado ao vivo.";
+        "Modo local: configure o Supabase em js/config.js para placar compartilhado ao vivo.";
       liveScores = { ...localScoreFallback };
       renderScoreboard();
       return;
@@ -361,7 +361,7 @@
     const { data, error } = await supabase.from("teams").select("id, score");
     if (error) {
       setConnection(false);
-      els.scoreStatus.textContent = `Não foi possível ligar ao placar: ${error.message}`;
+      els.scoreStatus.textContent = `Não foi possível conectar ao placar: ${error.message}`;
       return;
     }
 
