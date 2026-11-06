@@ -1,19 +1,7 @@
-// Banco completo do quiz (fonte: Quiz_Saia_da_Zona_perguntas_e_respostas.md).
-// Pendentes 006, 007, 039 e 047 ficam de fora até haver gabarito.
+// Banco do quiz — perguntas, alternativas e gabarito atualizados.
+// 039 fica de fora (gabarito pendente).
 // correctIndex = índice da resposta certa (A=0 … E=4).
 window.SDZ_QUESTIONS = [
-  {
-    id: "002",
-    text: "Quem forma a dupla de líderes fundadores do Saia da Zona?",
-    options: [
-      "Franz e seu irmão",
-      "Matheus e Caio Ferrari",
-      "Diego Davidoff e Franz Kenzo",
-      "Gabi e Franz",
-      "Diego e o GPS sem bateria",
-    ],
-    correctIndex: 2,
-  },
   {
     id: "003",
     text: "Qual combinação tem mais a cara das experiências propostas pelo Saia da Zona?",
@@ -35,6 +23,30 @@ window.SDZ_QUESTIONS = [
       "Nos vemos quando o Wi-Fi voltar",
       "Nos vemos fora da zona",
       "Nos vemos no elevador",
+    ],
+    correctIndex: 3,
+  },
+  {
+    id: "006",
+    text: "Qual destino foi escolhido como cenário do segundo aniversário?",
+    options: [
+      "Lençóis Maranhenses",
+      "Fazenda da Laje",
+      "Praia do Bonete",
+      "Casa do Franz",
+      "Pico do Lopo",
+    ],
+    correctIndex: 4,
+  },
+  {
+    id: "007",
+    text: "Qual destino foi escolhido como cenário do primeiro aniversário?",
+    options: [
+      "Casa do Diego",
+      "Prédio da Gabi",
+      "Praia do Bonete",
+      "Fazenda da Lage",
+      "Pico do Lopo",
     ],
     correctIndex: 3,
   },
@@ -245,25 +257,61 @@ window.SDZ_QUESTIONS = [
   {
     id: "046",
     text: "Qual transporte está previsto para a volta do Bonete?",
-    options: ["Quadriciclo", "Balsa", "Mulas", "Caiaque", "Barco"],
+    options: [
+      "Quadriciclo",
+      "Balsa",
+      "Mulas",
+      "Caiaque",
+      "Barco",
+    ],
     correctIndex: 4,
+  },
+  {
+    id: "047",
+    text: "Quem é uma das principais duplas do Bonete com quem conversamos?",
+    options: [
+      "Patrick e Bob",
+      "Bob e Kajiya",
+      "Kajiya e Ana",
+      "Ana e Ivone",
+      "Bob e Ivone",
+    ],
+    correctIndex: 1,
   },
   {
     id: "051",
     text: "A expedição da Guatemala leva o grupo a conhecer ruínas de qual civilização?",
-    options: ["Persa", "Bárbara", "Maia", "Romana", "Inca"],
+    options: [
+      "Persa",
+      "Bárbara",
+      "Maia",
+      "Romana",
+      "Inca",
+    ],
     correctIndex: 2,
   },
   {
     id: "053",
     text: "Qual vulcão é subido no roteiro da Guatemala?",
-    options: ["Kilimanjaro", "Fuego", "Vesúvio", "Acatenango", "Pucón"],
+    options: [
+      "Kilimanjaro",
+      "Fuego",
+      "Vesúvio",
+      "Acatenango",
+      "Pucón",
+    ],
     correctIndex: 3,
   },
   {
     id: "054",
     text: "Qual vulcão é observado a partir da região do acampamento no roteiro da Guatemala?",
-    options: ["Fuego", "Acatenango", "Etna", "Vesúvio", "Pucón"],
+    options: [
+      "Fuego",
+      "Acatenango",
+      "Etna",
+      "Vesúvio",
+      "Pucón",
+    ],
     correctIndex: 0,
   },
   {
@@ -305,13 +353,25 @@ window.SDZ_QUESTIONS = [
   {
     id: "069",
     text: "Qual parte da mochila abraça o quadril e ajuda a dividir o trabalho com os ombros?",
-    options: ["Ombreira", "Barrigueira", "Pescoceira", "Cinto", "Cintureira"],
+    options: [
+      "Ombreira",
+      "Barrigueira",
+      "Pescoceira",
+      "Cinto",
+      "Cintureira",
+    ],
     correctIndex: 1,
   },
   {
     id: "082",
     text: "Qual peça forma a armação de uma barraca tradicional?",
-    options: ["Cadarços", "Muleta", "Bastões", "Varinhas", "Varetas"],
+    options: [
+      "Cadarços",
+      "Muleta",
+      "Bastões",
+      "Varinhas",
+      "Varetas",
+    ],
     correctIndex: 4,
   },
   {
