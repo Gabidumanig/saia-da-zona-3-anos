@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" fill="none">
+  <ellipse cx="50" cy="102" rx="28" ry="5" fill="#041833" opacity=".18"/>
+  <rect x="22" y="28" width="56" height="68" rx="10" fill="#D9E4F5"/>
+  <rect x="22" y="28" width="56" height="18" rx="10" fill="#1A6BFF"/>
+  <rect x="22" y="38" width="56" height="8" fill="#0B3D91"/>
+  <text x="50" y="41" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="9" font-weight="800" fill="#FFF" letter-spacing="1">ATUM</text>
+  <ellipse cx="50" cy="26" rx="22" ry="8" fill="#B8C7DE"/>
+  <ellipse cx="50" cy="24" rx="16" ry="4" fill="#EEF3FA"/>
+  <circle cx="40" cy="62" r="4" fill="#1A1A1A"/>
+  <circle cx="60" cy="62" r="4" fill="#1A1A1A"/>
+  <circle cx="41.2" cy="60.8" r="1.2" fill="#FFF"/>
+  <circle cx="61.2" cy="60.8" r="1.2" fill="#FFF"/>
+  <path d="M42 74c4 5 12 5 16 0" stroke="#E85570" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M34 70c-2 4-2 10 0 14M66 70c2 4 2 10 0 14" stroke="#6BA3FF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M38 52c3-4 8-4 11 0M51 52c3-4 8-4 11 0" stroke="#FF8FAB" stroke-width="2" stroke-linecap="round"/>
+</svg>
