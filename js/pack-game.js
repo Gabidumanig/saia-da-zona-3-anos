@@ -47,25 +47,73 @@
   let packSpriteReady = false;
   const itemSprites = {};
 
+  function isBackgroundPixel(r, g, b) {
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const sat = max === 0 ? 0 : (max - min) / max;
+    // fundo branco / off-white / cinza bem claro
+    return max >= 210 && sat <= 0.12;
+  }
+
   function punchWhiteBackground(img) {
     const off = document.createElement("canvas");
-    off.width = img.naturalWidth || img.width;
-    off.height = img.naturalHeight || img.height;
-    const ox = off.getContext("2d");
+    const w = img.naturalWidth || img.width;
+    const h = img.naturalHeight || img.height;
+    off.width = w;
+    off.height = h;
+    const ox = off.getContext("2d", { willReadFrequently: true });
     ox.drawImage(img, 0, 0);
-    const frame = ox.getImageData(0, 0, off.width, off.height);
+    const frame = ox.getImageData(0, 0, w, h);
     const px = frame.data;
+    const seen = new Uint8Array(w * h);
+    const queue = [];
+
+    function tryPush(x, y) {
+      if (x < 0 || y < 0 || x >= w || y >= h) return;
+      const idx = y * w + x;
+      if (seen[idx]) return;
+      const i = idx * 4;
+      if (!isBackgroundPixel(px[i], px[i + 1], px[i + 2])) return;
+      seen[idx] = 1;
+      queue.push(idx);
+    }
+
+    // flood fill só a partir das bordas (remove o retângulo de fundo)
+    for (let x = 0; x < w; x += 1) {
+      tryPush(x, 0);
+      tryPush(x, h - 1);
+    }
+    for (let y = 0; y < h; y += 1) {
+      tryPush(0, y);
+      tryPush(w - 1, y);
+    }
+
+    while (queue.length) {
+      const idx = queue.pop();
+      const i = idx * 4;
+      const x = idx % w;
+      const y = (idx - x) / w;
+      px[i + 3] = 0;
+      tryPush(x + 1, y);
+      tryPush(x - 1, y);
+      tryPush(x, y + 1);
+      tryPush(x, y - 1);
+    }
+
+    // suaviza borda residual bem clara
     for (let i = 0; i < px.length; i += 4) {
+      if (px[i + 3] === 0) continue;
       const r = px[i];
       const g = px[i + 1];
       const b = px[i + 2];
-      if (r > 248 && g > 248 && b > 248) {
+      if (r > 242 && g > 242 && b > 242) {
         px[i + 3] = 0;
-      } else if (r > 235 && g > 235 && b > 235) {
-        const edge = (Math.min(r, g, b) - 235) / 20;
-        px[i + 3] = Math.max(0, Math.min(255, Math.round(255 * (1 - edge))));
+      } else if (r > 228 && g > 228 && b > 228) {
+        const edge = (Math.min(r, g, b) - 228) / 27;
+        px[i + 3] = Math.max(0, Math.min(255, Math.round(px[i + 3] * (1 - edge))));
       }
     }
+
     ox.putImageData(frame, 0, 0);
     return off;
   }
