@@ -114,14 +114,6 @@
     els.quizProgress.textContent = `${answeredCount()} / ${total}`;
   }
 
-  function setNavOpen(open) {
-    const toggle = document.getElementById("nav-toggle");
-    const backdrop = document.getElementById("nav-backdrop");
-    document.body.classList.toggle("is-nav-open", open);
-    if (toggle) toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    if (backdrop) backdrop.hidden = !open;
-  }
-
   function showView(name) {
     Object.entries(els.views).forEach(([key, node]) => {
       if (!node) return;
@@ -133,8 +125,6 @@
     document.querySelectorAll("[data-nav]").forEach((btn) => {
       btn.classList.toggle("is-active", btn.getAttribute("data-nav") === name);
     });
-
-    setNavOpen(false);
 
     if (name === "quiz") renderQuiz();
     if (["quiz", "trail", "pack"].includes(name)) {
@@ -247,20 +237,6 @@
   function bindNav() {
     document.querySelectorAll("[data-nav]").forEach((el) => {
       el.addEventListener("click", () => showView(el.getAttribute("data-nav")));
-    });
-
-    const toggle = document.getElementById("nav-toggle");
-    const backdrop = document.getElementById("nav-backdrop");
-    if (toggle) {
-      toggle.addEventListener("click", () => {
-        setNavOpen(!document.body.classList.contains("is-nav-open"));
-      });
-    }
-    if (backdrop) {
-      backdrop.addEventListener("click", () => setNavOpen(false));
-    }
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") setNavOpen(false);
     });
   }
 
