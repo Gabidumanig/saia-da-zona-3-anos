@@ -13,15 +13,6 @@
 
   if (!els.days || !els.hours || !els.mins || !els.secs) return;
 
-  const vibes = [
-    "Mochila pronta? O rolê não espera.",
-    "Cada segundo menos = mais vontade de ir.",
-    "Trilha, time e festa. Marca na agenda.",
-    "Ibiúna tá te chamando. Responde.",
-    "Falta pouco pra virar lenda do Saia da Zona.",
-    "O placar espera. Você também deveria ir.",
-  ];
-
   function pad(n) {
     return String(Math.max(0, n)).padStart(2, "0");
   }
@@ -49,7 +40,7 @@
       els.hours.textContent = "00";
       els.mins.textContent = "00";
       els.secs.textContent = "00";
-      if (els.live) els.live.textContent = "É HOJE! O rolê começou — bora pra Ibiúna!";
+      if (els.live) els.live.textContent = "É HOJE! Se você não for só você não vai.";
       if (els.grid) els.grid.classList.add("is-live");
       return;
     }
@@ -66,13 +57,7 @@
     setValue(els.secs, secs);
 
     if (els.live) {
-      const vibe = vibes[Math.floor(secs / 10) % vibes.length];
-      els.live.textContent =
-        days === 0
-          ? `É quase agora · ${vibe}`
-          : days === 1
-            ? `Amanhã já é o dia · ${vibe}`
-            : `${days} dias pro rolê · ${vibe}`;
+      els.live.textContent = "Se você não for só você não vai";
     }
   }
 
