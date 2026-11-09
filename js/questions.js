@@ -28,7 +28,7 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "006",
-    text: "Qual destino foi escolhido como cenário do segundo aniversário?",
+    text: "Qual destino foi escolhido no segundo aniversário do Saia da Zona?",
     options: [
       "Lençóis Maranhenses",
       "Fazenda da Laje",
@@ -40,7 +40,7 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "007",
-    text: "Qual destino foi escolhido como cenário do primeiro aniversário?",
+    text: "Qual destino foi escolhido no terceiro aniversário do Saia da Zona?",
     options: [
       "Casa do Diego",
       "Prédio da Gabi",
@@ -52,7 +52,7 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "011",
-    text: "Qual roteiro é apresentado como uma porta de entrada para o montanhismo?",
+    text: "Qual roteiro é uma porta de entrada para o montanhismo?",
     options: [
       "Itatiaia",
       "Acatenango",
@@ -76,13 +76,13 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "014",
-    text: "No Pico do Lopo, o pôr do sol está previsto para ser curtido onde?",
+    text: "No Pico do Lopo, o pôr do sol está previsto para ser visto em qual desses lugares?",
     options: [
       "No sofazinho",
-      "Entre dunas",
+      "Entre as dunas",
       "Dentro da barraca",
       "Cozinhando",
-      "Na escalada",
+      "Na trilha",
     ],
     correctIndex: 0,
   },
@@ -124,7 +124,7 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "022",
-    text: "Qual tipo de hospedagem faz parte da experiência no Vale do Pati?",
+    text: "Qual tipo de hospedagem faz parte da expedição Vale do Pati?",
     options: [
       "Casas de moradores locais",
       "Barracas",
@@ -198,10 +198,10 @@ window.SDZ_QUESTIONS = [
     id: "035",
     text: "No trekking dos Lençóis, onde a turma dorme?",
     options: [
-      "Em redes",
+      "Em pousadas",
       "Em barracas",
       "Em cápsulas",
-      "Em redes nos redários",
+      "Em redes",
       "Em hostels",
     ],
     correctIndex: 3,
@@ -220,7 +220,7 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "041",
-    text: "A Praia do Bonete do roteiro fica onde?",
+    text: "A Praia do Bonete fica onde?",
     options: [
       "Ubatuba",
       "Ilhabela",
@@ -268,7 +268,7 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "047",
-    text: "Quem é uma das principais duplas do Bonete com quem conversamos?",
+    text: "Quem é uma das principais duplas de locais do Bonete que conversamos?",
     options: [
       "Patrick e Bob",
       "Bob e Kajiya",
@@ -376,7 +376,7 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "091",
-    text: "Em montanhismo, o que é o cume?",
+    text: "No montanhismo, o que é o cume?",
     options: [
       "O início da trilha",
       "O ponto mais difícil da trilha",
@@ -400,25 +400,25 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "EX02",
-    text: "Quem esqueceu sal em uma expedição?",
+    text: "Qual dos líderes esqueceu sal em uma expedição?",
     options: ["Gabi", "Diego", "Jin", "Caio", "Matheus"],
     correctIndex: 0,
   },
   {
     id: "EX03",
-    text: "Quem esqueceu cueca para o Marins e fez a expedição com uma só?",
+    text: "Qual dos líderes esqueceu cueca para o Marins e fez a expedição com uma só?",
     options: ["Diego", "Jin", "Caio", "Matheus", "Franz"],
     correctIndex: 2,
   },
   {
     id: "EX04",
-    text: "Quem fez um mochilão pela África?",
+    text: "Qual dos líderes fez um mochilão pela África?",
     options: ["Diego", "Jin", "Gabi", "Caio", "Franz"],
     correctIndex: 4,
   },
   {
     id: "EX05",
-    text: "Quem fez o cume do Huayna Potosí?",
+    text: "Qual dos líderes fez o cume do Huayna Potosí?",
     options: [
       "Jin e Diego",
       "Franz e Diego",
@@ -446,7 +446,7 @@ window.SDZ_QUESTIONS = [
     options: [
       "Cegonha",
       "Projeto do TCC do Franz",
-      "Projeto do escotismo do Franz",
+      "Projeto de escotismo do Franz",
       "Projeto do TCC do Diego",
       "Crise da meia-idade do Franz e Diego",
     ],
@@ -454,13 +454,13 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "EX08",
-    text: "Quem já passou o aniversário nos Lençóis Maranhenses?",
+    text: "Qual dos líderes já passou o aniversário nos Lençóis Maranhenses?",
     options: ["Diego", "Gabi", "Caio", "Matheus", "Jin"],
     correctIndex: 3,
   },
   {
     id: "EX09",
-    text: "Quem dos líderes não mora em São Paulo?",
+    text: "Qual dos líderes não mora em São Paulo?",
     options: ["Diego", "Gabi", "Caio", "Matheus", "Jin"],
     correctIndex: 3,
   },
