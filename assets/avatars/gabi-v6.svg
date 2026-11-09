@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" fill="none">
   <ellipse cx="60" cy="128" rx="28" ry="6" fill="#041833" opacity=".18"/>
-  <path d="M40 48c0 26 1 44 4 56 2-14 3-30 4-44 2 16 4 36 6 52 2-16 4-36 6-52 1 14 2 30 4 44 3-12 4-30 4-56 0-15-10-24-28-24S40 33 40 48z" fill="#E8C078"/>
+  <path d="M40 48c0 26 1 44 4 56 2-14 3-30 4-44 2 16 4 36 6 52 2-16 4-36 6-52 1 14 2 30 4 44 3-12 4-40 4-48 0-8-8-12-28-12S40 40 40 48z" fill="#E8C078"/>
   <rect x="42" y="78" width="36" height="34" rx="14" fill="#F4F7FF"/>
   <rect x="46" y="84" width="28" height="6" rx="3" fill="#D7DEEA"/>
   <rect x="30" y="80" width="14" height="26" rx="4" fill="#C45C26"/>
@@ -9,7 +9,7 @@
   <circle cx="60" cy="52" r="22" fill="#F6CDB0"/>
   <ellipse cx="44" cy="58" rx="4.5" ry="3" fill="#FF8FAB" opacity=".35"/>
   <ellipse cx="76" cy="58" rx="4.5" ry="3" fill="#FF8FAB" opacity=".35"/>
-  <path d="M39 45c2-11 12-17 21-17s19 6 21 17c-5-2-10-3-15-2-4-1-8-1-13 0-4-1-9 0-14 2z" fill="#E8C078"/>
+  <path d="M39 45c2-8 10-12 21-12s19 4 21 12c-5-2-10-3-15-2-4-1-8-1-13 0-4-1-9 0-14 2z" fill="#E8C078"/>
   <path d="M39 48c-1 18 0 36 2 50 1-14 1-32 2-48 0-1-1-2-4-2z" fill="#E8C078"/>
   <path d="M81 48c1 18 0 36-2 50-1-14-1-32-2-48 0-1 1-2 4-2z" fill="#E8C078"/>
   <rect x="38" y="36" width="44" height="8" rx="3" fill="#1A1A1A"/>
