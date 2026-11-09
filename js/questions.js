@@ -31,7 +31,7 @@ window.SDZ_QUESTIONS = [
     text: "Qual destino foi escolhido no segundo aniversário do Saia da Zona?",
     options: [
       "Lençóis Maranhenses",
-      "Fazenda da Laje",
+      "Fazenda da Lage",
       "Praia do Bonete",
       "Casa do Franz",
       "Pico do Lopo",
@@ -45,7 +45,7 @@ window.SDZ_QUESTIONS = [
       "Casa do Diego",
       "Prédio da Gabi",
       "Praia do Bonete",
-      "Fazenda da Laje",
+      "Fazenda da Lage",
       "Pico do Lopo",
     ],
     correctIndex: 3,
