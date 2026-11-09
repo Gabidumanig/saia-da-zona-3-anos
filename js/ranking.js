@@ -11,6 +11,15 @@
     pack: (n) => `${n} itens`,
   };
 
+  const FALLBACK_AVATARS = [
+    { id: "franz", name: "Franz", src: "assets/avatars/franz-v6.svg?v=67" },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=67" },
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v6.svg?v=67" },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=67" },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=67" },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=67" },
+  ];
+
   let rows = [];
 
   function escapeHtml(str) {
@@ -23,6 +32,19 @@
 
   function scoreOf(row, game) {
     return Number(row[SCORE_KEY[game]] || 0);
+  }
+
+  function avatarById(id) {
+    const list = window.SDZ_TRAIL_GAME?.AVATARS || FALLBACK_AVATARS;
+    return list.find((a) => a.id === id) || null;
+  }
+
+  function trailAvatarHtml(row) {
+    const avatar = avatarById(row.trail_avatar);
+    if (!avatar) {
+      return `<span class="rank-avatar rank-avatar-empty" aria-hidden="true"></span>`;
+    }
+    return `<img class="rank-avatar" src="${escapeHtml(avatar.src)}" alt="${escapeHtml(avatar.name)}" title="${escapeHtml(avatar.name)}" width="32" height="36" />`;
   }
 
   function renderBoard(game) {
@@ -48,13 +70,20 @@
       return;
     }
 
+    const withAvatar = game === "trail";
+    listEl.classList.toggle("has-avatars", withAvatar);
+
     listEl.innerHTML = sorted
       .map((row, i) => {
         const isMe = me && row.player_name === me;
+        const avatarCell = withAvatar ? trailAvatarHtml(row) : "";
+        const nameBlock = withAvatar
+          ? `<span class="rank-who">${avatarCell}<strong class="rank-name">${escapeHtml(row.player_name)}</strong></span>`
+          : `<strong class="rank-name">${escapeHtml(row.player_name)}</strong>`;
         return `
-          <div class="rank-row${isMe ? " is-me" : ""}${i === 0 ? " is-lead" : ""}">
+          <div class="rank-row${withAvatar ? " has-avatar" : ""}${isMe ? " is-me" : ""}${i === 0 ? " is-lead" : ""}">
             <span class="rank-pos">${i + 1}º</span>
-            <strong class="rank-name">${escapeHtml(row.player_name)}</strong>
+            ${nameBlock}
             <span class="rank-score">${UNIT[game](scoreOf(row, game))}</span>
           </div>
         `;

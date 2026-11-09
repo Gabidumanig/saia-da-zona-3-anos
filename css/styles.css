@@ -1628,6 +1628,32 @@ main,
   color: rgba(190, 215, 240, 0.7);
 }
 
+.rank-who {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.rank-avatar {
+  width: 32px;
+  height: 36px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.rank-avatar-empty {
+  display: inline-block;
+  width: 32px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+}
+
 .rank-row {
   display: grid;
   grid-template-columns: 2.4rem 1fr auto;

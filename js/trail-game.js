@@ -226,7 +226,7 @@
     }
     updateHud();
     if (window.SDZ_PLAYER?.submitScore) {
-      window.SDZ_PLAYER.submitScore("trail", meters);
+      window.SDZ_PLAYER.submitScore("trail", meters, { avatar: selectedAvatarId || null });
     }
     showOverlay(`Queda na subida · ${meters} m`, "Tentar de novo");
   }
@@ -761,5 +761,5 @@
     "Começar"
   );
 
-  window.SDZ_TRAIL_GAME = { activate, deactivate, jump, setAvatar };
+  window.SDZ_TRAIL_GAME = { activate, deactivate, jump, setAvatar, AVATARS };
 })();

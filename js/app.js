@@ -1,7 +1,7 @@
 (() => {
   const ANSWERS_KEY = "sdz3_answers";
   const SESSION_KEY = "sdz3_quiz_session";
-  const QUIZ_SIZE = 8;
+  const QUIZ_SIZE = 12;
 
   const config = window.SDZ_CONFIG || {};
   const questionBank = Array.isArray(window.SDZ_QUESTIONS) ? window.SDZ_QUESTIONS : [];

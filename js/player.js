@@ -64,20 +64,34 @@
     };
   }
 
-  async function submitScore(game, score) {
+  async function submitScore(game, score, meta = {}) {
     const name = getName();
     if (!name || !url || !key) return null;
     try {
-      const res = await fetch(`${url}/rest/v1/rpc/upsert_leaderboard_score`, {
+      const body = {
+        p_player_key: getKey(),
+        p_player_name: name,
+        p_game: game,
+        p_score: Math.round(Number(score) || 0),
+      };
+      if (meta.avatar) body.p_avatar = String(meta.avatar).slice(0, 24);
+
+      let res = await fetch(`${url}/rest/v1/rpc/upsert_leaderboard_score`, {
         method: "POST",
         headers: headers(),
-        body: JSON.stringify({
-          p_player_key: getKey(),
-          p_player_name: name,
-          p_game: game,
-          p_score: Math.round(Number(score) || 0),
-        }),
+        body: JSON.stringify(body),
       });
+
+      // fallback se a RPC antiga (sem avatar) ainda estiver no ar
+      if (!res.ok && body.p_avatar) {
+        delete body.p_avatar;
+        res = await fetch(`${url}/rest/v1/rpc/upsert_leaderboard_score`, {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify(body),
+        });
+      }
+
       if (!res.ok) throw new Error(`score ${res.status}`);
       const data = await res.json();
       window.dispatchEvent(new CustomEvent("sdz-score-updated"));
@@ -91,10 +105,16 @@
   async function fetchLeaderboard() {
     if (!url || !key) return [];
     try {
-      const res = await fetch(
-        `${url}/rest/v1/leaderboard?select=player_name,quiz_best,trail_best,pack_best,updated_at&order=updated_at.desc&limit=100`,
+      let res = await fetch(
+        `${url}/rest/v1/leaderboard?select=player_name,quiz_best,trail_best,pack_best,trail_avatar,updated_at&order=updated_at.desc&limit=100`,
         { headers: headers() }
       );
+      if (!res.ok) {
+        res = await fetch(
+          `${url}/rest/v1/leaderboard?select=player_name,quiz_best,trail_best,pack_best,updated_at&order=updated_at.desc&limit=100`,
+          { headers: headers() }
+        );
+      }
       if (!res.ok) throw new Error(`lb ${res.status}`);
       return await res.json();
     } catch (err) {
