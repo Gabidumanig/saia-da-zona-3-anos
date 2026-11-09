@@ -4,12 +4,12 @@
   const LEVEL_NAMES = ["Pedreira", "Cachoeira", "Mirante", "Acampamento", "Cume"];
 
   const LEADERS = [
-    { id: "franz", name: "Franz", src: "assets/avatars/franz-bandage.svg?v=93", power: 1.02 },
-    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=93", power: 0.98 },
-    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v7.svg?v=93", power: 1.05 },
-    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=93", power: 0.98 },
-    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=93", power: 1.08 },
-    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=93", power: 1 },
+    { id: "franz", name: "Franz", src: "assets/avatars/franz-bandage.svg?v=94", power: 1.05 },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=94", power: 1.02 },
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v7.svg?v=94", power: 1.08 },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=94", power: 1.02 },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=94", power: 1.12 },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=94", power: 1.05 },
   ];
 
   const canvas = document.getElementById("angry-canvas");
@@ -27,10 +27,10 @@
   const W = canvas.width;
   const H = canvas.height;
   const GROUND_Y = H - 52;
-  const SLING = { x: 118, y: GROUND_Y - 78 };
-  const MAX_PULL = 110;
-  const G = 1780;
-  const LAUNCH_POWER = 900;
+  const SLING = { x: 108, y: GROUND_Y - 72 };
+  const MAX_PULL = 125;
+  const G = 1480;
+  const LAUNCH_POWER = 1220;
 
   let active = false;
   let running = false;
@@ -170,107 +170,103 @@
   }
 
   function levelLayout(index) {
+    // estruturas bem mais perto do estilingue (alcance confortável)
     const list = [];
     if (index === 0) {
-      // Pedreira — intro já exigente
-      list.push(makeBox(540, stackY([36]), 48, 36, "wood"));
-      list.push(makeBox(592, stackY([36]), 48, 36, "wood"));
-      list.push(makeBox(566, stackY([36, 38]), 54, 38, "wood"));
-      list.push(makeTrash(566, atop([36, 38]), "bottle"));
-      list.push(makeBox(690, stackY([42]), 52, 42, "stone"));
-      list.push(makeBox(690, stackY([42, 36]), 46, 36, "wood"));
-      list.push(makeTrash(690, atop([42, 36]), "can"));
-      list.push(makeBox(780, stackY([34]), 44, 34, "wood"));
-      list.push(makeTrash(780, atop([34], 18), "cup"));
+      list.push(makeBox(360, stackY([36]), 48, 36, "wood"));
+      list.push(makeBox(412, stackY([36]), 48, 36, "wood"));
+      list.push(makeBox(386, stackY([36, 38]), 54, 38, "wood"));
+      list.push(makeTrash(386, atop([36, 38]), "bottle"));
+      list.push(makeBox(500, stackY([42]), 52, 42, "stone"));
+      list.push(makeBox(500, stackY([42, 36]), 46, 36, "wood"));
+      list.push(makeTrash(500, atop([42, 36]), "can"));
+      list.push(makeBox(580, stackY([34]), 44, 34, "wood"));
+      list.push(makeTrash(580, atop([34], 18), "cup"));
     } else if (index === 1) {
-      // Cachoeira
-      [520, 568, 616].forEach((x) => list.push(makeBox(x, stackY([38]), 44, 38, "wood")));
-      list.push(makeBox(544, stackY([38, 40]), 48, 40, "stone"));
-      list.push(makeBox(592, stackY([38, 40]), 48, 40, "stone"));
-      list.push(makeBox(568, stackY([38, 40, 38]), 54, 38, "wood"));
-      list.push(makeTrash(544, atop([38, 40]), "bag"));
-      list.push(makeTrash(592, atop([38, 40]), "bottle"));
-      list.push(makeTrash(568, atop([38, 40, 38]), "wrap"));
-      list.push(makeBox(720, stackY([46]), 56, 46, "stone"));
-      list.push(makeBox(720, stackY([46, 40]), 50, 40, "stone"));
-      list.push(makeTrash(720, atop([46, 40]), "can"));
-      list.push(makeBox(800, stackY([36]), 42, 36, "wood"));
-      list.push(makeTrash(800, atop([36], 18), "cup"));
+      [340, 388, 436].forEach((x) => list.push(makeBox(x, stackY([38]), 44, 38, "wood")));
+      list.push(makeBox(364, stackY([38, 40]), 48, 40, "stone"));
+      list.push(makeBox(412, stackY([38, 40]), 48, 40, "stone"));
+      list.push(makeBox(388, stackY([38, 40, 38]), 54, 38, "wood"));
+      list.push(makeTrash(364, atop([38, 40]), "bag"));
+      list.push(makeTrash(412, atop([38, 40]), "bottle"));
+      list.push(makeTrash(388, atop([38, 40, 38]), "wrap"));
+      list.push(makeBox(520, stackY([46]), 56, 46, "stone"));
+      list.push(makeBox(520, stackY([46, 40]), 50, 40, "stone"));
+      list.push(makeTrash(520, atop([46, 40]), "can"));
+      list.push(makeBox(600, stackY([36]), 42, 36, "wood"));
+      list.push(makeTrash(600, atop([36], 18), "cup"));
     } else if (index === 2) {
-      // Mirante
       for (let i = 0; i < 4; i += 1) {
-        list.push(makeBox(500 + i * 50, stackY([40]), 46, 40, i % 2 ? "stone" : "wood"));
+        list.push(makeBox(320 + i * 48, stackY([40]), 46, 40, i % 2 ? "stone" : "wood"));
       }
       for (let i = 0; i < 3; i += 1) {
-        list.push(makeBox(525 + i * 50, stackY([40, 40]), 46, 40, "stone"));
+        list.push(makeBox(344 + i * 48, stackY([40, 40]), 46, 40, "stone"));
       }
-      list.push(makeBox(550, stackY([40, 40, 42]), 50, 42, "wood"));
-      list.push(makeBox(600, stackY([40, 40, 42]), 50, 42, "wood"));
-      list.push(makeBox(575, stackY([40, 40, 42, 38]), 54, 38, "stone"));
-      list.push(makeTrash(525, atop([40, 40]), "bottle"));
-      list.push(makeTrash(575, atop([40, 40]), "can"));
-      list.push(makeTrash(625, atop([40, 40]), "bag"));
-      list.push(makeTrash(575, atop([40, 40, 42, 38]), "wrap"));
-      list.push(makeBox(740, stackY([48]), 54, 48, "stone"));
-      list.push(makeBox(740, stackY([48, 44]), 50, 44, "stone"));
-      list.push(makeBox(740, stackY([48, 44, 36]), 46, 36, "wood"));
-      list.push(makeTrash(740, atop([48, 44, 36]), "cup"));
-      list.push(makeTrash(810, atop([36], 18), "bag"));
-      list.push(makeBox(810, stackY([36]), 42, 36, "wood"));
+      list.push(makeBox(368, stackY([40, 40, 42]), 50, 42, "wood"));
+      list.push(makeBox(416, stackY([40, 40, 42]), 50, 42, "wood"));
+      list.push(makeBox(392, stackY([40, 40, 42, 38]), 54, 38, "stone"));
+      list.push(makeTrash(344, atop([40, 40]), "bottle"));
+      list.push(makeTrash(392, atop([40, 40]), "can"));
+      list.push(makeTrash(440, atop([40, 40]), "bag"));
+      list.push(makeTrash(392, atop([40, 40, 42, 38]), "wrap"));
+      list.push(makeBox(540, stackY([48]), 54, 48, "stone"));
+      list.push(makeBox(540, stackY([48, 44]), 50, 44, "stone"));
+      list.push(makeBox(540, stackY([48, 44, 36]), 46, 36, "wood"));
+      list.push(makeTrash(540, atop([48, 44, 36]), "cup"));
+      list.push(makeBox(620, stackY([36]), 42, 36, "wood"));
+      list.push(makeTrash(620, atop([36], 18), "bag"));
     } else if (index === 3) {
-      // Acampamento
       for (let i = 0; i < 5; i += 1) {
-        list.push(makeBox(480 + i * 48, stackY([38]), 44, 38, i % 2 ? "stone" : "wood"));
+        list.push(makeBox(300 + i * 46, stackY([38]), 44, 38, i % 2 ? "stone" : "wood"));
       }
       for (let i = 0; i < 4; i += 1) {
-        list.push(makeBox(504 + i * 48, stackY([38, 40]), 44, 40, "stone"));
+        list.push(makeBox(323 + i * 46, stackY([38, 40]), 44, 40, "stone"));
       }
       for (let i = 0; i < 3; i += 1) {
-        list.push(makeBox(528 + i * 48, stackY([38, 40, 40]), 44, 40, i === 1 ? "stone" : "wood"));
+        list.push(makeBox(346 + i * 46, stackY([38, 40, 40]), 44, 40, i === 1 ? "stone" : "wood"));
       }
-      list.push(makeBox(552, stackY([38, 40, 40, 42]), 52, 42, "stone"));
-      list.push(makeTrash(504, atop([38, 40]), "bottle"));
-      list.push(makeTrash(552, atop([38, 40]), "can"));
-      list.push(makeTrash(600, atop([38, 40]), "cup"));
-      list.push(makeTrash(648, atop([38, 40]), "bag"));
-      list.push(makeTrash(552, atop([38, 40, 40, 42]), "wrap"));
-      list.push(makeBox(760, stackY([50]), 58, 50, "stone"));
-      list.push(makeBox(760, stackY([50, 46]), 54, 46, "stone"));
-      list.push(makeBox(760, stackY([50, 46, 40]), 48, 40, "stone"));
-      list.push(makeTrash(760, atop([50, 46, 40]), "bottle"));
-      list.push(makeBox(840, stackY([40]), 44, 40, "wood"));
-      list.push(makeBox(840, stackY([40, 36]), 42, 36, "stone"));
-      list.push(makeTrash(840, atop([40, 36]), "can"));
+      list.push(makeBox(369, stackY([38, 40, 40, 42]), 52, 42, "stone"));
+      list.push(makeTrash(323, atop([38, 40]), "bottle"));
+      list.push(makeTrash(369, atop([38, 40]), "can"));
+      list.push(makeTrash(415, atop([38, 40]), "cup"));
+      list.push(makeTrash(461, atop([38, 40]), "bag"));
+      list.push(makeTrash(369, atop([38, 40, 40, 42]), "wrap"));
+      list.push(makeBox(560, stackY([50]), 58, 50, "stone"));
+      list.push(makeBox(560, stackY([50, 46]), 54, 46, "stone"));
+      list.push(makeBox(560, stackY([50, 46, 40]), 48, 40, "stone"));
+      list.push(makeTrash(560, atop([50, 46, 40]), "bottle"));
+      list.push(makeBox(640, stackY([40]), 44, 40, "wood"));
+      list.push(makeBox(640, stackY([40, 36]), 42, 36, "stone"));
+      list.push(makeTrash(640, atop([40, 36]), "can"));
     } else {
-      // Cume — fortaleza de lixo
       for (let i = 0; i < 5; i += 1) {
-        list.push(makeBox(470 + i * 50, stackY([42]), 46, 42, "stone"));
+        list.push(makeBox(290 + i * 48, stackY([42]), 46, 42, "stone"));
       }
       for (let i = 0; i < 4; i += 1) {
-        list.push(makeBox(495 + i * 50, stackY([42, 42]), 46, 42, "stone"));
+        list.push(makeBox(314 + i * 48, stackY([42, 42]), 46, 42, "stone"));
       }
       for (let i = 0; i < 3; i += 1) {
-        list.push(makeBox(520 + i * 50, stackY([42, 42, 42]), 46, 42, "stone"));
+        list.push(makeBox(338 + i * 48, stackY([42, 42, 42]), 46, 42, "stone"));
       }
-      list.push(makeBox(545, stackY([42, 42, 42, 40]), 50, 40, "wood"));
-      list.push(makeBox(595, stackY([42, 42, 42, 40]), 50, 40, "wood"));
-      list.push(makeBox(570, stackY([42, 42, 42, 40, 38]), 56, 38, "stone"));
-      list.push(makeTrash(495, atop([42, 42]), "bag"));
-      list.push(makeTrash(545, atop([42, 42]), "bottle"));
-      list.push(makeTrash(595, atop([42, 42]), "can"));
-      list.push(makeTrash(645, atop([42, 42]), "cup"));
-      list.push(makeTrash(545, atop([42, 42, 42, 40]), "wrap"));
-      list.push(makeTrash(595, atop([42, 42, 42, 40]), "bottle"));
-      list.push(makeTrash(570, atop([42, 42, 42, 40, 38]), "wrap"));
-      list.push(makeBox(760, stackY([52]), 56, 52, "stone"));
-      list.push(makeBox(760, stackY([52, 48]), 52, 48, "stone"));
-      list.push(makeBox(760, stackY([52, 48, 44]), 48, 44, "stone"));
-      list.push(makeBox(760, stackY([52, 48, 44, 36]), 44, 36, "wood"));
-      list.push(makeTrash(760, atop([52, 48, 44, 36]), "can"));
-      list.push(makeBox(845, stackY([44]), 46, 44, "stone"));
-      list.push(makeBox(845, stackY([44, 40]), 44, 40, "stone"));
-      list.push(makeTrash(845, atop([44, 40]), "bag"));
-      list.push(makeTrash(420, GROUND_Y - 20, "cup"));
+      list.push(makeBox(362, stackY([42, 42, 42, 40]), 50, 40, "wood"));
+      list.push(makeBox(410, stackY([42, 42, 42, 40]), 50, 40, "wood"));
+      list.push(makeBox(386, stackY([42, 42, 42, 40, 38]), 56, 38, "stone"));
+      list.push(makeTrash(314, atop([42, 42]), "bag"));
+      list.push(makeTrash(362, atop([42, 42]), "bottle"));
+      list.push(makeTrash(410, atop([42, 42]), "can"));
+      list.push(makeTrash(458, atop([42, 42]), "cup"));
+      list.push(makeTrash(362, atop([42, 42, 42, 40]), "wrap"));
+      list.push(makeTrash(410, atop([42, 42, 42, 40]), "bottle"));
+      list.push(makeTrash(386, atop([42, 42, 42, 40, 38]), "wrap"));
+      list.push(makeBox(560, stackY([52]), 56, 52, "stone"));
+      list.push(makeBox(560, stackY([52, 48]), 52, 48, "stone"));
+      list.push(makeBox(560, stackY([52, 48, 44]), 48, 44, "stone"));
+      list.push(makeBox(560, stackY([52, 48, 44, 36]), 44, 36, "wood"));
+      list.push(makeTrash(560, atop([52, 48, 44, 36]), "can"));
+      list.push(makeBox(645, stackY([44]), 46, 44, "stone"));
+      list.push(makeBox(645, stackY([44, 40]), 44, 40, "stone"));
+      list.push(makeTrash(645, atop([44, 40]), "bag"));
+      list.push(makeTrash(270, GROUND_Y - 20, "cup"));
     }
     return list;
   }
@@ -386,9 +382,9 @@
 
   function damage(body, amount, impact) {
     if (!body.alive || body.kind === "bird") return;
-    if (impact < 130 && body.kind === "stone") return;
-    if (impact < 95 && body.kind === "wood") return;
-    if (impact < 70 && body.kind === "pest") return;
+    if (impact < 100 && body.kind === "stone") return;
+    if (impact < 70 && body.kind === "wood") return;
+    if (impact < 50 && body.kind === "pest") return;
     body.hp -= amount;
     if (body.hp <= 0) {
       body.alive = false;
