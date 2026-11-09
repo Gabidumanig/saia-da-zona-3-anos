@@ -18,6 +18,8 @@
       trail: document.getElementById("view-trail"),
       pack: document.getElementById("view-pack"),
       angry: document.getElementById("view-angry"),
+      tetris: document.getElementById("view-tetris"),
+      onca: document.getElementById("view-onca"),
     },
     quizBoard: document.getElementById("quiz-board"),
     quizDone: document.getElementById("quiz-done"),
@@ -128,7 +130,7 @@
     });
 
     if (name === "quiz") renderQuiz();
-    if (["quiz", "trail", "pack", "angry"].includes(name)) {
+    if (["quiz", "trail", "pack", "angry", "tetris", "onca"].includes(name)) {
       window.SDZ_RANKING?.syncNameForms?.();
       window.SDZ_RANKING?.refresh?.();
     }
@@ -143,6 +145,14 @@
     if (window.SDZ_ANGRY_GAME) {
       if (name === "angry") window.SDZ_ANGRY_GAME.activate();
       else window.SDZ_ANGRY_GAME.deactivate();
+    }
+    if (window.SDZ_TETRIS_GAME) {
+      if (name === "tetris") window.SDZ_TETRIS_GAME.activate();
+      else window.SDZ_TETRIS_GAME.deactivate();
+    }
+    if (window.SDZ_ONCA_GAME) {
+      if (name === "onca") window.SDZ_ONCA_GAME.activate();
+      else window.SDZ_ONCA_GAME.deactivate();
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }

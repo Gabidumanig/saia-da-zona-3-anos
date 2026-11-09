@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=96" />
+  <link rel="stylesheet" href="css/styles.css?v=97" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -71,6 +71,8 @@
       <button type="button" data-nav="trail">Jogo: Trilha</button>
       <button type="button" data-nav="pack">Jogo: Mochila</button>
       <button type="button" data-nav="angry">Jogo: Angry líderes</button>
+      <button type="button" data-nav="tetris">Jogo: Tetris</button>
+      <button type="button" data-nav="onca">Jogo: Fuga da onça</button>
     </nav>
   </header>
 
@@ -149,6 +151,8 @@
           <button type="button" class="btn btn-ghost" data-nav="trail">Jogo: Trilha</button>
           <button type="button" class="btn btn-ghost" data-nav="pack">Jogo: Mochila</button>
           <button type="button" class="btn btn-ghost" data-nav="angry">Jogo: Angry líderes</button>
+          <button type="button" class="btn btn-ghost" data-nav="tetris">Jogo: Tetris</button>
+          <button type="button" class="btn btn-ghost" data-nav="onca">Jogo: Fuga da onça</button>
         </div>
       </div>
     </section>
@@ -434,21 +438,127 @@
       </div>
     </section>
 
+    <!-- TETRIS -->
+    <section id="view-tetris" class="view" hidden aria-label="Jogo: Tetris">
+      <div class="panel panel-tetris">
+        <div class="quiz-head">
+          <div>
+            <p class="eyebrow">Jogo</p>
+            <h2>Tetris da trilha</h2>
+          </div>
+          <div class="quiz-meta">
+            <span id="tetris-score" class="chip">0 pts</span>
+            <span id="tetris-lines" class="chip chip-soft">0 linhas</span>
+            <span id="tetris-level" class="chip chip-soft">Nv 1</span>
+            <span id="tetris-best" class="chip chip-soft">Recorde 0</span>
+          </div>
+        </div>
+
+        <form class="game-name-form" data-game-name="tetris" action="#">
+          <label for="name-input-tetris">Seu nome</label>
+          <div class="ranking-name-row">
+            <input id="name-input-tetris" type="text" maxlength="24" minlength="2"
+              autocomplete="name" inputmode="text" enterkeyhint="done"
+              placeholder="Digite seu nome pra entrar no placar" required />
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+          <p class="ranking-name-hint" data-name-hint>Coloca teu nome antes de jogar.</p>
+        </form>
+
+        <p class="lede tetris-hint">
+          Tetris temático do rolê: as peças são <strong>corda, barraca, mochila, pepino, atum, bota e lanterna</strong>.
+          Completa linhas pra limpar a trilha. No celular: desliza pra mover e toca pra girar.
+        </p>
+
+        <div class="tetris-stage">
+          <canvas id="tetris-canvas" width="520" height="540" aria-label="Jogo: Tetris da trilha"></canvas>
+          <div id="tetris-overlay" class="trail-overlay">
+            <p id="tetris-message">Empilha o kit da trilha!</p>
+            <button type="button" class="btn btn-primary" id="tetris-start">Começar</button>
+          </div>
+        </div>
+
+        <div class="game-board" data-board="tetris">
+          <div class="game-board-head">
+            <h3>Placar do Jogo: Tetris</h3>
+            <span class="chip chip-soft" data-board-status>…</span>
+          </div>
+          <div class="ranking-list" data-board-list aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUGA DA ONÇA -->
+    <section id="view-onca" class="view" hidden aria-label="Jogo: Fuga da onça">
+      <div class="panel panel-onca">
+        <div class="quiz-head">
+          <div>
+            <p class="eyebrow">Jogo</p>
+            <h2>Fuga da onça</h2>
+          </div>
+          <div class="quiz-meta">
+            <span id="onca-score" class="chip">0 pts</span>
+            <span id="onca-dist" class="chip chip-soft">0 m</span>
+            <span id="onca-best" class="chip chip-soft">Recorde 0</span>
+          </div>
+        </div>
+
+        <form class="game-name-form" data-game-name="onca" action="#">
+          <label for="name-input-onca">Seu nome</label>
+          <div class="ranking-name-row">
+            <input id="name-input-onca" type="text" maxlength="24" minlength="2"
+              autocomplete="name" inputmode="text" enterkeyhint="done"
+              placeholder="Digite seu nome pra entrar no placar" required />
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+          <p class="ranking-name-hint" data-name-hint>Coloca teu nome antes de jogar.</p>
+        </form>
+
+        <div class="avatar-picker">
+          <p class="avatar-label">1. Escolha quem vai correr</p>
+          <div class="avatar-grid" id="onca-avatar-grid" role="listbox" aria-label="Líderes corredores"></div>
+        </div>
+
+        <p class="lede onca-hint">
+          Estilo Subway Surfers na trilha: o líder corre e a <strong>onça</strong> vem atrás.
+          ← → muda de faixa, ↑ / toque pra cima pula pedra/tronco, ↓ desliza no mato. Pegue os tokens SZ.
+        </p>
+
+        <div class="onca-stage">
+          <canvas id="onca-canvas" width="900" height="420" aria-label="Jogo: Fuga da onça"></canvas>
+          <div id="onca-overlay" class="trail-overlay">
+            <p id="onca-message">Escolha o líder e fuja da onça!</p>
+            <button type="button" class="btn btn-primary" id="onca-start">Começar</button>
+          </div>
+        </div>
+
+        <div class="game-board" data-board="onca">
+          <div class="game-board-head">
+            <h3>Placar do Jogo: Fuga da onça</h3>
+            <span class="chip chip-soft" data-board-status>…</span>
+          </div>
+          <div class="ranking-list" data-board-list aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
     <span>Saia da Zona · 3 anos</span>
   </footer>
 
-  <script src="js/config.js?v=96"></script>
-  <script src="js/player.js?v=96"></script>
-  <script src="js/questions.js?v=96"></script>
-  <script src="js/countdown.js?v=96"></script>
-  <script src="js/weather.js?v=96"></script>
-  <script src="js/trail-game.js?v=96"></script>
-  <script src="js/pack-game.js?v=96"></script>
-  <script src="js/angry-game.js?v=96"></script>
-  <script src="js/app.js?v=96"></script>
-  <script src="js/ranking.js?v=96"></script>
+  <script src="js/config.js?v=97"></script>
+  <script src="js/player.js?v=97"></script>
+  <script src="js/questions.js?v=97"></script>
+  <script src="js/countdown.js?v=97"></script>
+  <script src="js/weather.js?v=97"></script>
+  <script src="js/trail-game.js?v=97"></script>
+  <script src="js/pack-game.js?v=97"></script>
+  <script src="js/angry-game.js?v=97"></script>
+  <script src="js/tetris-game.js?v=97"></script>
+  <script src="js/onca-game.js?v=97"></script>
+  <script src="js/app.js?v=97"></script>
+  <script src="js/ranking.js?v=97"></script>
 </body>
 </html>

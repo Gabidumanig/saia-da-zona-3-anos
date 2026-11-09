@@ -167,18 +167,20 @@
       const base = hasColumn
         ? "player_name,quiz_best,trail_best,pack_best,trail_avatar,updated_at"
         : "player_name,quiz_best,trail_best,pack_best,updated_at";
-      let res = await fetch(
-        `${url}/rest/v1/leaderboard?select=${base},angry_best&order=updated_at.desc&limit=100`,
-        { headers: headers() }
-      );
-      if (!res.ok) {
-        res = await fetch(
-          `${url}/rest/v1/leaderboard?select=${base}&order=updated_at.desc&limit=100`,
+      const extras = ["angry_best", "tetris_best", "onca_best"];
+      let rows = null;
+      for (let i = extras.length; i >= 0; i -= 1) {
+        const select = i ? `${base},${extras.slice(0, i).join(",")}` : base;
+        const res = await fetch(
+          `${url}/rest/v1/leaderboard?select=${select}&order=updated_at.desc&limit=100`,
           { headers: headers() }
         );
+        if (res.ok) {
+          rows = await res.json();
+          break;
+        }
       }
-      if (!res.ok) throw new Error(`lb ${res.status}`);
-      const rows = await res.json();
+      if (!rows) throw new Error("lb fetch failed");
       return rows.map((row) => {
         const parsed = decodeNameAvatar(row.player_name);
         return {
@@ -186,6 +188,8 @@
           player_name: parsed.name,
           trail_avatar: row.trail_avatar || parsed.avatar || null,
           angry_best: Number(row.angry_best || 0),
+          tetris_best: Number(row.tetris_best || 0),
+          onca_best: Number(row.onca_best || 0),
         };
       });
     } catch (err) {

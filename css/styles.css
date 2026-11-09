@@ -1186,13 +1186,17 @@ main,
 
 .trail-hint,
 .pack-hint,
-.angry-hint {
+.angry-hint,
+.tetris-hint,
+.onca-hint {
   margin-bottom: 1rem;
 }
 
 .trail-stage,
 .pack-stage,
-.angry-stage {
+.angry-stage,
+.tetris-stage,
+.onca-stage {
   position: relative;
   border-radius: 18px;
   overflow: hidden;
@@ -1242,6 +1246,36 @@ main,
     radial-gradient(620px 240px at 0% 0%, rgba(126, 200, 232, 0.16), transparent 55%),
     radial-gradient(520px 220px at 100% 100%, rgba(95, 175, 85, 0.2), transparent 50%),
     linear-gradient(155deg, rgba(10, 32, 18, 0.94), rgba(16, 48, 28, 0.86));
+}
+
+.tetris-stage {
+  border-color: rgba(0, 194, 255, 0.4);
+  background:
+    radial-gradient(ellipse at top, rgba(26, 107, 255, 0.25), transparent 55%),
+    rgba(8, 22, 48, 0.75);
+}
+
+.panel-tetris {
+  border-color: rgba(0, 194, 255, 0.3);
+  background:
+    radial-gradient(600px 240px at 100% 0%, rgba(0, 194, 255, 0.16), transparent 55%),
+    radial-gradient(500px 220px at 0% 100%, rgba(26, 107, 255, 0.18), transparent 50%),
+    linear-gradient(155deg, rgba(8, 22, 48, 0.94), rgba(14, 36, 68, 0.86));
+}
+
+.onca-stage {
+  border-color: rgba(224, 160, 48, 0.45);
+  background:
+    radial-gradient(ellipse at top, rgba(142, 191, 106, 0.3), transparent 55%),
+    rgba(28, 48, 24, 0.72);
+}
+
+.panel-onca {
+  border-color: rgba(224, 160, 48, 0.35);
+  background:
+    radial-gradient(620px 240px at 0% 0%, rgba(224, 160, 48, 0.16), transparent 55%),
+    radial-gradient(520px 220px at 100% 100%, rgba(63, 107, 69, 0.22), transparent 50%),
+    linear-gradient(155deg, rgba(16, 36, 18, 0.94), rgba(28, 48, 24, 0.88));
 }
 
 .panel-infos {
@@ -1314,11 +1348,22 @@ main,
 
 #trail-canvas,
 #pack-canvas,
-#angry-canvas {
+#angry-canvas,
+#tetris-canvas,
+#onca-canvas {
   display: block;
   width: 100%;
   height: auto;
   cursor: pointer;
+}
+
+#tetris-canvas {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+#onca-canvas {
+  touch-action: none;
 }
 
 #angry-canvas {
