@@ -4,12 +4,12 @@
   const LEVEL_NAMES = ["Pedreira", "Cachoeira", "Mirante", "Acampamento", "Cume"];
 
   const LEADERS = [
-    { id: "franz", name: "Franz", src: "assets/avatars/franz-bandage.svg?v=94", power: 1.05 },
-    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=94", power: 1.02 },
-    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v7.svg?v=94", power: 1.08 },
-    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=94", power: 1.02 },
-    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=94", power: 1.12 },
-    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=94", power: 1.05 },
+    { id: "franz", name: "Franz", src: "assets/avatars/franz-bandage.svg?v=96", power: 1.05 },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=96", power: 1.02 },
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v7.svg?v=96", power: 1.08 },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=96", power: 1.02 },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=96", power: 1.12 },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=96", power: 1.05 },
   ];
 
   const canvas = document.getElementById("angry-canvas");
@@ -49,13 +49,15 @@
   let shotAge = 0;
   let waitingNext = false;
   let endTimer = 0;
+  let clearTimer = -1;
   let particles = [];
   let clouds = [];
   let shake = 0;
   let leaderImgs = {};
   let runSubmitted = false;
-  const SLEEP_SPEED = 22;
-  const MAX_SHOT_TIME = 3.4;
+  let levelClosing = false;
+  const SLEEP_SPEED = 28;
+  const MAX_SHOT_TIME = 2.4;
 
   function loadLeaders() {
     LEADERS.forEach((leader) => {
@@ -70,7 +72,7 @@
   function updateChrome() {
     if (scoreEl) scoreEl.textContent = `${score} pts`;
     if (levelEl) levelEl.textContent = `Nível ${Math.min(levelIndex + 1, LEVEL_COUNT)} / ${LEVEL_COUNT}`;
-    if (bestEl) bestEl.textContent = `Recorde ${best}`;
+    if (bestEl) bestEl.textContent = `Recorde ${Math.max(best, score)}`;
     if (ammoEl) {
       const left = ammo.length + (bird && bird.state === "ready" ? 1 : 0);
       ammoEl.textContent = `${left} líder${left === 1 ? "" : "es"}`;
@@ -106,16 +108,17 @@
       alive: true,
       sleeping: true,
       scored: false,
-      points: kind === "stone" ? 300 : 400,
+      // madeira/pedra não pontuam — só o lixo
+      points: 0,
     };
   }
 
   const TRASH_META = {
-    bottle: { label: "Garrafa", points: 1500, r: 20, color: "#38BDF8" },
-    can: { label: "Lata", points: 1400, r: 19, color: "#94A3B8" },
-    bag: { label: "Saco", points: 1300, r: 21, color: "#64748B" },
-    cup: { label: "Copo", points: 1200, r: 18, color: "#FB7185" },
-    wrap: { label: "Embalagem", points: 1600, r: 20, color: "#F59E0B" },
+    bottle: { label: "Garrafa", points: 1000, r: 20, color: "#38BDF8" },
+    can: { label: "Lata", points: 1000, r: 19, color: "#94A3B8" },
+    bag: { label: "Saco", points: 1000, r: 21, color: "#64748B" },
+    cup: { label: "Copo", points: 1000, r: 18, color: "#FB7185" },
+    wrap: { label: "Embalagem", points: 1200, r: 20, color: "#F59E0B" },
   };
 
   function makeTrash(x, y, trash = "bottle") {
@@ -347,6 +350,8 @@
     shotAge = 0;
     waitingNext = false;
     endTimer = 0;
+    clearTimer = -1;
+    levelClosing = false;
     particles = [];
     shake = 0;
     loadNextBird();
@@ -396,23 +401,23 @@
   function awardDestroy(body) {
     if (!body || body.scored) return;
     body.scored = true;
-    score += body.points || 0;
-    const color =
-      body.kind === "pest"
-        ? TRASH_META[body.pest]?.color || "#94A3B8"
-        : body.kind === "stone"
-          ? "#9AA3AE"
-          : "#C48A4A";
-    spawnParticles(body.x, body.y, color, body.kind === "pest" ? 14 : 8);
-    shake = Math.min(8, shake + (body.kind === "pest" ? 5 : 2));
-    updateChrome();
+    // só lixo dá ponto
+    if (body.kind === "pest") {
+      score += body.points || 0;
+      spawnParticles(body.x, body.y, TRASH_META[body.pest]?.color || "#94A3B8", 14);
+      shake = Math.min(8, shake + 5);
+      updateChrome();
+    } else {
+      spawnParticles(body.x, body.y, body.kind === "stone" ? "#9AA3AE" : "#C48A4A", 6);
+    }
   }
 
   function damage(body, amount, impact) {
     if (!body || !body.alive || body.kind === "bird" || body.scored) return;
-    if (impact < 110 && body.kind === "stone") return;
-    if (impact < 80 && body.kind === "wood") return;
-    if (impact < 55 && body.kind === "pest") return;
+    // precisa de batida forte (evita tremor destruindo tudo e travando)
+    if (impact < 160 && body.kind === "stone") return;
+    if (impact < 120 && body.kind === "wood") return;
+    if (impact < 70 && body.kind === "pest") return;
     wake(body);
     body.hp -= amount;
     if (body.hp <= 0) {
@@ -547,23 +552,21 @@
         body.y = GROUND_Y - body.r;
         if (body.vy > 0) {
           const impact = body.vy;
-          body.vy *= -body.restitution;
-          body.vx *= body.friction;
-          if (Math.abs(body.vy) < 55) body.vy = 0;
-          if (Math.abs(body.vx) < 35) body.vx = 0;
-          // só dano com impacto real (evita micro-tremor)
-          if (impact > 140) damage(body, 1, impact);
+          body.vy *= -body.restitution * 0.5;
+          body.vx *= body.friction * 0.85;
+          if (Math.abs(body.vy) < 70) body.vy = 0;
+          if (Math.abs(body.vx) < 45) body.vx = 0;
+          // líderes não quebram o chão; lixo só com queda forte
+          if (body.kind === "pest" && impact > 220) damage(body, 1, impact);
         }
       }
     } else if (body.y + body.h / 2 > GROUND_Y) {
       body.y = GROUND_Y - body.h / 2;
       if (body.vy > 0) {
-        const impact = body.vy;
-        body.vy *= -body.restitution;
-        body.vx *= body.friction;
-        if (Math.abs(body.vy) < 50) body.vy = 0;
-        if (Math.abs(body.vx) < 30) body.vx = 0;
-        if (impact > 150) damage(body, 1, impact);
+        body.vy *= -body.restitution * 0.4;
+        body.vx *= body.friction * 0.85;
+        if (Math.abs(body.vy) < 60) body.vy = 0;
+        if (Math.abs(body.vx) < 40) body.vx = 0;
       }
     }
     body.x = Math.max(24, Math.min(W - 24, body.x));
@@ -591,11 +594,20 @@
   }
 
   function finishLevel(cleared) {
+    if (levelClosing) return;
+    levelClosing = true;
     running = false;
     waitingNext = false;
+    clearTimer = -1;
+    aiming = false;
+    if (bird) {
+      bird.alive = false;
+      bird.launched = false;
+      bird = null;
+    }
     if (cleared) {
-      const leftover = ammo.length + (bird && bird.state === "ready" ? 1 : 0);
-      score += 3000 + leftover * 800;
+      const leftover = ammo.length;
+      score += 2000 + leftover * 500;
       updateChrome();
       if (levelIndex >= LEVEL_COUNT - 1) {
         finishRun(true);
@@ -609,10 +621,15 @@
   }
 
   function finishRun(won) {
+    levelClosing = true;
     running = false;
     if (score > best) {
       best = score;
-      localStorage.setItem(BEST_KEY, String(best));
+      try {
+        localStorage.setItem(BEST_KEY, String(best));
+      } catch (_) {
+        /* ignore */
+      }
     }
     updateChrome();
     if (!runSubmitted && score > 0 && window.SDZ_PLAYER?.submitScore) {
@@ -628,52 +645,71 @@
     startBtn.dataset.action = "restart";
   }
 
+  function removeBird() {
+    if (!bird) return;
+    bird.alive = false;
+    bird.launched = false;
+    bird.state = "done";
+    bird = null;
+  }
+
   function advanceAfterShot() {
-    if (waitingNext) return;
+    if (waitingNext || levelClosing || !running) return;
     if (pestsLeft() <= 0) {
       finishLevel(true);
       return;
     }
 
-    if (bird) {
-      bird.alive = false;
-      bird.launched = false;
-      bird = null;
-    }
-
+    removeBird();
     settledTimer = 0;
     shotAge = 0;
 
     if (!loadNextBird()) {
       waitingNext = true;
-      endTimer = 0.45;
+      endTimer = 0.4;
     }
   }
 
   function afterShotCheck(dt) {
-    if (!bird || !bird.launched || waitingNext) return;
+    if (levelClosing || waitingNext || !running) return;
+
+    // vitória independente do estado do líder
+    if (pestsLeft() <= 0) {
+      if (clearTimer < 0) clearTimer = 0.5;
+      clearTimer -= dt;
+      if (clearTimer <= 0) finishLevel(true);
+      return;
+    }
+    clearTimer = -1;
+
+    if (!bird || !bird.launched) return;
     shotAge += dt;
 
-    const birdStill = Math.hypot(bird.vx || 0, bird.vy || 0) < SLEEP_SPEED;
-    const settled = worldSettled() || (birdStill && shotAge > 1.1);
+    const speed = Math.hypot(bird.vx || 0, bird.vy || 0);
+    const onGround = bird.y + bird.r >= GROUND_Y - 3;
+    const birdStill = speed < SLEEP_SPEED;
+    const settled = (onGround && birdStill && shotAge > 0.9) || shotAge >= MAX_SHOT_TIME;
 
-    if (!settled && shotAge < MAX_SHOT_TIME) {
+    if (!settled) {
       settledTimer = 0;
       return;
     }
 
     settledTimer += dt;
-    if (settledTimer < 0.35 && shotAge < MAX_SHOT_TIME) return;
+    if (settledTimer < 0.25 && shotAge < MAX_SHOT_TIME) return;
     advanceAfterShot();
   }
 
   function step(dt) {
+    if (!running) return;
+
     if (waitingNext) {
       endTimer -= dt;
       if (endTimer <= 0) {
         waitingNext = false;
         if (pestsLeft() <= 0) finishLevel(true);
         else finishRun(false);
+        return;
       }
     }
 
@@ -684,7 +720,6 @@
       for (let j = i + 1; j < list.length; j += 1) {
         const a = list[i];
         const b = list[j];
-        // dormindo x dormindo: ignora (mata o tremor infinito)
         if (a.sleeping && b.sleeping) continue;
         if (a.type === "circle" && b.type === "circle") resolveCircleCircle(a, b);
         else if (a.type === "circle" && b.type === "box") resolveCircleBox(a, b);
