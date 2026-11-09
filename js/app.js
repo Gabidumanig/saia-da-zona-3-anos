@@ -87,9 +87,9 @@
 
   function ensureQuizSession() {
     const session = loadSession();
-    if (Array.isArray(session?.questionIds) && session.questionIds.length > 0) {
+    if (Array.isArray(session?.questionIds) && session.questionIds.length === QUIZ_SIZE) {
       const restored = questionsFromIds(session.questionIds);
-      if (restored.length === session.questionIds.length) {
+      if (restored.length === QUIZ_SIZE) {
         sessionQuestions = restored;
         return sessionQuestions;
       }
