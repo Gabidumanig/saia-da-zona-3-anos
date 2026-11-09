@@ -4,8 +4,6 @@
     trail: "trail_best",
     pack: "pack_best",
     angry: "angry_best",
-    tetris: "tetris_best",
-    onca: "onca_best",
   };
 
   const UNIT = {
@@ -13,11 +11,9 @@
     trail: (n) => `${n} m`,
     pack: (n) => `${n} itens`,
     angry: (n) => `${n} pts`,
-    tetris: (n) => `${n} pts`,
-    onca: (n) => `${n} pts`,
   };
 
-  const ALL_BOARDS = ["quiz", "trail", "pack", "angry", "tetris", "onca"];
+  const ALL_BOARDS = ["quiz", "trail", "pack", "angry"];
 
   const FALLBACK_AVATARS = [
     { id: "franz", name: "Franz", src: "assets/avatars/franz-bandage.svg?v=89" },
@@ -120,8 +116,6 @@
       trail: "name-input-trail",
       pack: "name-input-pack",
       angry: "name-input-angry",
-      tetris: "name-input-tetris",
-      onca: "name-input-onca",
     };
     const input = document.getElementById(map[viewName]);
     if (!input) return;
