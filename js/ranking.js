@@ -12,12 +12,12 @@
   };
 
   const FALLBACK_AVATARS = [
-    { id: "franz", name: "Franz", src: "assets/avatars/franz-v6.svg?v=67" },
-    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=67" },
-    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v6.svg?v=67" },
-    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=67" },
-    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=67" },
-    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=67" },
+    { id: "franz", name: "Franz", src: "assets/avatars/franz-v6.svg?v=85" },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=85" },
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v6.svg?v=85" },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=85" },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=85" },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=85" },
   ];
 
   let rows = [];
