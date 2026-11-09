@@ -1,14 +1,15 @@
 (() => {
   const BEST_KEY = "sdz3_angry_best";
-  const LEVEL_COUNT = 3;
+  const LEVEL_COUNT = 5;
+  const LEVEL_NAMES = ["Pedreira", "Cachoeira", "Mirante", "Acampamento", "Cume"];
 
   const LEADERS = [
-    { id: "franz", name: "Franz", src: "assets/avatars/franz-bandage.svg?v=91", power: 1.05 },
-    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=91", power: 1 },
-    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v7.svg?v=91", power: 1.08 },
-    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=91", power: 1 },
-    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=91", power: 1.12 },
-    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=91", power: 1.02 },
+    { id: "franz", name: "Franz", src: "assets/avatars/franz-bandage.svg?v=93", power: 1.02 },
+    { id: "diego", name: "Diego", src: "assets/avatars/diego-v6.svg?v=93", power: 0.98 },
+    { id: "gabi", name: "Gabi", src: "assets/avatars/gabi-v7.svg?v=93", power: 1.05 },
+    { id: "jin", name: "Jin", src: "assets/avatars/jin-v6.svg?v=93", power: 0.98 },
+    { id: "caio", name: "Caio", src: "assets/avatars/caio-v7.svg?v=93", power: 1.08 },
+    { id: "matheus", name: "Matheus", src: "assets/avatars/matheus-v6.svg?v=93", power: 1 },
   ];
 
   const canvas = document.getElementById("angry-canvas");
@@ -27,8 +28,9 @@
   const H = canvas.height;
   const GROUND_Y = H - 52;
   const SLING = { x: 118, y: GROUND_Y - 78 };
-  const MAX_PULL = 118;
-  const G = 1680;
+  const MAX_PULL = 110;
+  const G = 1780;
+  const LAUNCH_POWER = 900;
 
   let active = false;
   let running = false;
@@ -82,8 +84,8 @@
   }
 
   function makeBox(x, y, w, h, kind) {
-    const hp = kind === "stone" ? 2 : kind === "wood" ? 1 : 1;
-    const mass = kind === "stone" ? 2.4 : 1.2;
+    const hp = kind === "stone" ? 3 : kind === "wood" ? 2 : 1;
+    const mass = kind === "stone" ? 3.1 : 1.55;
     return {
       type: "box",
       kind,
@@ -95,25 +97,27 @@
       vy: 0,
       hp,
       mass,
-      restitution: kind === "stone" ? 0.15 : 0.28,
-      friction: 0.82,
+      restitution: kind === "stone" ? 0.1 : 0.22,
+      friction: 0.88,
       alive: true,
-      points: kind === "stone" ? 400 : 600,
+      points: kind === "stone" ? 500 : 700,
     };
   }
 
-  const PEST_META = {
-    mosquito: { label: "Mosquito", points: 5000, r: 20, color: "#5B4636" },
-    snake: { label: "Cobra", points: 5500, r: 22, color: "#C44B2B" },
-    trash: { label: "Lixo", points: 4500, r: 21, color: "#7A8794" },
+  const TRASH_META = {
+    bottle: { label: "Garrafa", points: 5200, r: 20, color: "#38BDF8" },
+    can: { label: "Lata", points: 5000, r: 19, color: "#94A3B8" },
+    bag: { label: "Saco", points: 4800, r: 21, color: "#64748B" },
+    cup: { label: "Copo", points: 4600, r: 18, color: "#FB7185" },
+    wrap: { label: "Embalagem", points: 5400, r: 20, color: "#F59E0B" },
   };
 
-  function makePest(x, y, pest = "mosquito") {
-    const meta = PEST_META[pest] || PEST_META.mosquito;
+  function makeTrash(x, y, trash = "bottle") {
+    const meta = TRASH_META[trash] || TRASH_META.bottle;
     return {
       type: "circle",
       kind: "pest",
-      pest,
+      pest: trash,
       label: meta.label,
       x,
       y,
@@ -121,9 +125,9 @@
       vx: 0,
       vy: 0,
       hp: 1,
-      mass: pest === "trash" ? 1.25 : 0.95,
-      restitution: 0.35,
-      friction: 0.78,
+      mass: trash === "bag" ? 0.85 : 1.2,
+      restitution: 0.3,
+      friction: 0.8,
       alive: true,
       points: meta.points,
     };
@@ -160,49 +164,113 @@
     return y;
   }
 
+  function atop(heights, r = 20) {
+    const last = heights[heights.length - 1] || 36;
+    return stackY(heights) - last / 2 - r;
+  }
+
   function levelLayout(index) {
     const list = [];
     if (index === 0) {
-      // Pedreira da entrada
-      list.push(makeBox(560, stackY([34]), 46, 34, "wood"));
-      list.push(makeBox(610, stackY([34]), 46, 34, "wood"));
-      list.push(makeBox(585, stackY([34, 36]), 52, 36, "wood"));
-      list.push(makePest(585, stackY([34, 36]) - 36 / 2 - 20, "mosquito"));
-      list.push(makeBox(700, stackY([40]), 50, 40, "stone"));
-      list.push(makePest(700, stackY([40]) - 20 - 21, "trash"));
+      // Pedreira — intro já exigente
+      list.push(makeBox(540, stackY([36]), 48, 36, "wood"));
+      list.push(makeBox(592, stackY([36]), 48, 36, "wood"));
+      list.push(makeBox(566, stackY([36, 38]), 54, 38, "wood"));
+      list.push(makeTrash(566, atop([36, 38]), "bottle"));
+      list.push(makeBox(690, stackY([42]), 52, 42, "stone"));
+      list.push(makeBox(690, stackY([42, 36]), 46, 36, "wood"));
+      list.push(makeTrash(690, atop([42, 36]), "can"));
+      list.push(makeBox(780, stackY([34]), 44, 34, "wood"));
+      list.push(makeTrash(780, atop([34], 18), "cup"));
     } else if (index === 1) {
-      // Ponte da cachoeira
-      list.push(makeBox(520, stackY([36]), 44, 36, "wood"));
-      list.push(makeBox(568, stackY([36]), 44, 36, "wood"));
-      list.push(makeBox(616, stackY([36]), 44, 36, "wood"));
-      list.push(makeBox(544, stackY([36, 38]), 48, 38, "wood"));
-      list.push(makeBox(592, stackY([36, 38]), 48, 38, "wood"));
-      list.push(makeBox(568, stackY([36, 38, 38]), 54, 38, "stone"));
-      list.push(makePest(545, stackY([36, 38]) - 19 - 20, "mosquito"));
-      list.push(makePest(600, stackY([36, 38]) - 19 - 22, "snake"));
-      list.push(makePest(568, stackY([36, 38, 38]) - 19 - 21, "trash"));
-      list.push(makeBox(720, stackY([44]), 56, 44, "stone"));
-      list.push(makeBox(720, stackY([44, 42]), 48, 42, "wood"));
-      list.push(makePest(720, stackY([44, 42]) - 21 - 22, "snake"));
-    } else {
-      // Acampamento infestada
+      // Cachoeira
+      [520, 568, 616].forEach((x) => list.push(makeBox(x, stackY([38]), 44, 38, "wood")));
+      list.push(makeBox(544, stackY([38, 40]), 48, 40, "stone"));
+      list.push(makeBox(592, stackY([38, 40]), 48, 40, "stone"));
+      list.push(makeBox(568, stackY([38, 40, 38]), 54, 38, "wood"));
+      list.push(makeTrash(544, atop([38, 40]), "bag"));
+      list.push(makeTrash(592, atop([38, 40]), "bottle"));
+      list.push(makeTrash(568, atop([38, 40, 38]), "wrap"));
+      list.push(makeBox(720, stackY([46]), 56, 46, "stone"));
+      list.push(makeBox(720, stackY([46, 40]), 50, 40, "stone"));
+      list.push(makeTrash(720, atop([46, 40]), "can"));
+      list.push(makeBox(800, stackY([36]), 42, 36, "wood"));
+      list.push(makeTrash(800, atop([36], 18), "cup"));
+    } else if (index === 2) {
+      // Mirante
       for (let i = 0; i < 4; i += 1) {
-        list.push(makeBox(500 + i * 48, stackY([38]), 44, 38, i % 2 ? "stone" : "wood"));
+        list.push(makeBox(500 + i * 50, stackY([40]), 46, 40, i % 2 ? "stone" : "wood"));
       }
       for (let i = 0; i < 3; i += 1) {
-        list.push(makeBox(524 + i * 48, stackY([38, 38]), 44, 38, "wood"));
+        list.push(makeBox(525 + i * 50, stackY([40, 40]), 46, 40, "stone"));
       }
-      list.push(makeBox(548, stackY([38, 38, 40]), 48, 40, "stone"));
-      list.push(makeBox(596, stackY([38, 38, 40]), 48, 40, "stone"));
-      list.push(makeBox(572, stackY([38, 38, 40, 40]), 54, 40, "wood"));
-      list.push(makePest(548, stackY([38, 38, 40]) - 20 - 20, "mosquito"));
-      list.push(makePest(600, stackY([38, 38, 40]) - 20 - 21, "trash"));
-      list.push(makePest(572, stackY([38, 38, 40, 40]) - 20 - 22, "snake"));
-      list.push(makeBox(740, stackY([50]), 60, 50, "stone"));
-      list.push(makeBox(740, stackY([50, 48]), 52, 48, "stone"));
-      list.push(makePest(740, stackY([50, 48]) - 24 - 20, "mosquito"));
-      list.push(makeBox(800, stackY([36]), 42, 36, "wood"));
-      list.push(makePest(800, stackY([36]) - 18 - 21, "trash"));
+      list.push(makeBox(550, stackY([40, 40, 42]), 50, 42, "wood"));
+      list.push(makeBox(600, stackY([40, 40, 42]), 50, 42, "wood"));
+      list.push(makeBox(575, stackY([40, 40, 42, 38]), 54, 38, "stone"));
+      list.push(makeTrash(525, atop([40, 40]), "bottle"));
+      list.push(makeTrash(575, atop([40, 40]), "can"));
+      list.push(makeTrash(625, atop([40, 40]), "bag"));
+      list.push(makeTrash(575, atop([40, 40, 42, 38]), "wrap"));
+      list.push(makeBox(740, stackY([48]), 54, 48, "stone"));
+      list.push(makeBox(740, stackY([48, 44]), 50, 44, "stone"));
+      list.push(makeBox(740, stackY([48, 44, 36]), 46, 36, "wood"));
+      list.push(makeTrash(740, atop([48, 44, 36]), "cup"));
+      list.push(makeTrash(810, atop([36], 18), "bag"));
+      list.push(makeBox(810, stackY([36]), 42, 36, "wood"));
+    } else if (index === 3) {
+      // Acampamento
+      for (let i = 0; i < 5; i += 1) {
+        list.push(makeBox(480 + i * 48, stackY([38]), 44, 38, i % 2 ? "stone" : "wood"));
+      }
+      for (let i = 0; i < 4; i += 1) {
+        list.push(makeBox(504 + i * 48, stackY([38, 40]), 44, 40, "stone"));
+      }
+      for (let i = 0; i < 3; i += 1) {
+        list.push(makeBox(528 + i * 48, stackY([38, 40, 40]), 44, 40, i === 1 ? "stone" : "wood"));
+      }
+      list.push(makeBox(552, stackY([38, 40, 40, 42]), 52, 42, "stone"));
+      list.push(makeTrash(504, atop([38, 40]), "bottle"));
+      list.push(makeTrash(552, atop([38, 40]), "can"));
+      list.push(makeTrash(600, atop([38, 40]), "cup"));
+      list.push(makeTrash(648, atop([38, 40]), "bag"));
+      list.push(makeTrash(552, atop([38, 40, 40, 42]), "wrap"));
+      list.push(makeBox(760, stackY([50]), 58, 50, "stone"));
+      list.push(makeBox(760, stackY([50, 46]), 54, 46, "stone"));
+      list.push(makeBox(760, stackY([50, 46, 40]), 48, 40, "stone"));
+      list.push(makeTrash(760, atop([50, 46, 40]), "bottle"));
+      list.push(makeBox(840, stackY([40]), 44, 40, "wood"));
+      list.push(makeBox(840, stackY([40, 36]), 42, 36, "stone"));
+      list.push(makeTrash(840, atop([40, 36]), "can"));
+    } else {
+      // Cume — fortaleza de lixo
+      for (let i = 0; i < 5; i += 1) {
+        list.push(makeBox(470 + i * 50, stackY([42]), 46, 42, "stone"));
+      }
+      for (let i = 0; i < 4; i += 1) {
+        list.push(makeBox(495 + i * 50, stackY([42, 42]), 46, 42, "stone"));
+      }
+      for (let i = 0; i < 3; i += 1) {
+        list.push(makeBox(520 + i * 50, stackY([42, 42, 42]), 46, 42, "stone"));
+      }
+      list.push(makeBox(545, stackY([42, 42, 42, 40]), 50, 40, "wood"));
+      list.push(makeBox(595, stackY([42, 42, 42, 40]), 50, 40, "wood"));
+      list.push(makeBox(570, stackY([42, 42, 42, 40, 38]), 56, 38, "stone"));
+      list.push(makeTrash(495, atop([42, 42]), "bag"));
+      list.push(makeTrash(545, atop([42, 42]), "bottle"));
+      list.push(makeTrash(595, atop([42, 42]), "can"));
+      list.push(makeTrash(645, atop([42, 42]), "cup"));
+      list.push(makeTrash(545, atop([42, 42, 42, 40]), "wrap"));
+      list.push(makeTrash(595, atop([42, 42, 42, 40]), "bottle"));
+      list.push(makeTrash(570, atop([42, 42, 42, 40, 38]), "wrap"));
+      list.push(makeBox(760, stackY([52]), 56, 52, "stone"));
+      list.push(makeBox(760, stackY([52, 48]), 52, 48, "stone"));
+      list.push(makeBox(760, stackY([52, 48, 44]), 48, 44, "stone"));
+      list.push(makeBox(760, stackY([52, 48, 44, 36]), 44, 36, "wood"));
+      list.push(makeTrash(760, atop([52, 48, 44, 36]), "can"));
+      list.push(makeBox(845, stackY([44]), 46, 44, "stone"));
+      list.push(makeBox(845, stackY([44, 40]), 44, 40, "stone"));
+      list.push(makeTrash(845, atop([44, 40]), "bag"));
+      list.push(makeTrash(420, GROUND_Y - 20, "cup"));
     }
     return list;
   }
@@ -216,8 +284,10 @@
     return arr;
   }
 
-  function buildAmmo() {
-    const picks = shuffle(LEADERS).slice(0, 3);
+  function buildAmmo(level) {
+    // quanto mais alto o nível, menos líderes — fica mais difícil
+    const count = level >= 4 ? 3 : level >= 2 ? 3 : 4;
+    const picks = shuffle(LEADERS).slice(0, count);
     return picks.map((leader) => makeBird(leader));
   }
 
@@ -249,7 +319,7 @@
   function startLevel(index) {
     levelIndex = index;
     bodies = levelLayout(index);
-    ammo = buildAmmo();
+    ammo = buildAmmo(index);
     bird = null;
     aiming = false;
     pull = { x: 0, y: 0 };
@@ -305,7 +375,7 @@
     score += body.points || 0;
     const color =
       body.kind === "pest"
-        ? PEST_META[body.pest]?.color || "#5B4636"
+        ? TRASH_META[body.pest]?.color || "#94A3B8"
         : body.kind === "stone"
           ? "#9AA3AE"
           : "#C48A4A";
@@ -316,9 +386,9 @@
 
   function damage(body, amount, impact) {
     if (!body.alive || body.kind === "bird") return;
-    if (impact < 90 && body.kind === "stone") return;
-    if (impact < 70 && body.kind === "wood") return;
-    if (impact < 55 && body.kind === "pest") return;
+    if (impact < 130 && body.kind === "stone") return;
+    if (impact < 95 && body.kind === "wood") return;
+    if (impact < 70 && body.kind === "pest") return;
     body.hp -= amount;
     if (body.hp <= 0) {
       body.alive = false;
@@ -485,7 +555,7 @@
       if (levelIndex >= LEVEL_COUNT - 1) {
         finishRun(true);
       } else {
-        showOverlay(`Trilha liberada! Próximo: nível ${levelIndex + 2}`, "Próximo nível");
+        showOverlay(`Lixo limpo! Próximo: ${LEVEL_NAMES[levelIndex + 1]}`, "Próximo nível");
         startBtn.dataset.action = "next-level";
       }
     } else {
@@ -505,10 +575,10 @@
       window.SDZ_PLAYER.submitScore("angry", score);
     }
     const title = won
-      ? `Missão cumprida! ${score} pts`
+      ? `Trilha limpa! ${score} pts`
       : pestsLeft() > 0
-        ? `Ainda sobrou praga na trilha… ${score} pts`
-        : `Fim da trilha! ${score} pts`;
+        ? `Ainda sobrou lixo na trilha… ${score} pts`
+        : `Fim da missão! ${score} pts`;
     showOverlay(title, "Jogar de novo");
     startBtn.dataset.action = "restart";
   }
@@ -716,101 +786,109 @@
     }
   }
 
-  function drawMosquito(r) {
-    ctx.fillStyle = "rgba(180,210,230,0.45)";
-    ctx.beginPath();
-    ctx.ellipse(-10, -2, 10, 5, -0.4, 0, Math.PI * 2);
-    ctx.ellipse(10, -2, 10, 5, 0.4, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#4A382C";
-    ctx.beginPath();
-    ctx.ellipse(0, 0, r * 0.55, r * 0.42, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#2A1C14";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(r * 0.4, 2);
-    ctx.lineTo(r * 0.95, 8);
-    ctx.stroke();
-    ctx.fillStyle = "#111";
-    ctx.beginPath();
-    ctx.arc(-4, -2, 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#2A1C14";
-    ctx.beginPath();
-    ctx.moveTo(-6, 6);
-    ctx.lineTo(-10, 12);
-    ctx.moveTo(2, 7);
-    ctx.lineTo(0, 13);
-    ctx.moveTo(8, 5);
-    ctx.lineTo(12, 11);
-    ctx.stroke();
+  function drawBottle(r) {
+    ctx.fillStyle = "rgba(56,189,248,0.85)";
+    ctx.fillRect(-r * 0.28, -r * 0.55, r * 0.56, r * 1.05);
+    ctx.fillStyle = "#0EA5E9";
+    ctx.fillRect(-r * 0.18, -r * 0.78, r * 0.36, r * 0.28);
+    ctx.fillStyle = "rgba(255,255,255,0.35)";
+    ctx.fillRect(-r * 0.18, -r * 0.2, r * 0.12, r * 0.45);
   }
 
-  function drawSnake(r) {
-    ctx.strokeStyle = "#E25A2C";
-    ctx.lineWidth = 10;
-    ctx.lineCap = "round";
+  function drawCan(r) {
+    ctx.fillStyle = "#94A3B8";
+    ctx.fillRect(-r * 0.4, -r * 0.55, r * 0.8, r * 1.05);
+    ctx.fillStyle = "#64748B";
+    ctx.fillRect(-r * 0.4, -r * 0.55, r * 0.8, r * 0.18);
+    ctx.fillRect(-r * 0.4, r * 0.32, r * 0.8, r * 0.18);
+    ctx.fillStyle = "#EF4444";
+    ctx.fillRect(-r * 0.22, -r * 0.15, r * 0.44, r * 0.28);
+  }
+
+  function drawBag(r) {
+    ctx.fillStyle = "rgba(100,116,139,0.55)";
     ctx.beginPath();
-    ctx.moveTo(-r * 0.85, 6);
-    ctx.quadraticCurveTo(-r * 0.2, -r * 0.7, r * 0.15, 2);
-    ctx.quadraticCurveTo(r * 0.55, r * 0.55, r * 0.9, -2);
-    ctx.stroke();
-    ctx.strokeStyle = "#FFD166";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(-r * 0.55, 0);
-    ctx.lineTo(-r * 0.35, -8);
-    ctx.moveTo(r * 0.05, 4);
-    ctx.lineTo(r * 0.25, -4);
-    ctx.stroke();
-    ctx.fillStyle = "#C44B2B";
-    ctx.beginPath();
-    ctx.arc(r * 0.78, -4, 7, 0, Math.PI * 2);
+    ctx.moveTo(-r * 0.75, -r * 0.55);
+    ctx.lineTo(r * 0.75, -r * 0.35);
+    ctx.lineTo(r * 0.55, r * 0.7);
+    ctx.lineTo(-r * 0.55, r * 0.55);
+    ctx.closePath();
     ctx.fill();
-    ctx.fillStyle = "#111";
-    ctx.beginPath();
-    ctx.arc(r * 0.7, -6, 1.6, 0, Math.PI * 2);
-    ctx.arc(r * 0.88, -6, 1.6, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#FF4D6D";
+    ctx.strokeStyle = "#475569";
     ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(r * 0.95, -2);
-    ctx.lineTo(r * 1.15, 2);
-    ctx.lineTo(r * 0.95, 4);
     ctx.stroke();
-  }
-
-  function drawTrash(r) {
-    ctx.fillStyle = "#9AA3AE";
-    ctx.fillRect(-r * 0.55, -r * 0.15, r * 1.1, r * 0.85);
-    ctx.fillStyle = "#6B7280";
-    ctx.fillRect(-r * 0.65, -r * 0.35, r * 1.3, r * 0.28);
-    ctx.fillStyle = "#4B5563";
-    ctx.fillRect(-r * 0.12, -r * 0.55, r * 0.24, r * 0.25);
     ctx.fillStyle = "#22C55E";
     ctx.beginPath();
-    ctx.ellipse(-r * 0.25, r * 0.15, 5, 7, -0.3, 0, Math.PI * 2);
+    ctx.ellipse(0, 0.1 * r, 5, 7, 0.4, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = "#3B82F6";
-    ctx.fillRect(r * 0.05, 0, 8, 11);
-    ctx.strokeStyle = "#374151";
+  }
+
+  function drawCup(r) {
+    ctx.fillStyle = "#FB7185";
+    ctx.beginPath();
+    ctx.moveTo(-r * 0.45, -r * 0.55);
+    ctx.lineTo(r * 0.45, -r * 0.55);
+    ctx.lineTo(r * 0.32, r * 0.65);
+    ctx.lineTo(-r * 0.32, r * 0.65);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(-r * 0.5, -r * 0.62, r, r * 0.14);
+    ctx.strokeStyle = "#BE123C";
     ctx.lineWidth = 1.5;
-    ctx.strokeRect(-r * 0.55, -r * 0.15, r * 1.1, r * 0.85);
+    ctx.beginPath();
+    ctx.moveTo(-r * 0.2, -r * 0.2);
+    ctx.lineTo(r * 0.2, r * 0.25);
+    ctx.stroke();
+  }
+
+  function drawWrap(r) {
+    ctx.fillStyle = "#F59E0B";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, r * 0.75, r * 0.5, -0.25, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#FDE68A";
+    ctx.beginPath();
+    ctx.ellipse(-2, -2, r * 0.35, r * 0.22, -0.25, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#B45309";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(-r * 0.5, r * 0.1);
+    ctx.lineTo(r * 0.55, -r * 0.15);
+    ctx.stroke();
   }
 
   function drawPest(body) {
     ctx.save();
     ctx.translate(body.x, body.y);
-    if (body.pest === "snake") drawSnake(body.r);
-    else if (body.pest === "trash") drawTrash(body.r);
-    else drawMosquito(body.r);
+    if (body.pest === "can") drawCan(body.r);
+    else if (body.pest === "bag") drawBag(body.r);
+    else if (body.pest === "cup") drawCup(body.r);
+    else if (body.pest === "wrap") drawWrap(body.r);
+    else drawBottle(body.r);
     ctx.fillStyle = "#fff";
     ctx.font = "700 9px Manrope, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(body.label || "Praga", 0, body.r + 12);
+    ctx.fillText(body.label || "Lixo", 0, body.r + 12);
     ctx.restore();
+  }
+
+  function drawLeaderName(x, y, name, above = 34) {
+    const label = String(name || "");
+    ctx.font = "800 11px Manrope, sans-serif";
+    ctx.textAlign = "center";
+    const tw = ctx.measureText(label).width;
+    const pad = 6;
+    const bx = x - tw / 2 - pad;
+    const by = y - above - 12;
+    ctx.fillStyle = "rgba(8,24,16,0.72)";
+    ctx.beginPath();
+    ctx.roundRect?.(bx, by, tw + pad * 2, 18, 8);
+    if (!ctx.roundRect) ctx.fillRect(bx, by, tw + pad * 2, 18);
+    else ctx.fill();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText(label, x, y - above);
   }
 
   function drawBird(body) {
@@ -835,13 +913,14 @@
       ctx.fill();
     }
     ctx.restore();
+    drawLeaderName(body.x, body.y, body.leader.name, body.r + 16);
   }
 
   function drawAimGuide() {
     if (!bird || bird.state !== "ready" || !aiming) return;
     const power = Math.hypot(pull.x, pull.y) / MAX_PULL;
-    const vx = (-pull.x / MAX_PULL) * 980 * bird.leader.power * power;
-    const vy = (-pull.y / MAX_PULL) * 980 * bird.leader.power * power;
+    const vx = (-pull.x / MAX_PULL) * LAUNCH_POWER * bird.leader.power * power;
+    const vy = (-pull.y / MAX_PULL) * LAUNCH_POWER * bird.leader.power * power;
     ctx.fillStyle = "rgba(255,255,255,0.55)";
     let x = bird.x;
     let y = bird.y;
@@ -860,8 +939,8 @@
   function drawAmmoPreview() {
     const queue = [...ammo];
     queue.forEach((b, i) => {
-      const x = 36;
-      const y = GROUND_Y - 30 - i * 42;
+      const x = 40;
+      const y = GROUND_Y - 36 - i * 52;
       const img = leaderImgs[b.leader.id];
       if (img) ctx.drawImage(img, x - 16, y - 18, 32, 36);
       else {
@@ -870,6 +949,7 @@
         ctx.arc(x, y, 12, 0, Math.PI * 2);
         ctx.fill();
       }
+      drawLeaderName(x, y, b.leader.name, 28);
     });
   }
 
@@ -900,13 +980,16 @@
 
     // HUD no canvas
     ctx.fillStyle = "rgba(8,24,16,0.45)";
-    ctx.fillRect(12, 12, 210, 34);
+    ctx.fillRect(12, 12, 250, 34);
     ctx.fillStyle = "#fff";
     ctx.font = "700 14px Manrope, sans-serif";
     ctx.textAlign = "left";
-    const levelNames = ["Pedreira", "Cachoeira", "Acampamento"];
     const left = pestsLeft();
-    ctx.fillText(`${levelNames[levelIndex] || "Trilha"} · ${left} praga${left === 1 ? "" : "s"}`, 22, 34);
+    ctx.fillText(
+      `${LEVEL_NAMES[levelIndex] || "Trilha"} · ${left} lixo${left === 1 ? "" : "s"}`,
+      22,
+      34
+    );
   }
 
   function frame(ts) {
@@ -976,7 +1059,7 @@
       pull = { x: 0, y: 0 };
       return;
     }
-    const mult = 980 * bird.leader.power * power;
+    const mult = LAUNCH_POWER * bird.leader.power * power;
     bird.vx = (-pull.x / MAX_PULL) * mult;
     bird.vy = (-pull.y / MAX_PULL) * mult;
     bird.state = "flight";
@@ -1033,7 +1116,7 @@
   loadLeaders();
   resetClouds();
   updateChrome();
-  showOverlay("Puxe o estilingue e limpe mosquitos, cobras e lixo da trilha!", "Começar");
+  showOverlay("Objetivo: acabar com o lixo das trilhas. Puxe e solte!", "Começar");
   startBtn.dataset.action = "start";
   draw();
 
