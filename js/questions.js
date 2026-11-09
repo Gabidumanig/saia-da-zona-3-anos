@@ -40,12 +40,12 @@ window.SDZ_QUESTIONS = [
   },
   {
     id: "007",
-    text: "Qual destino foi escolhido no terceiro aniversário do Saia da Zona?",
+    text: "Qual destino foi escolhido no primeiro aniversário do Saia da Zona?",
     options: [
       "Casa do Diego",
       "Prédio da Gabi",
       "Praia do Bonete",
-      "Fazenda da Lage",
+      "Fazenda da Laje",
       "Pico do Lopo",
     ],
     correctIndex: 3,
