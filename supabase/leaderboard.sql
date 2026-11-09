@@ -9,8 +9,6 @@ create table if not exists public.leaderboard (
   trail_best integer not null default 0,
   pack_best integer not null default 0,
   angry_best integer not null default 0,
-  tetris_best integer not null default 0,
-  onca_best integer not null default 0,
   trail_avatar text,
   updated_at timestamptz not null default now()
 );
@@ -19,8 +17,6 @@ create index if not exists leaderboard_quiz_idx on public.leaderboard (quiz_best
 create index if not exists leaderboard_trail_idx on public.leaderboard (trail_best desc);
 create index if not exists leaderboard_pack_idx on public.leaderboard (pack_best desc);
 create index if not exists leaderboard_angry_idx on public.leaderboard (angry_best desc);
-create index if not exists leaderboard_tetris_idx on public.leaderboard (tetris_best desc);
-create index if not exists leaderboard_onca_idx on public.leaderboard (onca_best desc);
 
 alter table public.leaderboard enable row level security;
 
@@ -63,7 +59,7 @@ begin
   if safe_name is null or length(safe_name) < 2 then
     raise exception 'invalid player name';
   end if;
-  if p_game not in ('quiz', 'trail', 'pack', 'angry', 'tetris', 'onca') then
+  if p_game not in ('quiz', 'trail', 'pack', 'angry') then
     raise exception 'invalid game';
   end if;
   if safe_avatar is not null and safe_avatar !~ '^[a-z0-9_-]+$' then
@@ -102,14 +98,6 @@ begin
     returning * into row;
   elsif p_game = 'angry' and safe_score > row.angry_best then
     update public.leaderboard set angry_best = safe_score, updated_at = now()
-    where player_key = p_player_key
-    returning * into row;
-  elsif p_game = 'tetris' and safe_score > row.tetris_best then
-    update public.leaderboard set tetris_best = safe_score, updated_at = now()
-    where player_key = p_player_key
-    returning * into row;
-  elsif p_game = 'onca' and safe_score > row.onca_best then
-    update public.leaderboard set onca_best = safe_score, updated_at = now()
     where player_key = p_player_key
     returning * into row;
   end if;
