@@ -164,13 +164,19 @@
     if (!url || !key) return [];
     try {
       const hasColumn = await probeTrailAvatarColumn();
-      const select = hasColumn
+      const base = hasColumn
         ? "player_name,quiz_best,trail_best,pack_best,trail_avatar,updated_at"
         : "player_name,quiz_best,trail_best,pack_best,updated_at";
-      const res = await fetch(
-        `${url}/rest/v1/leaderboard?select=${select}&order=updated_at.desc&limit=100`,
+      let res = await fetch(
+        `${url}/rest/v1/leaderboard?select=${base},angry_best&order=updated_at.desc&limit=100`,
         { headers: headers() }
       );
+      if (!res.ok) {
+        res = await fetch(
+          `${url}/rest/v1/leaderboard?select=${base}&order=updated_at.desc&limit=100`,
+          { headers: headers() }
+        );
+      }
       if (!res.ok) throw new Error(`lb ${res.status}`);
       const rows = await res.json();
       return rows.map((row) => {
@@ -179,6 +185,7 @@
           ...row,
           player_name: parsed.name,
           trail_avatar: row.trail_avatar || parsed.avatar || null,
+          angry_best: Number(row.angry_best || 0),
         };
       });
     } catch (err) {

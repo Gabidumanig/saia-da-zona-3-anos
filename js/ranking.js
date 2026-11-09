@@ -3,12 +3,14 @@
     quiz: "quiz_best",
     trail: "trail_best",
     pack: "pack_best",
+    angry: "angry_best",
   };
 
   const UNIT = {
     quiz: (n) => `${n} pts`,
     trail: (n) => `${n} m`,
     pack: (n) => `${n} itens`,
+    angry: (n) => `${n} pts`,
   };
 
   const FALLBACK_AVATARS = [
@@ -107,7 +109,12 @@
   }
 
   function focusNameInView(viewName) {
-    const map = { quiz: "name-input-quiz", trail: "name-input-trail", pack: "name-input-pack" };
+    const map = {
+      quiz: "name-input-quiz",
+      trail: "name-input-trail",
+      pack: "name-input-pack",
+      angry: "name-input-angry",
+    };
     const input = document.getElementById(map[viewName]);
     if (!input) return;
     input.focus();
@@ -129,7 +136,7 @@
   async function refresh() {
     rows = (await window.SDZ_PLAYER?.fetchLeaderboard?.()) || [];
     syncNameForms();
-    ["quiz", "trail", "pack"].forEach(renderBoard);
+    ["quiz", "trail", "pack", "angry"].forEach(renderBoard);
   }
 
   document.querySelectorAll(".game-name-form").forEach((form) => {
@@ -147,14 +154,14 @@
         return;
       }
       syncNameForms();
-      ["quiz", "trail", "pack"].forEach(renderBoard);
+      ["quiz", "trail", "pack", "angry"].forEach(renderBoard);
     });
   });
 
   window.addEventListener("sdz-score-updated", refresh);
   window.addEventListener("sdz-name-updated", () => {
     syncNameForms();
-    ["quiz", "trail", "pack"].forEach(renderBoard);
+    ["quiz", "trail", "pack", "angry"].forEach(renderBoard);
   });
 
   window.SDZ_RANKING = { refresh, requireName, syncNameForms };

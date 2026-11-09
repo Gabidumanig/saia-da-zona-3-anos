@@ -17,6 +17,7 @@
       quiz: document.getElementById("view-quiz"),
       trail: document.getElementById("view-trail"),
       pack: document.getElementById("view-pack"),
+      angry: document.getElementById("view-angry"),
     },
     quizBoard: document.getElementById("quiz-board"),
     quizDone: document.getElementById("quiz-done"),
@@ -127,7 +128,7 @@
     });
 
     if (name === "quiz") renderQuiz();
-    if (["quiz", "trail", "pack"].includes(name)) {
+    if (["quiz", "trail", "pack", "angry"].includes(name)) {
       window.SDZ_RANKING?.syncNameForms?.();
       window.SDZ_RANKING?.refresh?.();
     }
@@ -138,6 +139,10 @@
     if (window.SDZ_PACK_GAME) {
       if (name === "pack") window.SDZ_PACK_GAME.activate();
       else window.SDZ_PACK_GAME.deactivate();
+    }
+    if (window.SDZ_ANGRY_GAME) {
+      if (name === "angry") window.SDZ_ANGRY_GAME.activate();
+      else window.SDZ_ANGRY_GAME.deactivate();
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
