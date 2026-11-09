@@ -102,22 +102,30 @@
     };
   }
 
-  function makePig(x, y, label = "Zonado") {
+  const PEST_META = {
+    mosquito: { label: "Mosquito", points: 5000, r: 20, color: "#5B4636" },
+    snake: { label: "Cobra", points: 5500, r: 22, color: "#C44B2B" },
+    trash: { label: "Lixo", points: 4500, r: 21, color: "#7A8794" },
+  };
+
+  function makePest(x, y, pest = "mosquito") {
+    const meta = PEST_META[pest] || PEST_META.mosquito;
     return {
       type: "circle",
-      kind: "pig",
-      label,
+      kind: "pest",
+      pest,
+      label: meta.label,
       x,
       y,
-      r: 22,
+      r: meta.r,
       vx: 0,
       vy: 0,
       hp: 1,
-      mass: 1,
+      mass: pest === "trash" ? 1.25 : 0.95,
       restitution: 0.35,
       friction: 0.78,
       alive: true,
-      points: 5000,
+      points: meta.points,
     };
   }
 
@@ -159,9 +167,9 @@
       list.push(makeBox(560, stackY([34]), 46, 34, "wood"));
       list.push(makeBox(610, stackY([34]), 46, 34, "wood"));
       list.push(makeBox(585, stackY([34, 36]), 52, 36, "wood"));
-      list.push(makePig(585, stackY([34, 36]) - 36 / 2 - 22));
+      list.push(makePest(585, stackY([34, 36]) - 36 / 2 - 20, "mosquito"));
       list.push(makeBox(700, stackY([40]), 50, 40, "stone"));
-      list.push(makePig(700, stackY([40]) - 20 - 22, "Barraca"));
+      list.push(makePest(700, stackY([40]) - 20 - 21, "trash"));
     } else if (index === 1) {
       // Ponte da cachoeira
       list.push(makeBox(520, stackY([36]), 44, 36, "wood"));
@@ -170,14 +178,14 @@
       list.push(makeBox(544, stackY([36, 38]), 48, 38, "wood"));
       list.push(makeBox(592, stackY([36, 38]), 48, 38, "wood"));
       list.push(makeBox(568, stackY([36, 38, 38]), 54, 38, "stone"));
-      list.push(makePig(545, stackY([36, 38]) - 19 - 22));
-      list.push(makePig(600, stackY([36, 38]) - 19 - 22));
-      list.push(makePig(568, stackY([36, 38, 38]) - 19 - 22, "Pepino"));
+      list.push(makePest(545, stackY([36, 38]) - 19 - 20, "mosquito"));
+      list.push(makePest(600, stackY([36, 38]) - 19 - 22, "snake"));
+      list.push(makePest(568, stackY([36, 38, 38]) - 19 - 21, "trash"));
       list.push(makeBox(720, stackY([44]), 56, 44, "stone"));
       list.push(makeBox(720, stackY([44, 42]), 48, 42, "wood"));
-      list.push(makePig(720, stackY([44, 42]) - 21 - 22, "Atum"));
+      list.push(makePest(720, stackY([44, 42]) - 21 - 22, "snake"));
     } else {
-      // Acampamento zonado
+      // Acampamento infestada
       for (let i = 0; i < 4; i += 1) {
         list.push(makeBox(500 + i * 48, stackY([38]), 44, 38, i % 2 ? "stone" : "wood"));
       }
@@ -187,14 +195,14 @@
       list.push(makeBox(548, stackY([38, 38, 40]), 48, 40, "stone"));
       list.push(makeBox(596, stackY([38, 38, 40]), 48, 40, "stone"));
       list.push(makeBox(572, stackY([38, 38, 40, 40]), 54, 40, "wood"));
-      list.push(makePig(548, stackY([38, 38, 40]) - 20 - 22));
-      list.push(makePig(600, stackY([38, 38, 40]) - 20 - 22));
-      list.push(makePig(572, stackY([38, 38, 40, 40]) - 20 - 22, "Chefe"));
+      list.push(makePest(548, stackY([38, 38, 40]) - 20 - 20, "mosquito"));
+      list.push(makePest(600, stackY([38, 38, 40]) - 20 - 21, "trash"));
+      list.push(makePest(572, stackY([38, 38, 40, 40]) - 20 - 22, "snake"));
       list.push(makeBox(740, stackY([50]), 60, 50, "stone"));
       list.push(makeBox(740, stackY([50, 48]), 52, 48, "stone"));
-      list.push(makePig(740, stackY([50, 48]) - 24 - 22, "Zonado"));
+      list.push(makePest(740, stackY([50, 48]) - 24 - 20, "mosquito"));
       list.push(makeBox(800, stackY([36]), 42, 36, "wood"));
-      list.push(makePig(800, stackY([36]) - 18 - 22, "Barraca"));
+      list.push(makePest(800, stackY([36]) - 18 - 21, "trash"));
     }
     return list;
   }
@@ -283,8 +291,8 @@
     return true;
   }
 
-  function pigsLeft() {
-    return bodies.filter((b) => b.alive && b.kind === "pig").length;
+  function pestsLeft() {
+    return bodies.filter((b) => b.alive && b.kind === "pest").length;
   }
 
   function dynamicBodies() {
@@ -296,9 +304,13 @@
   function awardDestroy(body) {
     score += body.points || 0;
     const color =
-      body.kind === "pig" ? "#7BC96F" : body.kind === "stone" ? "#9AA3AE" : "#C48A4A";
-    spawnParticles(body.x, body.y, color, body.kind === "pig" ? 16 : 10);
-    shake = Math.min(10, shake + (body.kind === "pig" ? 6 : 3));
+      body.kind === "pest"
+        ? PEST_META[body.pest]?.color || "#5B4636"
+        : body.kind === "stone"
+          ? "#9AA3AE"
+          : "#C48A4A";
+    spawnParticles(body.x, body.y, color, body.kind === "pest" ? 16 : 10);
+    shake = Math.min(10, shake + (body.kind === "pest" ? 6 : 3));
     updateChrome();
   }
 
@@ -306,7 +318,7 @@
     if (!body.alive || body.kind === "bird") return;
     if (impact < 90 && body.kind === "stone") return;
     if (impact < 70 && body.kind === "wood") return;
-    if (impact < 55 && body.kind === "pig") return;
+    if (impact < 55 && body.kind === "pest") return;
     body.hp -= amount;
     if (body.hp <= 0) {
       body.alive = false;
@@ -381,7 +393,7 @@
     box.vy -= j * ny * invB;
     const impact = Math.abs(velN);
     damage(box, 1, impact);
-    if (circle.kind === "pig") damage(circle, 1, impact);
+    if (circle.kind === "pest") damage(circle, 1, impact);
   }
 
   function resolveBoxBox(a, b) {
@@ -456,7 +468,7 @@
     collideGround(body);
     if (body.y > H + 80) {
       body.alive = false;
-      if (body.kind === "pig") awardDestroy(body);
+      if (body.kind === "pest") awardDestroy(body);
     }
   }
 
@@ -494,8 +506,8 @@
     }
     const title = won
       ? `Missão cumprida! ${score} pts`
-      : pigsLeft() > 0
-        ? `Os zonados ficaram na trilha… ${score} pts`
+      : pestsLeft() > 0
+        ? `Ainda sobrou praga na trilha… ${score} pts`
         : `Fim da trilha! ${score} pts`;
     showOverlay(title, "Jogar de novo");
     startBtn.dataset.action = "restart";
@@ -510,7 +522,7 @@
     settledTimer += dt;
     if (settledTimer < 0.55) return;
 
-    if (pigsLeft() <= 0) {
+    if (pestsLeft() <= 0) {
       finishLevel(true);
       return;
     }
@@ -524,7 +536,7 @@
       // última chance: espera um pouco e encerra
       waitingNext = true;
       setTimeout(() => {
-        if (pigsLeft() <= 0) finishLevel(true);
+        if (pestsLeft() <= 0) finishLevel(true);
         else finishRun(false);
       }, 500);
       return;
@@ -704,27 +716,100 @@
     }
   }
 
-  function drawPig(body) {
+  function drawMosquito(r) {
+    ctx.fillStyle = "rgba(180,210,230,0.45)";
+    ctx.beginPath();
+    ctx.ellipse(-10, -2, 10, 5, -0.4, 0, Math.PI * 2);
+    ctx.ellipse(10, -2, 10, 5, 0.4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#4A382C";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, r * 0.55, r * 0.42, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#2A1C14";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(r * 0.4, 2);
+    ctx.lineTo(r * 0.95, 8);
+    ctx.stroke();
+    ctx.fillStyle = "#111";
+    ctx.beginPath();
+    ctx.arc(-4, -2, 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#2A1C14";
+    ctx.beginPath();
+    ctx.moveTo(-6, 6);
+    ctx.lineTo(-10, 12);
+    ctx.moveTo(2, 7);
+    ctx.lineTo(0, 13);
+    ctx.moveTo(8, 5);
+    ctx.lineTo(12, 11);
+    ctx.stroke();
+  }
+
+  function drawSnake(r) {
+    ctx.strokeStyle = "#E25A2C";
+    ctx.lineWidth = 10;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-r * 0.85, 6);
+    ctx.quadraticCurveTo(-r * 0.2, -r * 0.7, r * 0.15, 2);
+    ctx.quadraticCurveTo(r * 0.55, r * 0.55, r * 0.9, -2);
+    ctx.stroke();
+    ctx.strokeStyle = "#FFD166";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-r * 0.55, 0);
+    ctx.lineTo(-r * 0.35, -8);
+    ctx.moveTo(r * 0.05, 4);
+    ctx.lineTo(r * 0.25, -4);
+    ctx.stroke();
+    ctx.fillStyle = "#C44B2B";
+    ctx.beginPath();
+    ctx.arc(r * 0.78, -4, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#111";
+    ctx.beginPath();
+    ctx.arc(r * 0.7, -6, 1.6, 0, Math.PI * 2);
+    ctx.arc(r * 0.88, -6, 1.6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#FF4D6D";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(r * 0.95, -2);
+    ctx.lineTo(r * 1.15, 2);
+    ctx.lineTo(r * 0.95, 4);
+    ctx.stroke();
+  }
+
+  function drawTrash(r) {
+    ctx.fillStyle = "#9AA3AE";
+    ctx.fillRect(-r * 0.55, -r * 0.15, r * 1.1, r * 0.85);
+    ctx.fillStyle = "#6B7280";
+    ctx.fillRect(-r * 0.65, -r * 0.35, r * 1.3, r * 0.28);
+    ctx.fillStyle = "#4B5563";
+    ctx.fillRect(-r * 0.12, -r * 0.55, r * 0.24, r * 0.25);
+    ctx.fillStyle = "#22C55E";
+    ctx.beginPath();
+    ctx.ellipse(-r * 0.25, r * 0.15, 5, 7, -0.3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#3B82F6";
+    ctx.fillRect(r * 0.05, 0, 8, 11);
+    ctx.strokeStyle = "#374151";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(-r * 0.55, -r * 0.15, r * 1.1, r * 0.85);
+  }
+
+  function drawPest(body) {
     ctx.save();
     ctx.translate(body.x, body.y);
-    // barraca / zonado
-    ctx.fillStyle = "#5FAF55";
-    ctx.beginPath();
-    ctx.arc(0, 0, body.r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#3E8A3A";
-    ctx.beginPath();
-    ctx.ellipse(0, 4, 8, 6, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#163018";
-    ctx.beginPath();
-    ctx.arc(-7, -4, 3, 0, Math.PI * 2);
-    ctx.arc(7, -4, 3, 0, Math.PI * 2);
-    ctx.fill();
+    if (body.pest === "snake") drawSnake(body.r);
+    else if (body.pest === "trash") drawTrash(body.r);
+    else drawMosquito(body.r);
     ctx.fillStyle = "#fff";
     ctx.font = "700 9px Manrope, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(body.label || "Zonado", 0, body.r + 12);
+    ctx.fillText(body.label || "Praga", 0, body.r + 12);
     ctx.restore();
   }
 
@@ -799,7 +884,7 @@
     bodies.forEach((b) => {
       if (!b.alive) return;
       if (b.type === "box") drawBox(b);
-      else if (b.kind === "pig") drawPig(b);
+      else if (b.kind === "pest") drawPest(b);
     });
     if (bird && bird.alive) drawBird(bird);
     drawAimGuide();
@@ -820,7 +905,8 @@
     ctx.font = "700 14px Manrope, sans-serif";
     ctx.textAlign = "left";
     const levelNames = ["Pedreira", "Cachoeira", "Acampamento"];
-    ctx.fillText(`${levelNames[levelIndex] || "Trilha"} · ${pigsLeft()} zonado(s)`, 22, 34);
+    const left = pestsLeft();
+    ctx.fillText(`${levelNames[levelIndex] || "Trilha"} · ${left} praga${left === 1 ? "" : "s"}`, 22, 34);
   }
 
   function frame(ts) {
@@ -947,7 +1033,7 @@
   loadLeaders();
   resetClouds();
   updateChrome();
-  showOverlay("Puxe o estilingue e libere a trilha dos zonados!", "Começar");
+  showOverlay("Puxe o estilingue e limpe mosquitos, cobras e lixo da trilha!", "Começar");
   startBtn.dataset.action = "start";
   draw();
 
