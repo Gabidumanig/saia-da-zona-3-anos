@@ -27,10 +27,7 @@
       overflow: hidden;
     }
 
-    body {
-      display: grid;
-      place-items: center;
-    }
+    body { display: grid; place-items: center; }
 
     .stage-wrap {
       width: min(1280px, 100vw);
@@ -48,7 +45,78 @@
         radial-gradient(520px 360px at 0% 100%, rgba(168, 216, 58, 0.08), transparent 50%),
         linear-gradient(145deg, var(--bg) 0%, var(--bg-deep) 58%, #0A3544 100%);
       box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+      transform-origin: center center;
     }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb-a {
+      width: 42%;
+      height: 55%;
+      right: -8%;
+      top: 10%;
+      background: rgba(46, 183, 240, 0.35);
+    }
+
+    .orb-b {
+      width: 34%;
+      height: 42%;
+      left: -6%;
+      bottom: -8%;
+      background: rgba(168, 216, 58, 0.28);
+    }
+
+    .sweep {
+      position: absolute;
+      inset: -20%;
+      background: linear-gradient(
+        115deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.07) 48%,
+        rgba(46, 183, 240, 0.12) 50%,
+        rgba(255, 255, 255, 0.05) 52%,
+        transparent 65%
+      );
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+      mix-blend-mode: screen;
+    }
+
+    .particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--lime);
+      opacity: 0;
+      box-shadow: 0 0 10px rgba(168, 216, 58, 0.8);
+    }
+
+    .particle:nth-child(odd) { background: var(--blue); box-shadow: 0 0 10px rgba(46, 183, 240, 0.8); }
+    .particle:nth-child(1) { left: 12%; top: 72%; }
+    .particle:nth-child(2) { left: 22%; top: 38%; }
+    .particle:nth-child(3) { left: 38%; top: 82%; }
+    .particle:nth-child(4) { left: 55%; top: 28%; }
+    .particle:nth-child(5) { left: 68%; top: 64%; }
+    .particle:nth-child(6) { left: 78%; top: 22%; }
+    .particle:nth-child(7) { left: 86%; top: 48%; }
+    .particle:nth-child(8) { left: 48%; top: 14%; }
 
     .art {
       position: absolute;
@@ -58,11 +126,26 @@
       height: 78%;
       opacity: 0;
       pointer-events: none;
+      z-index: 1;
     }
 
-    .art svg {
-      width: 100%;
-      height: 100%;
+    .art svg { width: 100%; height: 100%; }
+
+    .net-line {
+      stroke-dasharray: 180;
+      stroke-dashoffset: 180;
+      opacity: 0.85;
+    }
+
+    .net-node {
+      transform-box: fill-box;
+      transform-origin: center;
+      opacity: 0;
+    }
+
+    .arc {
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
     }
 
     .frame {
@@ -81,7 +164,7 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(18px);
     }
 
     .masthead p {
@@ -93,7 +176,7 @@
       text-transform: uppercase;
       color: var(--blue);
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(12px);
     }
 
     .rule {
@@ -103,6 +186,7 @@
       background: linear-gradient(90deg, var(--lime), rgba(168, 216, 58, 0.12));
       transform: scaleX(0);
       transform-origin: left center;
+      box-shadow: 0 0 12px rgba(168, 216, 58, 0.45);
     }
 
     .badge {
@@ -119,7 +203,8 @@
       text-transform: uppercase;
       margin-bottom: 0.85rem;
       opacity: 0;
-      transform: translateY(10px) scale(0.96);
+      transform: translateY(10px) scale(0.86);
+      box-shadow: 0 0 0 0 rgba(168, 216, 58, 0.55);
     }
 
     .headline {
@@ -128,13 +213,20 @@
       font-weight: 800;
       line-height: 1.16;
       letter-spacing: -0.025em;
-      max-width: 16ch;
-      opacity: 0;
-      transform: translateY(16px);
+      max-width: 17ch;
     }
 
-    .headline .result { color: var(--lime); }
-    .headline .excel { color: var(--blue); }
+    .headline .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(22px) scale(0.96);
+      margin-right: 0.22em;
+    }
+
+    .headline .word:last-child { margin-right: 0; }
+
+    .headline .result { color: var(--lime); text-shadow: 0 0 24px rgba(168, 216, 58, 0.35); }
+    .headline .excel { color: var(--blue); text-shadow: 0 0 24px rgba(46, 183, 240, 0.35); }
 
     .lede {
       display: grid;
@@ -143,10 +235,16 @@
       margin-top: 1rem;
       max-width: 38rem;
       opacity: 0;
-      transform: translateY(14px);
+      transform: translateY(16px);
     }
 
-    .lede-bar { border-radius: 999px; background: var(--blue); }
+    .lede-bar {
+      border-radius: 999px;
+      background: var(--blue);
+      transform: scaleY(0);
+      transform-origin: top center;
+      box-shadow: 0 0 14px rgba(46, 183, 240, 0.55);
+    }
 
     .lede p {
       font-size: clamp(0.82rem, 1.55vw, 1.05rem);
@@ -168,7 +266,7 @@
       padding: 0 0.85rem;
       border-right: 1px solid rgba(255, 255, 255, 0.12);
       opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(28px) scale(0.96);
     }
 
     .pillar:first-child { padding-left: 0; }
@@ -179,10 +277,12 @@
       height: 3px;
       border-radius: 999px;
       margin-bottom: 0.55rem;
+      transform: scaleX(0);
+      transform-origin: left center;
     }
 
-    .pillar:nth-child(odd) .pillar-bar { background: var(--lime); }
-    .pillar:nth-child(even) .pillar-bar { background: var(--blue); }
+    .pillar:nth-child(odd) .pillar-bar { background: var(--lime); box-shadow: 0 0 10px rgba(168, 216, 58, 0.45); }
+    .pillar:nth-child(even) .pillar-bar { background: var(--blue); box-shadow: 0 0 10px rgba(46, 183, 240, 0.45); }
 
     .pillar-cat {
       font-family: "Montserrat", sans-serif;
@@ -216,23 +316,86 @@
       opacity: 0;
     }
 
-    /* playback states */
-    .is-playing .art { animation: fadeIn 0.8s 0.2s ease both; }
-    .is-playing .masthead h1 { animation: up 0.7s 0.35s ease both; }
-    .is-playing .masthead p { animation: up 0.7s 0.5s ease both; }
-    .is-playing .rule { animation: draw 0.7s 0.7s ease both; }
-    .is-playing .badge { animation: pop 0.55s 0.95s ease both; }
-    .is-playing .headline { animation: up 0.75s 1.2s ease both; }
-    .is-playing .lede { animation: up 0.7s 1.85s ease both; }
-    .is-playing .pillar:nth-child(1) { animation: up 0.55s 2.55s ease both; }
-    .is-playing .pillar:nth-child(2) { animation: up 0.55s 2.75s ease both; }
-    .is-playing .pillar:nth-child(3) { animation: up 0.55s 2.95s ease both; }
-    .is-playing .pillar:nth-child(4) { animation: up 0.55s 3.15s ease both; }
-    .is-playing .fine { animation: fadeIn 0.6s 3.5s ease both; }
-    .is-playing .art svg { animation: drift 8s 0.4s ease-in-out infinite alternate; }
+    .flash {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 35%, rgba(255, 255, 255, 0.18), transparent 45%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    /* ===== PLAYBACK ===== */
+    .is-playing .orb-a { animation: orbIn 1s 0.1s ease both, orbFloat 7s 1s ease-in-out infinite alternate; }
+    .is-playing .orb-b { animation: orbIn 1s 0.35s ease both, orbFloat 8s 1.2s ease-in-out infinite alternate-reverse; }
+    .is-playing .sweep { animation: sweepAcross 2.4s 0.8s ease-in-out both, sweepAcross 2.8s 8.2s ease-in-out both; }
+    .is-playing .flash { animation: flash 0.55s 1.05s ease both, flash 0.45s 7.2s ease both; }
+    .is-playing .stage { animation: kenBurns 16s 0.2s ease-in-out both; }
+
+    .is-playing .particle:nth-child(1) { animation: floatUp 3.8s 1.1s ease-in-out both infinite; }
+    .is-playing .particle:nth-child(2) { animation: floatUp 4.2s 1.4s ease-in-out both infinite; }
+    .is-playing .particle:nth-child(3) { animation: floatUp 3.5s 1.7s ease-in-out both infinite; }
+    .is-playing .particle:nth-child(4) { animation: floatUp 4.6s 1.2s ease-in-out both infinite; }
+    .is-playing .particle:nth-child(5) { animation: floatUp 3.9s 1.9s ease-in-out both infinite; }
+    .is-playing .particle:nth-child(6) { animation: floatUp 4.4s 1.5s ease-in-out both infinite; }
+    .is-playing .particle:nth-child(7) { animation: floatUp 3.7s 2.1s ease-in-out both infinite; }
+    .is-playing .particle:nth-child(8) { animation: floatUp 4.1s 1.6s ease-in-out both infinite; }
+
+    .is-playing .art { animation: fadeIn 0.9s 0.15s ease both; }
+    .is-playing .art svg { animation: drift 7s 0.4s ease-in-out infinite alternate; }
+    .is-playing .arc:nth-of-type(1) { animation: drawArc 1.4s 0.25s ease both; }
+    .is-playing .arc:nth-of-type(2) { animation: drawArc 1.4s 0.4s ease both; }
+    .is-playing .arc:nth-of-type(3) { animation: drawArc 1.4s 0.55s ease both; }
+    .is-playing .arc:nth-of-type(4) { animation: drawArc 1.4s 0.7s ease both; }
+    .is-playing .net-line { animation: drawLine 1.1s 0.9s ease both; }
+    .is-playing .net-node { animation: nodePop 0.55s ease both, nodePulse 2.2s 1.8s ease-in-out infinite; }
+    .is-playing .net-node:nth-child(1) { animation-delay: 1.05s, 2s; }
+    .is-playing .net-node:nth-child(2) { animation-delay: 1.12s, 2.1s; }
+    .is-playing .net-node:nth-child(3) { animation-delay: 1.19s, 2.2s; }
+    .is-playing .net-node:nth-child(4) { animation-delay: 1.26s, 2.3s; }
+    .is-playing .net-node:nth-child(5) { animation-delay: 1.33s, 2.15s; }
+    .is-playing .net-node:nth-child(6) { animation-delay: 1.4s, 2.25s; }
+    .is-playing .net-node:nth-child(7) { animation-delay: 1.47s, 2.35s; }
+    .is-playing .net-node:nth-child(8) { animation-delay: 1.54s, 2.05s; }
+    .is-playing .net-node:nth-child(9) { animation-delay: 1.61s, 2.18s; }
+    .is-playing .net-node:nth-child(10) { animation-delay: 1.68s, 2.28s; }
+
+    .is-playing .masthead h1 { animation: up 0.7s 0.3s cubic-bezier(.2,.8,.2,1) both; }
+    .is-playing .masthead p { animation: up 0.7s 0.48s cubic-bezier(.2,.8,.2,1) both; }
+    .is-playing .rule { animation: draw 0.75s 0.7s cubic-bezier(.2,.8,.2,1) both; }
+    .is-playing .badge { animation: pop 0.55s 0.95s cubic-bezier(.2,.9,.2,1.2) both, badgePulse 1.8s 1.6s ease-in-out infinite; }
+
+    .is-playing .headline .word:nth-child(1) { animation: wordIn 0.5s 1.25s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(2) { animation: wordIn 0.5s 1.36s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(3) { animation: wordIn 0.5s 1.47s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(4) { animation: wordIn 0.5s 1.58s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(5) { animation: wordIn 0.45s 1.69s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(6) { animation: wordIn 0.55s 1.88s cubic-bezier(.2,.85,.2,1) both, glowPulse 1.6s 2.5s ease-in-out infinite; }
+    .is-playing .headline .word:nth-child(7) { animation: wordIn 0.45s 2.1s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(8) { animation: wordIn 0.5s 2.2s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(9) { animation: wordIn 0.45s 2.31s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(10) { animation: wordIn 0.45s 2.41s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(11) { animation: wordIn 0.5s 2.52s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(12) { animation: wordIn 0.45s 2.63s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .headline .word:nth-child(13) { animation: wordIn 0.55s 2.8s cubic-bezier(.2,.85,.2,1) both, glowPulse 1.6s 3.4s ease-in-out infinite; }
+    .is-playing .headline .word:nth-child(14) { animation: wordIn 0.4s 2.95s cubic-bezier(.2,.85,.2,1) both; }
+
+    .is-playing .lede { animation: up 0.7s 3.15s cubic-bezier(.2,.8,.2,1) both; }
+    .is-playing .lede-bar { animation: barGrow 0.7s 3.2s cubic-bezier(.2,.8,.2,1) both; }
+
+    .is-playing .pillar:nth-child(1) { animation: pillarIn 0.6s 4s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .pillar:nth-child(2) { animation: pillarIn 0.6s 4.25s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .pillar:nth-child(3) { animation: pillarIn 0.6s 4.5s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .pillar:nth-child(4) { animation: pillarIn 0.6s 4.75s cubic-bezier(.2,.85,.2,1) both; }
+    .is-playing .pillar:nth-child(1) .pillar-bar { animation: draw 0.55s 4.15s ease both; }
+    .is-playing .pillar:nth-child(2) .pillar-bar { animation: draw 0.55s 4.4s ease both; }
+    .is-playing .pillar:nth-child(3) .pillar-bar { animation: draw 0.55s 4.65s ease both; }
+    .is-playing .pillar:nth-child(4) .pillar-bar { animation: draw 0.55s 4.9s ease both; }
+
+    .is-playing .fine { animation: fadeIn 0.7s 5.4s ease both; }
 
     @keyframes up {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(18px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -247,13 +410,91 @@
     }
 
     @keyframes pop {
-      from { opacity: 0; transform: translateY(10px) scale(0.94); }
+      0% { opacity: 0; transform: translateY(10px) scale(0.86); }
+      70% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(168, 216, 58, 0.45); }
+      50% { box-shadow: 0 0 0 10px rgba(168, 216, 58, 0); }
+    }
+
+    @keyframes wordIn {
+      0% { opacity: 0; transform: translateY(22px) scale(0.94); filter: blur(4px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.25); }
+    }
+
+    @keyframes pillarIn {
+      from { opacity: 0; transform: translateY(28px) scale(0.96); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
+    @keyframes barGrow {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+
     @keyframes drift {
-      from { transform: translateY(0) scale(1); }
-      to { transform: translateY(-8px) scale(1.03); }
+      from { transform: translateY(0) scale(1) rotate(0deg); }
+      to { transform: translateY(-10px) scale(1.04) rotate(1.5deg); }
+    }
+
+    @keyframes drawArc {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes nodePop {
+      from { opacity: 0; transform: scale(0.2); }
+      70% { opacity: 1; transform: scale(1.25); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes nodePulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
+      50% { transform: scale(1.18); filter: drop-shadow(0 0 6px rgba(168, 216, 58, 0.9)); }
+    }
+
+    @keyframes orbIn {
+      from { opacity: 0; transform: scale(0.7); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes orbFloat {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(-18px, 14px) scale(1.08); }
+    }
+
+    @keyframes sweepAcross {
+      0% { opacity: 0; transform: translateX(-35%); }
+      20% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(35%); }
+    }
+
+    @keyframes flash {
+      0% { opacity: 0; }
+      30% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes kenBurns {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.035); }
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(18px) scale(0.6); }
+      20% { opacity: 0.9; }
+      100% { opacity: 0; transform: translateY(-90px) scale(1); }
     }
 
     .controls {
@@ -300,7 +541,7 @@
     }
 
     .is-playing .progress > span {
-      animation: progress 12s linear both;
+      animation: progress 16s linear both;
     }
 
     @keyframes progress {
@@ -326,11 +567,30 @@
       .headline { max-width: none; }
       .art { opacity: 0.35; width: 60%; right: -18%; }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .is-playing * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+    }
   </style>
 </head>
 <body>
   <div class="stage-wrap">
     <div class="stage" id="stage" role="img" aria-label="Vídeo da manchete SCI LATAM">
+      <div class="orb orb-a" aria-hidden="true"></div>
+      <div class="orb orb-b" aria-hidden="true"></div>
+      <div class="particles" aria-hidden="true">
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+      </div>
+      <div class="sweep" aria-hidden="true"></div>
+      <div class="flash" aria-hidden="true"></div>
+
       <div class="art" aria-hidden="true">
         <svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -343,37 +603,37 @@
               <stop offset="100%" stop-color="#A8D83A" stop-opacity="0.15"/>
             </linearGradient>
           </defs>
-          <path d="M70 340 A190 190 0 0 1 340 70" fill="none" stroke="url(#arcBlue)" stroke-width="2.2" opacity="0.5"/>
-          <path d="M95 330 A165 165 0 0 1 330 95" fill="none" stroke="url(#arcGreen)" stroke-width="1.8" opacity="0.42"/>
-          <path d="M120 315 A140 140 0 0 1 315 120" fill="none" stroke="url(#arcBlue)" stroke-width="1.6" opacity="0.36"/>
-          <path d="M145 300 A115 115 0 0 1 300 145" fill="none" stroke="url(#arcGreen)" stroke-width="1.4" opacity="0.3"/>
+          <path class="arc" d="M70 340 A190 190 0 0 1 340 70" fill="none" stroke="url(#arcBlue)" stroke-width="2.2" opacity="0.5"/>
+          <path class="arc" d="M95 330 A165 165 0 0 1 330 95" fill="none" stroke="url(#arcGreen)" stroke-width="1.8" opacity="0.42"/>
+          <path class="arc" d="M120 315 A140 140 0 0 1 315 120" fill="none" stroke="url(#arcBlue)" stroke-width="1.6" opacity="0.36"/>
+          <path class="arc" d="M145 300 A115 115 0 0 1 300 145" fill="none" stroke="url(#arcGreen)" stroke-width="1.4" opacity="0.3"/>
           <g stroke="#2EB7F0" stroke-width="1.35" opacity="0.85">
-            <line x1="210" y1="92" x2="268" y2="128"/>
-            <line x1="268" y1="128" x2="292" y2="188"/>
-            <line x1="292" y1="188" x2="250" y2="240"/>
-            <line x1="250" y1="240" x2="188" y2="252"/>
-            <line x1="188" y1="252" x2="142" y2="210"/>
-            <line x1="142" y1="210" x2="148" y2="148"/>
-            <line x1="148" y1="148" x2="210" y2="92"/>
-            <line x1="210" y1="92" x2="188" y2="168"/>
-            <line x1="188" y1="168" x2="250" y2="180"/>
-            <line x1="250" y1="180" x2="210" y2="92"/>
-            <line x1="210" y1="210" x2="188" y2="168"/>
-            <line x1="210" y1="210" x2="250" y2="180"/>
-            <line x1="210" y1="210" x2="188" y2="252"/>
-            <line x1="210" y1="210" x2="250" y2="240"/>
+            <line class="net-line" x1="210" y1="92" x2="268" y2="128"/>
+            <line class="net-line" x1="268" y1="128" x2="292" y2="188"/>
+            <line class="net-line" x1="292" y1="188" x2="250" y2="240"/>
+            <line class="net-line" x1="250" y1="240" x2="188" y2="252"/>
+            <line class="net-line" x1="188" y1="252" x2="142" y2="210"/>
+            <line class="net-line" x1="142" y1="210" x2="148" y2="148"/>
+            <line class="net-line" x1="148" y1="148" x2="210" y2="92"/>
+            <line class="net-line" x1="210" y1="92" x2="188" y2="168"/>
+            <line class="net-line" x1="188" y1="168" x2="250" y2="180"/>
+            <line class="net-line" x1="250" y1="180" x2="210" y2="92"/>
+            <line class="net-line" x1="210" y1="210" x2="188" y2="168"/>
+            <line class="net-line" x1="210" y1="210" x2="250" y2="180"/>
+            <line class="net-line" x1="210" y1="210" x2="188" y2="252"/>
+            <line class="net-line" x1="210" y1="210" x2="250" y2="240"/>
           </g>
           <g fill="#A8D83A">
-            <circle cx="210" cy="92" r="5.5"/>
-            <circle cx="268" cy="128" r="4.5"/>
-            <circle cx="292" cy="188" r="5"/>
-            <circle cx="250" cy="240" r="4.5"/>
-            <circle cx="188" cy="252" r="5"/>
-            <circle cx="142" cy="210" r="4.5"/>
-            <circle cx="148" cy="148" r="4"/>
-            <circle cx="188" cy="168" r="4.5"/>
-            <circle cx="250" cy="180" r="4.5"/>
-            <circle cx="210" cy="210" r="6"/>
+            <circle class="net-node" cx="210" cy="92" r="5.5"/>
+            <circle class="net-node" cx="268" cy="128" r="4.5"/>
+            <circle class="net-node" cx="292" cy="188" r="5"/>
+            <circle class="net-node" cx="250" cy="240" r="4.5"/>
+            <circle class="net-node" cx="188" cy="252" r="5"/>
+            <circle class="net-node" cx="142" cy="210" r="4.5"/>
+            <circle class="net-node" cx="148" cy="148" r="4"/>
+            <circle class="net-node" cx="188" cy="168" r="4.5"/>
+            <circle class="net-node" cx="250" cy="180" r="4.5"/>
+            <circle class="net-node" cx="210" cy="210" r="6"/>
           </g>
         </svg>
       </div>
@@ -388,10 +648,7 @@
         <span class="badge">Manchete do ano</span>
 
         <h2 class="headline">
-          SCI LATAM transforma complexidade em
-          <span class="result">resultado</span>
-          e conquista um novo patamar de
-          <span class="excel">excelência</span>.
+          <span class="word">SCI</span><span class="word">LATAM</span><span class="word">transforma</span><span class="word">complexidade</span><span class="word">em</span><span class="word result">resultado</span><span class="word">e</span><span class="word">conquista</span><span class="word">um</span><span class="word">novo</span><span class="word">patamar</span><span class="word">de</span><span class="word excel">excelência</span><span class="word">.</span>
         </h2>
 
         <div class="lede">
@@ -438,13 +695,14 @@
       <button type="button" class="btn btn-ghost" id="fs-btn">Tela cheia</button>
       <div class="progress" aria-hidden="true"><span id="bar"></span></div>
     </div>
-    <p class="hint">Vídeo animado da manchete · ~12s · ideal para projetar na dinâmica</p>
+    <p class="hint">Vídeo animado da manchete · ~16s · ideal para projetar na dinâmica</p>
   </div>
 
   <script>
     const stage = document.getElementById("stage");
     const playBtn = document.getElementById("play-btn");
     const fsBtn = document.getElementById("fs-btn");
+    const DURATION = 16000;
     let timer;
 
     function play() {
@@ -455,17 +713,16 @@
       clearTimeout(timer);
       timer = setTimeout(() => {
         playBtn.textContent = "▶ Reproduzir";
-      }, 12200);
+      }, DURATION + 200);
     }
 
     playBtn.addEventListener("click", play);
     fsBtn.addEventListener("click", () => {
-      const el = stage;
-      if (!document.fullscreenElement) el.requestFullscreen?.();
+      if (!document.fullscreenElement) stage.requestFullscreen?.();
       else document.exitFullscreen?.();
     });
 
-    window.addEventListener("load", () => setTimeout(play, 400));
+    window.addEventListener("load", () => setTimeout(play, 350));
   </script>
 </body>
 </html>
