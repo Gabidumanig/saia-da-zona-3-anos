@@ -6,21 +6,22 @@
   <title>Manchete SCI LATAM · Dezembro 2027</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,500&display=swap" rel="stylesheet" />
   <style>
     :root {
+      --navy: #002D40;
+      --navy-deep: #001A28;
       --bayer-blue: #003D7A;
-      --bayer-blue-deep: #00264D;
-      --bayer-green: #56D300;
-      --bayer-cyan: #00B0CA;
+      --lime: #8DC63F;
+      --forest: #1B4332;
+      --cyan: #00AEEF;
+      --pink: #E6007E;
+      --purple: #5B2C6F;
       --ink: #1A2B4A;
       --muted: #5A6B85;
-      --paper: #F4F7FB;
+      --line: rgba(0, 45, 64, 0.1);
+      --paper: #F2F5F8;
       --white: #FFFFFF;
-      --pink: #E6007E;
-      --yellow: #FFD100;
-      --cream: #FFF8E6;
-      --blush: #FFE6F2;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,31 +31,29 @@
       font-family: "Source Sans 3", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(900px 420px at 0% 0%, rgba(86, 211, 0, 0.12), transparent 55%),
-        radial-gradient(800px 400px at 100% 0%, rgba(0, 176, 202, 0.12), transparent 50%),
-        linear-gradient(165deg, #EEF3F9 0%, var(--paper) 45%, #E8F0F8 100%);
+        radial-gradient(900px 480px at 8% -10%, rgba(141, 198, 63, 0.14), transparent 55%),
+        radial-gradient(700px 420px at 100% 0%, rgba(0, 174, 239, 0.1), transparent 50%),
+        linear-gradient(165deg, #E8EEF3 0%, var(--paper) 48%, #E4EBF1 100%);
     }
 
     body {
       display: grid;
       place-items: center;
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .slide {
-      width: min(1100px, 100%);
+      width: min(1120px, 100%);
       background: var(--white);
-      border-radius: 18px;
-      box-shadow:
-        0 1px 0 rgba(0, 61, 122, 0.06),
-        0 28px 60px rgba(0, 38, 77, 0.14);
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 56px rgba(0, 26, 40, 0.12);
       overflow: hidden;
-      border: 1px solid rgba(0, 61, 122, 0.08);
-      animation: rise 0.55s ease both;
+      animation: rise 0.5s ease both;
     }
 
     @keyframes rise {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -63,24 +62,24 @@
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      padding: 1.1rem 1.6rem 0.85rem;
-      border-bottom: 1px solid rgba(0, 61, 122, 0.08);
+      padding: 0.95rem 1.5rem;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #FAFCFD, #F4F7FA);
     }
 
-    .logo {
+    .brand {
       display: flex;
       align-items: center;
       gap: 0.7rem;
     }
 
     .logo-mark {
-      width: 46px;
-      height: 46px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      background:
-        conic-gradient(from 45deg, var(--bayer-green) 0 25%, var(--bayer-blue) 25% 50%, var(--bayer-green) 50% 75%, var(--bayer-blue) 75% 100%);
+      background: conic-gradient(from 45deg, var(--lime) 0 25%, var(--bayer-blue) 25% 50%, var(--lime) 50% 75%, var(--bayer-blue) 75% 100%);
       position: relative;
-      box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(0, 61, 122, 0.15);
+      box-shadow: 0 0 0 3px #fff, 0 0 0 4px rgba(0, 61, 122, 0.18);
       flex-shrink: 0;
     }
 
@@ -91,207 +90,305 @@
       display: grid;
       place-items: center;
       font-family: "Montserrat", sans-serif;
-      font-size: 0.48rem;
+      font-size: 0.45rem;
       font-weight: 800;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
       color: #fff;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
     }
 
-    .logo-text {
+    .brand-copy strong {
+      display: block;
       font-family: "Montserrat", sans-serif;
-      font-weight: 800;
       font-size: 0.78rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
       color: var(--bayer-blue);
+      font-weight: 800;
+    }
+
+    .brand-copy span {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
     }
 
     .event {
       font-family: "Montserrat", sans-serif;
+      font-size: 0.72rem;
       font-weight: 700;
-      font-size: 0.78rem;
       letter-spacing: 0.14em;
-      color: var(--bayer-blue);
+      color: var(--navy);
       text-align: right;
     }
 
+    .event small {
+      display: block;
+      margin-top: 0.15rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.68rem;
+    }
+
     .intro {
-      padding: 1.15rem 1.6rem 0.4rem;
+      padding: 1rem 1.5rem 0.35rem;
     }
 
     .intro h1 {
       font-family: "Montserrat", sans-serif;
-      font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+      font-size: clamp(1.05rem, 2.3vw, 1.35rem);
       font-weight: 800;
-      color: var(--bayer-blue-deep);
+      color: var(--navy);
       letter-spacing: -0.02em;
     }
 
     .intro p {
-      margin-top: 0.2rem;
+      margin-top: 0.15rem;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 600;
     }
 
-    .paper {
-      margin: 1rem 1.6rem 0;
-      border-radius: 16px;
+    .headline-block {
+      margin: 0.85rem 1.5rem 0;
+      border-radius: 14px;
       overflow: hidden;
-      background: linear-gradient(160deg, #F7FBFF, #EEF6FC);
-      border: 1px solid rgba(0, 61, 122, 0.1);
-      box-shadow: 0 12px 28px rgba(0, 61, 122, 0.08);
-      animation: rise 0.65s 0.08s ease both;
+      border: 1px solid rgba(0, 45, 64, 0.12);
+      background: linear-gradient(160deg, #F8FBFD, #EFF5F9);
+      box-shadow: 0 10px 24px rgba(0, 45, 64, 0.06);
     }
 
     .masthead {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
-      padding: 0.7rem 1.1rem;
-      background: linear-gradient(90deg, var(--bayer-blue-deep), var(--bayer-blue));
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding: 0.65rem 1.05rem;
+      background: linear-gradient(90deg, var(--navy-deep), var(--navy));
       color: #fff;
       font-family: "Montserrat", sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
-    .masthead-star {
-      color: var(--bayer-green);
-      font-size: 0.95rem;
-    }
-
-    .headline {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 1rem;
-      align-items: start;
-      padding: 1.25rem 1.25rem 1.35rem;
-    }
-
-    .icon {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(145deg, var(--bayer-green), #3DB000);
-      color: #fff;
-      box-shadow: 0 8px 18px rgba(86, 211, 0, 0.35);
-      flex-shrink: 0;
-    }
-
-    .icon svg { width: 28px; height: 28px; }
-
-    .headline h2 {
-      font-family: "Montserrat", sans-serif;
-      font-size: clamp(1.25rem, 3.2vw, 1.85rem);
-      font-weight: 800;
-      line-height: 1.22;
-      letter-spacing: -0.025em;
-      color: var(--bayer-blue-deep);
-    }
-
-    .headline .sub {
-      margin-top: 0.7rem;
-      font-size: clamp(0.95rem, 1.8vw, 1.08rem);
-      line-height: 1.45;
-      color: var(--muted);
-      font-style: italic;
-      max-width: 48rem;
-    }
-
-    .proof {
+    .masthead-left {
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
       gap: 0.55rem;
-      margin-top: 1rem;
     }
 
-    .tag {
+    .masthead-star { color: var(--lime); }
+
+    .framework-chip {
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.4rem 0.75rem;
+      padding: 0.28rem 0.65rem;
       border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.08em;
+      font-size: 0.62rem;
+    }
+
+    .headline {
+      padding: 1.15rem 1.2rem 1.2rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.55rem;
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(141, 198, 63, 0.14);
+      color: var(--forest);
       font-family: "Montserrat", sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .tag-green { background: rgba(86, 211, 0, 0.15); color: #1F6B00; }
-    .tag-blue { background: rgba(0, 61, 122, 0.1); color: var(--bayer-blue); }
-    .tag-cyan { background: rgba(0, 176, 202, 0.14); color: #007A8C; }
+    .headline h2 {
+      font-family: "Montserrat", sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.75rem);
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+      color: var(--navy);
+      max-width: 46rem;
+    }
 
-    .impacts {
+    .headline .sub {
+      margin-top: 0.65rem;
+      max-width: 50rem;
+      font-size: clamp(0.92rem, 1.7vw, 1.05rem);
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .sub strong { color: var(--navy); font-weight: 700; }
+
+    .pillars-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 1.15rem 1.5rem 0.55rem;
+    }
+
+    .pillars-label h3 {
+      font-family: "Montserrat", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    .pillars-label p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .pillars {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.9rem;
-      padding: 1.1rem 1.6rem 1.4rem;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.7rem;
+      padding: 0.35rem 1.5rem 1.25rem;
     }
 
-    .card {
-      border-radius: 14px;
-      padding: 1.05rem 1.1rem;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.85rem;
-      align-items: start;
-      animation: rise 0.7s 0.16s ease both;
+    .pillar {
+      position: relative;
+      border-radius: 12px;
+      padding: 0.95rem 0.9rem 1rem;
+      background: #F7FAFC;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      min-height: 100%;
+      animation: rise 0.55s ease both;
     }
 
-    .card-team {
-      background: linear-gradient(160deg, var(--cream), #FFF3C4);
-      border: 1px solid rgba(255, 209, 0, 0.45);
+    .pillar::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
     }
 
-    .card-biz {
-      background: linear-gradient(160deg, #E8FFF0, #D4F7E0);
-      border: 1px solid rgba(86, 211, 0, 0.35);
-      animation-delay: 0.22s;
+    .pillar-ops::before { background: var(--lime); }
+    .pillar-cx::before { background: var(--cyan); }
+    .pillar-value::before { background: var(--purple); }
+    .pillar-people::before { background: var(--pink); }
+
+    .pillar:nth-child(1) { animation-delay: 0.05s; }
+    .pillar:nth-child(2) { animation-delay: 0.1s; }
+    .pillar:nth-child(3) { animation-delay: 0.15s; }
+    .pillar:nth-child(4) { animation-delay: 0.2s; }
+
+    .pillar-head {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 0.65rem;
     }
 
-    .card-icon {
-      width: 44px;
-      height: 44px;
+    .pillar-icon {
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       display: grid;
       place-items: center;
       color: #fff;
+      flex-shrink: 0;
     }
 
-    .card-team .card-icon { background: var(--bayer-blue); }
-    .card-biz .card-icon { background: var(--bayer-green); color: var(--bayer-blue-deep); }
+    .pillar-ops .pillar-icon { background: var(--forest); }
+    .pillar-cx .pillar-icon { background: var(--cyan); }
+    .pillar-value .pillar-icon { background: var(--purple); }
+    .pillar-people .pillar-icon { background: var(--pink); }
 
-    .card h3 {
+    .pillar-icon svg { width: 16px; height: 16px; }
+
+    .pillar-name {
       font-family: "Montserrat", sans-serif;
-      font-size: 0.82rem;
+      font-size: 0.68rem;
       font-weight: 800;
-      letter-spacing: 0.02em;
-      color: var(--bayer-blue-deep);
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      line-height: 1.25;
+      color: var(--navy);
+      line-height: 1.2;
     }
 
-    .card h3 span {
-      display: block;
-      font-weight: 600;
-      color: var(--muted);
-      font-size: 0.72rem;
-      text-transform: none;
-      letter-spacing: 0;
-      margin-top: 0.1rem;
+    .kpi {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 0.55rem;
+      padding: 0.28rem 0.55rem;
+      border-radius: 6px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #fff;
     }
 
-    .card p {
-      margin-top: 0.45rem;
-      font-size: 0.95rem;
+    .pillar-ops .kpi { background: var(--lime); color: var(--navy-deep); }
+    .pillar-cx .kpi { background: #6B7B8C; }
+    .pillar-value .kpi { background: var(--purple); }
+    .pillar-people .kpi { background: var(--pink); }
+
+    .pillar p {
+      font-size: 0.86rem;
       line-height: 1.4;
       color: var(--ink);
+    }
+
+    .pillar p strong { color: var(--navy); }
+
+    .bridge {
+      margin: 0 1.5rem 1.25rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(141, 198, 63, 0.28);
+      background:
+        linear-gradient(105deg, rgba(141, 198, 63, 0.1), rgba(0, 174, 239, 0.08));
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .bridge-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: var(--lime);
+      flex-shrink: 0;
+    }
+
+    .bridge p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+
+    .bridge strong {
+      font-family: "Montserrat", sans-serif;
+      color: var(--navy);
+      font-weight: 800;
     }
 
     .footer {
@@ -299,20 +396,20 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      padding: 0.85rem 1.6rem 1.1rem;
-      border-top: 1px solid rgba(0, 61, 122, 0.08);
+      padding: 0.8rem 1.5rem 1rem;
+      border-top: 1px solid var(--line);
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 600;
     }
 
     .footer strong { color: var(--bayer-blue); }
 
     .hint {
-      margin-top: 0.9rem;
+      margin-top: 0.85rem;
       text-align: center;
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
 
     .hint kbd {
@@ -320,17 +417,21 @@
       font-weight: 700;
       padding: 0.15rem 0.4rem;
       border-radius: 6px;
-      background: rgba(0, 61, 122, 0.08);
-      color: var(--bayer-blue);
+      background: rgba(0, 45, 64, 0.08);
+      color: var(--navy);
     }
 
-    @media (max-width: 720px) {
-      body { padding: 0.75rem; }
-      .headline { grid-template-columns: 1fr; }
-      .impacts { grid-template-columns: 1fr; }
-      .top, .intro, .paper, .impacts, .footer { padding-left: 1rem; padding-right: 1rem; }
-      .paper { margin-left: 1rem; margin-right: 1rem; }
+    @media (max-width: 900px) {
+      .pillars { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      body { padding: 0.65rem; }
+      .pillars { grid-template-columns: 1fr; }
+      .top, .intro, .pillars-label, .pillars, .footer { padding-left: 1rem; padding-right: 1rem; }
+      .headline-block, .bridge { margin-left: 1rem; margin-right: 1rem; }
       .hint { display: none; }
+      .pillars-label { flex-direction: column; }
     }
 
     @media print {
@@ -344,11 +445,17 @@
   <div>
     <article class="slide" aria-label="Manchete SCI LATAM Dezembro 2027">
       <header class="top">
-        <div class="logo">
+        <div class="brand">
           <div class="logo-mark" aria-hidden="true"></div>
-          <span class="logo-text">SCI LATAM</span>
+          <div class="brand-copy">
+            <strong>SCI LATAM</strong>
+            <span>Value Creation · Supply Chain</span>
+          </div>
         </div>
-        <p class="event">SCI SUMMER IMPACT</p>
+        <p class="event">
+          SCI SUMMER IMPACT
+          <small>Team Building · Dezembro 2027</small>
+        </p>
       </header>
 
       <div class="intro">
@@ -356,69 +463,104 @@
         <p>NUESTRO TITULAR — DICIEMBRE 2027</p>
       </div>
 
-      <section class="paper">
+      <section class="headline-block">
         <div class="masthead">
-          <span class="masthead-star" aria-hidden="true">★</span>
-          <span>O FUTURO DIÁRIO — EDIÇÃO ESPECIAL — DEZEMBRO 2027</span>
+          <div class="masthead-left">
+            <span class="masthead-star" aria-hidden="true">★</span>
+            <span>O Futuro Diário — Edição Especial — Dezembro 2027</span>
+          </div>
+          <span class="framework-chip">Value Creation em ação</span>
         </div>
 
         <div class="headline">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-              <path d="M8 7h8M8 11h6"/>
-            </svg>
-          </div>
-          <div>
-            <h2>SCI LATAM transforma complexidade em resultado e conquista um novo patamar de excelência</h2>
-            <p class="sub">
-              Com inteligência artificial e decisões orientadas por dados, SCI LATAM alcança o maior saving de sua história em 2027, garantindo entregas no prazo e completas (OTIF) e níveis saudáveis de inventário.
-            </p>
-            <div class="proof" aria-label="Provas do resultado">
-              <span class="tag tag-green">Maior saving da história</span>
-              <span class="tag tag-blue">OTIF garantido</span>
-              <span class="tag tag-cyan">Inventário saudável</span>
-              <span class="tag tag-blue">IA + dados</span>
-            </div>
-          </div>
+          <span class="eyebrow">Complexidade → Resultado → Excelência</span>
+          <h2>SCI LATAM transforma complexidade em resultado e conquista um novo patamar de excelência</h2>
+          <p class="sub">
+            Com <strong>inteligência artificial</strong> e decisões orientadas por dados, SCI LATAM alcança o
+            <strong>maior saving de sua história em 2027</strong>, garantindo entregas
+            <strong>On Time In Full (OTIF)</strong> e níveis saudáveis de inventário.
+          </p>
         </div>
       </section>
 
-      <section class="impacts" aria-label="Impactos">
-        <article class="card card-team">
-          <div class="card-icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
+      <div class="pillars-label">
+        <h3>Ambição traduzida em Value Creation</h3>
+        <p>Quatro pilares. Uma história de excelência.</p>
+      </div>
+
+      <section class="pillars" aria-label="Pilares de Value Creation">
+        <article class="pillar pillar-ops">
+          <div class="pillar-head">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/>
+                <path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>
+              </svg>
+            </div>
+            <p class="pillar-name">Operational Efficiency</p>
           </div>
-          <div>
-            <h3>
-              O que mudou para o time
-              <span>Qué cambió para el equipo</span>
-            </h3>
-            <p>Decisões mais rápidas com dados e IA, autonomia para agir e orgulho de transformar complexidade em resultado.</p>
-          </div>
+          <span class="kpi">Saving · Inventory</span>
+          <p>Maior saving da história com <strong>inventário saudável</strong>, custo sob controle e disponibilidade que habilita vendas.</p>
         </article>
 
-        <article class="card card-biz">
-          <div class="card-icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M3 17l6-6 4 4 8-8"/>
-              <path d="M14 7h7v7"/>
-            </svg>
+        <article class="pillar pillar-cx">
+          <div class="pillar-head">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M8.5 13.5s1.5 2 3.5 2 3.5-2 3.5-2"/>
+                <circle cx="9" cy="10" r="0.8" fill="currentColor"/>
+                <circle cx="15" cy="10" r="0.8" fill="currentColor"/>
+              </svg>
+            </div>
+            <p class="pillar-name">Customer Satisfaction</p>
           </div>
-          <div>
-            <h3>
-              O que mudou para o negócio
-              <span>Qué cambió para el negocio</span>
-            </h3>
-            <p>Maior saving da história, OTIF consistente e inventário saudável — excelência que escala em toda a LATAM.</p>
+          <span class="kpi">On Time In Full</span>
+          <p>OTIF consistente eleva a <strong>experiência do cliente</strong> — entrega no prazo, completa e previsível.</p>
+        </article>
+
+        <article class="pillar pillar-value">
+          <div class="pillar-head">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M5 19c6-1 9-6 10-12l4-2-2 4C11 12 8 16 5 19z"/>
+                <path d="M13 7l4 4"/>
+              </svg>
+            </div>
+            <p class="pillar-name">Value Creation</p>
           </div>
+          <span class="kpi">IA · DRIVER</span>
+          <p>IA e dados aceleram decisões e sustentam a <strong>otimização do SCM</strong> em um novo patamar de excelência.</p>
+        </article>
+
+        <article class="pillar pillar-people">
+          <div class="pillar-head">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <p class="pillar-name">People</p>
+          </div>
+          <span class="kpi">Engagement</span>
+          <p>Time com autonomia, protagonismo e orgulho — a base produtiva e realizada da performance.</p>
         </article>
       </section>
+
+      <aside class="bridge" aria-label="Conexão da mensagem">
+        <div class="bridge-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M12 3v18M5 10l7-7 7 7"/>
+          </svg>
+        </div>
+        <p>
+          <strong>People</strong> sustenta a eficiência.
+          <strong>Eficiência + OTIF</strong> geram valor.
+          <strong>IA e dados</strong> transformam complexidade em resultado mensurável.
+        </p>
+      </aside>
 
       <footer class="footer">
         <span><strong>SCI LATAM</strong> / Team Building</span>
@@ -426,7 +568,7 @@
       </footer>
     </article>
 
-    <p class="hint">Pressione <kbd>F11</kbd> para tela cheia na dinâmica · ou <kbd>Ctrl+P</kbd> para imprimir / salvar PDF</p>
+    <p class="hint">Pressione <kbd>F11</kbd> para tela cheia · <kbd>Ctrl+P</kbd> para PDF</p>
   </div>
 </body>
 </html>
